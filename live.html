@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sagslay Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #E9EDF1; --paper: #fff; --paper-2: #F5F7F9; --bubble: #F1F4F7;
+  --ink: #15202B; --mute: #5B6875; --line: #D2D9E0; --line-soft: #E6EAEE; --line-faint: #F0F2F5;
+  --blue: #0B5CAD; --blue-ink: #084A8C; --blue-soft: #DCE8F5;
+  --red: #B3242B; --red-soft: #F8E5E6; --ok: #1E7A4E; --ok-soft: #E3F1EA;
+  --amber: #B7791F; --amber-soft: #FBF1DE; --amber-ink: #8A5A12;
+  --violet: #5B4BB7; --violet-soft: #E9E6F7;
+  --sans: 'Onest', system-ui, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --r: 8px; --r-panel: 14px; --r-pill: 999px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); overflow: hidden; -webkit-font-smoothing: antialiased; }
+button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+
+.stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: center; display: flex; flex-direction: column; gap: 14px; padding: 18px; }
+
+/* top bar */
+.top { display: flex; align-items: center; gap: 22px; height: 56px; padding: 0 22px; background: var(--paper); border: 1px solid var(--line-soft); border-radius: var(--r-panel); }
+.brand { font-size: 26px; font-weight: 700; letter-spacing: -.02em; } .brand span { color: var(--blue); }
+.live { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; color: var(--red); background: var(--red-soft); padding: 4px 10px; border-radius: var(--r-pill); }
+.live i { width: 8px; height: 8px; border-radius: 50%; background: var(--red); animation: blink 1.2s infinite; }
+@keyframes blink { 50% { opacity: .25 } }
+.stepper { flex: 1; display: flex; justify-content: center; gap: 6px; }
+.stepper span { font-family: var(--mono); font-size: 13px; padding: 6px 12px; border-radius: var(--r-pill); color: var(--mute); background: var(--paper-2); border: 1px solid var(--line-soft); transition: all .3s; }
+.stepper span.on { color: #fff; background: var(--blue); border-color: var(--blue); }
+.stepper span.done { color: var(--ok); background: var(--ok-soft); border-color: transparent; }
+.ctrl { display: flex; gap: 8px; }
+.btn { padding: 8px 16px; border-radius: var(--r); font-size: 15px; font-weight: 500; border: 1px solid var(--line); background: var(--paper); }
+.btn:hover { background: var(--paper-2); }
+.btn.pri { background: var(--blue); color: #fff; border-color: var(--blue); } .btn.pri:hover { background: var(--blue-ink); }
+.btn.ok { background: var(--ok); color: #fff; border-color: var(--ok); }
+.btn:disabled { opacity: .45; cursor: default; }
+
+.main { flex: 1; display: grid; grid-template-columns: 470px 1fr 470px; gap: 14px; min-height: 0; }
+.panel { background: var(--paper); border: 1px solid var(--line-soft); border-radius: var(--r-panel); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.ph { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--line-soft); font-weight: 600; font-size: 16px; }
+.ph small { font-family: var(--mono); font-weight: 500; font-size: 12px; color: var(--mute); }
+
+/* chat */
+.msgs { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+.msg { max-width: 86%; padding: 11px 15px; border-radius: 14px; font-size: 16px; line-height: 1.45; animation: pop .25s both; white-space: pre-line; }
+.msg.me { align-self: flex-end; background: var(--blue); color: #fff; border-bottom-right-radius: 4px; }
+.msg.ai { align-self: flex-start; background: var(--bubble); border-bottom-left-radius: 4px; }
+.msg.ai .who { display: block; font-family: var(--mono); font-size: 11px; color: var(--mute); margin-bottom: 4px; }
+.msg.sys { align-self: center; background: var(--ok-soft); color: var(--ok); font-size: 14px; font-family: var(--mono); }
+@keyframes pop { from { opacity: 0; transform: translateY(6px) } }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.opt { padding: 6px 13px; border-radius: var(--r-pill); border: 1px solid var(--line); background: var(--paper); font-size: 14px; color: var(--ink); }
+.opt:hover { border-color: var(--blue); color: var(--blue); }
+.opt.picked { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); }
+.typing { align-self: flex-start; display: flex; gap: 4px; padding: 14px 16px; background: var(--bubble); border-radius: 14px; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--mute); animation: dot 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s } .typing i:nth-child(3) { animation-delay: .3s }
+@keyframes dot { 0%, 60%, 100% { opacity: .25 } 30% { opacity: 1 } }
+.composer { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line-soft); }
+.composer input { flex: 1; font: inherit; font-size: 16px; padding: 11px 14px; border: 1px solid var(--line); border-radius: var(--r); outline: none; background: var(--paper); color: var(--ink); }
+.composer input:focus { border-color: var(--blue); }
+.starters { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px 12px; }
+
+/* graph */
+.graph { position: relative; flex: 1; }
+.graph svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.edge { stroke: var(--line); stroke-width: 2; fill: none; transition: stroke .3s; }
+.edge.hot { stroke: var(--blue); stroke-width: 2.5; }
+.elabel { font-family: var(--mono); font-size: 11px; fill: var(--mute); }
+.pkt { r: 6; }
+.gn { position: absolute; transform: translate(-50%, -50%); background: var(--paper); border: 1.5px solid var(--line); border-radius: 12px; padding: 8px 12px; text-align: center; min-width: 118px; transition: all .3s; z-index: 2; }
+.gn b { display: block; white-space: nowrap; font-size: 15px; font-weight: 600; }
+.gn small { display: block; white-space: nowrap; font-family: var(--mono); font-size: 11px; color: var(--mute); margin-top: 2px; }
+.gn.sm { min-width: 92px; padding: 6px 10px; } .gn.sm b { font-size: 14px; }
+.gn.dark { background: var(--ink); border-color: var(--ink); color: #fff; } .gn.dark small { color: #9FB0C0; }
+.gn.db { min-width: 440px; background: var(--ok-soft); border-color: var(--ok); } .gn.db b { color: var(--ok); }
+.gn.on { border-color: var(--blue); background: var(--blue-soft); box-shadow: 0 0 0 6px rgba(11,92,173,.12); transform: translate(-50%, -50%) scale(1.06); }
+.gn.on b { color: var(--blue-ink); }
+.gn.dark.on { background: var(--blue); border-color: var(--blue); } .gn.dark.on b { color: #fff; } .gn.dark.on small { color: #DCE8F5; }
+.gn.db.on { box-shadow: 0 0 0 6px rgba(30,122,78,.15); background: var(--ok-soft); border-color: var(--ok); } .gn.db.on b { color: var(--ok); }
+.gn.human { border-color: var(--amber); background: var(--amber-soft); box-shadow: 0 0 0 6px rgba(183,121,31,.15); }
+.gn .badge { position: absolute; top: -9px; right: -9px; font-family: var(--mono); font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: var(--r-pill); background: var(--violet-soft); color: var(--violet); }
+.legend { display: flex; gap: 16px; padding: 10px 18px; border-top: 1px solid var(--line-soft); font-family: var(--mono); font-size: 12px; color: var(--mute); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.thought { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); width: calc(100% - 36px); background: var(--ink); color: #fff; border-radius: 12px; padding: 12px 16px; font-size: 14px; line-height: 1.45; font-family: var(--mono); opacity: 0; transition: opacity .3s; z-index: 3; }
+.thought.show { opacity: 1; }
+.thought b { color: #8FC1F0; font-weight: 600; }
+
+/* trace */
+.right { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+.trace { flex: 1; }
+.events { flex: 1; overflow-y: auto; padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; }
+.ev { display: grid; grid-template-columns: 52px 1fr; gap: 10px; padding: 8px 10px; border-radius: var(--r); background: var(--paper-2); animation: pop .25s both; }
+.ev .t { font-family: var(--mono); font-size: 11px; color: var(--mute); padding-top: 3px; }
+.ev .h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ev .ag { font-family: var(--mono); font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: var(--r-pill); background: var(--blue-soft); color: var(--blue); }
+.ev .ag.planner { background: var(--violet-soft); color: var(--violet); }
+.ev .ag.store { background: var(--line-soft); color: var(--ink); }
+.ev .ag.optimizer { background: var(--amber-soft); color: var(--amber-ink); }
+.ev .ag.checkout { background: var(--ok-soft); color: var(--ok); }
+.ev .ty { font-family: var(--mono); font-size: 11px; color: var(--mute); }
+.ev .ti { font-size: 14px; font-weight: 500; }
+.ev .d { grid-column: 2; font-family: var(--mono); font-size: 12px; color: var(--mute); line-height: 1.45; word-break: break-word; }
+.ev.ok .ti { color: var(--ok); } .ev.err .ti { color: var(--red); }
+.empty { margin: auto; text-align: center; color: var(--mute); font-size: 14px; padding: 20px; line-height: 1.5; }
+
+/* basket */
+.basket { flex: none; max-height: 480px; }
+.bk { overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+.st { border: 1px solid var(--line-soft); border-radius: var(--r); overflow: hidden; }
+.st .sh { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 12px; background: var(--paper-2); font-weight: 600; font-size: 14px; }
+.st .sh small { font-family: var(--mono); font-weight: 500; font-size: 11px; color: var(--mute); }
+.st ul { list-style: none; padding: 4px 12px 8px; }
+.st li { display: flex; justify-content: space-between; font-size: 13px; padding: 2px 0; color: var(--mute); }
+.st li span:last-child { font-family: var(--mono); color: var(--ink); }
+.st li.sub { color: var(--amber-ink); }
+.sum { display: grid; grid-template-columns: 1fr auto; gap: 3px 12px; font-size: 14px; padding-top: 4px; }
+.sum .v { font-family: var(--mono); text-align: right; }
+.sum .tot { font-weight: 700; font-size: 18px; } .sum .save { color: var(--ok); }
+.acts { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--line-soft); }
+.acts .btn { flex: 1; }
+.oid { font-family: var(--mono); font-size: 13px; color: var(--ok); font-weight: 600; }
+.cmp { border-top: 1px dashed var(--line); padding-top: 8px; font-size: 13px; }
+.cmp .ch { font-family: var(--mono); font-size: 11px; color: var(--mute); margin-bottom: 4px; }
+.cr { display: flex; justify-content: space-between; padding: 2px 0; color: var(--mute); }
+.cr span:last-child { font-family: var(--mono); }
+.cr i { font-style: normal; font-size: 11px; opacity: .8; }
+.cr.best { color: var(--ok); font-weight: 600; }
+.demo-pill { font-family: var(--mono); font-size: 11px; color: var(--amber-ink); background: var(--amber-soft); padding: 2px 8px; border-radius: var(--r-pill); }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <header class="top">
+    <div class="brand">Sag<span>slay</span></div>
+    <span class="live"><i></i>LIVE AGENT RUN</span>
+    <div class="stepper" id="stepper">
+      <span data-s="intent">1 Intent</span><span data-s="discover">2 Discover</span><span data-s="decide">3 Decide</span>
+      <span data-s="authorize">4 Authorize</span><span data-s="transact">5 Transact</span><span data-s="verify">6 Verify</span>
+    </div>
+    <div class="ctrl">
+      <button class="btn pri" id="auto">▶ Автоматаар үзүүлэх</button>
+      <button class="btn" id="reset">↺ Дахин</button>
+      <a class="btn" href="index.html#999" style="text-decoration:none">← Слайд</a>
+    </div>
+  </header>
+
+  <div class="main">
+    <!-- chat -->
+    <section class="panel">
+      <div class="ph">Чат <small>Бат-Эрдэнэ · 4 хүн · Халал</small></div>
+      <div class="msgs" id="msgs"></div>
+      <div class="starters" id="starters"></div>
+      <form class="composer" id="form">
+        <input id="inp" placeholder="Монголоор бичээрэй…" autocomplete="off">
+        <button class="btn pri" type="submit">Илгээх</button>
+      </form>
+    </section>
+
+    <!-- graph -->
+    <section class="panel">
+      <div class="ph">Agent-ууд <small>orchestrator · MCP · A2A · MongoDB</small></div>
+      <div class="graph" id="graph">
+        <svg id="svg"></svg>
+        <div class="thought" id="thought"></div>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--blue)"></i>REST · SSE · дотоод дуудлага</span>
+        <span><i style="background:var(--violet)"></i>MCP</span>
+        <span><i style="background:var(--amber)"></i>A2A</span>
+        <span><i style="background:var(--ok)"></i>MongoDB</span>
+      </div>
+    </section>
+
+    <!-- trace + basket -->
+    <div class="right">
+      <section class="panel trace">
+        <div class="ph">Live trace <small id="runid">run_events → SSE</small></div>
+        <div class="events" id="events"><div class="empty">Чатад бичихэд agent бүрийн алхам<br>энд шууд гарч ирнэ.</div></div>
+      </section>
+      <section class="panel basket" id="basketPanel" style="display:none">
+        <div class="ph">Сагс <span class="demo-pill">демо үнэ</span></div>
+        <div class="bk" id="bk"></div>
+        <div class="acts" id="acts"></div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- data (from demo/web.ts) ---------- */
+const STORES = { nomin: 'Номин', emart: 'Имарт', goodprice: 'Гүүд Прайс' };
+const PREFIX = { nomin: 'NM', emart: 'EM', goodprice: 'GP' };
+const CATALOG = [
+  { id: 'beef', name: 'Үхрийн мах', unit: 'кг', qty: 2, price: { nomin: 17200, emart: 19800, goodprice: 20500 } },
+  { id: 'mutton', name: 'Хонины мах', unit: 'кг', qty: 1.5, price: { nomin: 15400, emart: 16900, goodprice: 17200 } },
+  { id: 'flour', name: 'Гурил 5кг', unit: 'ш', qty: 1, price: { nomin: 11500, emart: 13200, goodprice: 12900 } },
+  { id: 'potato', name: 'Төмс', unit: 'кг', qty: 3, price: { nomin: 1800, emart: 1950, goodprice: 1700 } },
+  { id: 'carrot', name: 'Лууван', unit: 'кг', qty: 1, price: { nomin: 2200, emart: 2100, goodprice: 2400 } },
+  { id: 'onion', name: 'Сонгино', unit: 'кг', qty: 1, price: { nomin: 2000, emart: 1900, goodprice: 2100 } },
+  { id: 'cabbage', name: 'Байцаа', unit: 'ш', qty: 1, price: { nomin: 3500, emart: 3200, goodprice: 3400 } },
+  { id: 'egg', name: 'Өндөг', unit: 'ш', qty: 10, price: { nomin: 720, emart: 650, goodprice: 700 } },
+  { id: 'milk', name: 'Сүү 1л', unit: 'ш', qty: 3, price: { nomin: 3600, emart: 3500, goodprice: 3700 } },
+  { id: 'oil', name: 'Ургамлын тос 1л', unit: 'ш', qty: 1, price: { nomin: 7800, emart: 7400, goodprice: 7900 } },
+  { id: 'salt', name: 'Давс', unit: 'ш', qty: 1, price: { nomin: 900, emart: 850, goodprice: 950 } },
+  { id: 'rice', name: 'Будаа 1кг', unit: 'ш', qty: 2, price: { nomin: 4200, emart: 3900, goodprice: 4100 } },
+];
+const FEE = { nomin: [8000, Infinity], emart: [7000, 150000], goodprice: [5000, Infinity] };
+const DISHES = ['Цуйван', 'Хуушуур', 'Бууз', 'Хонины шөл', 'Будаатай хуурга', 'Ногоотой шөл', 'Банштай цай'];
+const fmt = n => '₮' + Math.round(n).toLocaleString('en-US');
+const sumOf = items => items.reduce((a, i) => a + i.price * i.qty, 0);
+const feeOf = (s, sub) => sub >= FEE[s][1] ? 0 : FEE[s][0];
+
+function optimize(lines, budget) {
+  const ids = Object.keys(STORES); let best = null, bestSingle = Infinity, tried = 0; const combos = [];
+  for (let mask = 1; mask < 1 << ids.length; mask++) {
+    tried++;
+    const sub = ids.filter((_, i) => mask & (1 << i)); const by = {}; let total = 0;
+    for (const { c, qty } of lines) {
+      const s = sub.reduce((a, b) => c.price[b] < c.price[a] ? b : a);
+      (by[s] ??= []).push({ id: c.id, qty, unit: c.unit, price: c.price[s], ...(s === 'emart' && c.id === 'milk' ? { name: 'Сүү 0.9л', sub: 'Сүү 1л' } : { name: c.name }) });
+      total += c.price[s] * qty;
+    }
+    const used = Object.keys(by);
+    total += used.reduce((a, s) => a + feeOf(s, sumOf(by[s])), 0);
+    combos.push({ name: sub.length === 3 ? 'Бараа бүр хамгийн хямдаас' : used.map(x => STORES[x]).join(' + '), n: used.length, total });
+    if (sub.length === 1) bestSingle = Math.min(bestSingle, total);
+    if (!best || total < best.total) best = { budget, total, stores: used.map(s => ({ s, subtotal: sumOf(by[s]), fee: feeOf(s, sumOf(by[s])), items: by[s] })) };
+  }
+  best.savings = Math.max(0, bestSingle - best.total); best.tried = tried;
+  const seen = new Set(); best.combos = combos.filter(c => !seen.has(c.name) && seen.add(c.name)).sort((a, b) => a.total - b.total);
+  best.worst = Math.max(...combos.map(c => c.total)); return best;
+}
+
+/* ---------- graph ---------- */
+const N = {
+  user: { x: 20, y: 6,  t: 'Хэрэглэгч', s: 'чат · дуу (Anir STT)', cls: 'sm' },
+  fe:   { x: 50, y: 6,  t: 'React frontend', s: 'React 19 · Vite · SSE' },
+  orch: { x: 50, y: 20, t: 'Orchestrator', s: 'FastAPI · код, LLM биш', cls: 'dark' },
+  und:  { x: 14, y: 36, t: 'Understand', s: 'OyuLLM' },
+  plan: { x: 38, y: 36, t: 'Meal planner', s: 'gpt-4o · ReAct' },
+  proc: { x: 62, y: 36, t: 'Procurement', s: 'optimizer' },
+  chk:  { x: 86, y: 36, t: 'Checkout', s: 'sandbox' },
+  mcp:  { x: 26, y: 53, t: 'grocery-mcp', s: ':8100/mcp', badge: 'MCP' },
+  nomin:{ x: 52, y: 53, t: 'Номин', s: 'agent', cls: 'sm', badge: 'A2A' },
+  emart:{ x: 69, y: 53, t: 'Имарт', s: 'agent', cls: 'sm', badge: 'A2A' },
+  goodprice: { x: 86, y: 53, t: 'Гүүд Прайс', s: 'agent', cls: 'sm', badge: 'A2A' },
+  cache:{ x: 22, y: 70, t: 'Embedding cache', s: 'bge-m3 · санах ой → embed_cache', badge: 'TTL 30' },
+  crawl:{ x: 78, y: 70, t: 'Crawlers', s: 'OyuLLM · 7 хоног тутам', badge: 'cron' },
+  db:   { x: 50, y: 86, t: 'MongoDB Atlas', s: 'vector · time-series · transaction · change stream · TTL', cls: 'db' },
+};
+const E = [
+  ['user', 'fe', 'blue'], ['fe', 'orch', 'blue', 'REST · SSE'], ['orch', 'und', 'blue'], ['orch', 'plan', 'blue'], ['orch', 'proc', 'blue'], ['orch', 'chk', 'blue'],
+  ['plan', 'mcp', 'violet', 'MCP'], ['proc', 'nomin', 'amber'], ['proc', 'emart', 'amber', 'A2A'], ['proc', 'goodprice', 'amber'],
+  ['mcp', 'cache', 'violet'], ['cache', 'db', 'ok'], ['mcp', 'db', 'ok'], ['nomin', 'db', 'ok'], ['emart', 'db', 'ok'], ['goodprice', 'db', 'ok'],
+  ['crawl', 'db', 'ok', 'prices'], ['chk', 'db', 'ok'], ['und', 'db', 'ok'],
+];
+const COLORS = { blue: '#0B5CAD', violet: '#5B4BB7', amber: '#B7791F', ok: '#1E7A4E' };
+const graph = document.getElementById('graph'), svg = document.getElementById('svg');
+let GW = 0, GH = 0;
+const P = k => ({ x: N[k].x / 100 * GW, y: N[k].y / 100 * GH });
+
+function drawGraph() {
+  GW = graph.clientWidth; GH = graph.clientHeight - 70;
+  svg.setAttribute('viewBox', `0 0 ${graph.clientWidth} ${graph.clientHeight}`);
+  svg.innerHTML = E.map(([a, b, c, l]) => {
+    const p = P(a), q = P(b);
+    return `<line class="edge" data-e="${a}-${b}" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}"/>` +
+      (l ? `<text class="elabel" x="${(p.x + q.x) / 2 + 8}" y="${(p.y + q.y) / 2}">${l}</text>` : '');
+  }).join('');
+  for (const [k, n] of Object.entries(N)) {
+    let el = document.getElementById('n-' + k);
+    if (!el) {
+      el = document.createElement('div'); el.id = 'n-' + k; el.className = 'gn ' + (n.cls || '');
+      el.innerHTML = `<b>${n.t}</b><small>${n.s}</small>` + (n.badge ? `<span class="badge">${n.badge}</span>` : '');
+      graph.appendChild(el);
+    }
+    const p = P(k); el.style.left = p.x + 'px'; el.style.top = p.y + 'px';
+  }
+}
+
+const glow = new Map();
+function on(k, ms = 900, cls = 'on') {
+  const el = document.getElementById('n-' + k); if (!el) return;
+  el.classList.add(cls); clearTimeout(glow.get(k + cls));
+  if (ms) glow.set(k + cls, setTimeout(() => el.classList.remove(cls), ms));
+}
+function packet(a, b, color = 'blue', dur = 550) {
+  const fwd = E.find(e => e[0] === a && e[1] === b), back = E.find(e => e[0] === b && e[1] === a);
+  const line = svg.querySelector(`[data-e="${fwd ? a + '-' + b : b + '-' + a}"]`);
+  if (line) { line.classList.add('hot'); setTimeout(() => line.classList.remove('hot'), dur + 200); }
+  const p = P(a), q = P(b);
+  const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  c.setAttribute('r', 6); c.setAttribute('fill', COLORS[color]); svg.appendChild(c);
+  const t0 = performance.now();
+  return new Promise(res => {
+    const id = setInterval(() => {  // timer, not rAF: keeps running in background tabs and headless capture
+      const k = Math.min(1, (performance.now() - t0) / (dur / speed)), e = k < .5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2;
+      c.setAttribute('cx', p.x + (q.x - p.x) * e); c.setAttribute('cy', p.y + (q.y - p.y) * e);
+      if (k >= 1) { clearInterval(id); c.remove(); on(b, 700); res(); }
+    }, 16);
+  });
+}
+const thoughtEl = document.getElementById('thought');
+function think(html) { thoughtEl.innerHTML = html; thoughtEl.classList.toggle('show', !!html); }
+
+/* ---------- trace + chat ---------- */
+const msgsEl = document.getElementById('msgs'), evEl = document.getElementById('events');
+let t0 = 0, busy = false, speed = 1;
+const sleep = ms => new Promise(r => setTimeout(r, ms / speed));
+
+function step(s) {
+  const order = ['intent', 'discover', 'decide', 'authorize', 'transact', 'verify'], i = order.indexOf(s);
+  document.querySelectorAll('#stepper span').forEach((el, k) => {
+    el.classList.toggle('on', k === i); el.classList.toggle('done', i >= 0 && k < i);
+  });
+}
+function trace(agent, type, title, detail = '', cls = '') {
+  if (evEl.querySelector('.empty')) evEl.innerHTML = '';
+  const ms = ((performance.now() - t0) / 1000).toFixed(1) + 's';
+  const agCls = agent.startsWith('store') ? 'store' : agent === 'embed' || agent === 'mongodb' ? 'checkout' : agent;
+  const el = document.createElement('div'); el.className = 'ev ' + cls;
+  el.innerHTML = `<span class="t">${ms}</span><div class="h"><span class="ag ${agCls}">${agent}</span><span class="ty">${type}</span><span class="ti">${title}</span></div>` +
+    (detail ? `<div class="d">${detail}</div>` : '');
+  evEl.appendChild(el); evEl.scrollTop = evEl.scrollHeight;
+}
+function say(role, text, opts, who) {
+  const el = document.createElement('div'); el.className = 'msg ' + role;
+  el.innerHTML = (who ? `<span class="who">${who}</span>` : '') + text;
+  if (opts?.length) {
+    const o = document.createElement('div'); o.className = 'opts';
+    opts.forEach(t => { const b = document.createElement('button'); b.className = 'opt'; b.textContent = t; b.onclick = () => { if (busy) return; b.classList.add('picked'); send(t); }; o.appendChild(b); });
+    el.appendChild(o);
+  }
+  msgsEl.appendChild(el); msgsEl.scrollTop = msgsEl.scrollHeight; return el;
+}
+function typing(show) {
+  let el = msgsEl.querySelector('.typing');
+  if (show && !el) { el = document.createElement('div'); el.className = 'typing'; el.innerHTML = '<i></i><i></i><i></i>'; msgsEl.appendChild(el); msgsEl.scrollTop = msgsEl.scrollHeight; }
+  if (!show && el) el.remove();
+}
+
+/* ---------- state ---------- */
+let pending = null, lines = [], basket = null, ordered = false;
+
+/* ---------- runs ---------- */
+async function send(text) {
+  if (busy || !text.trim()) return;
+  busy = true; setStarters([]);
+  say('me', text);
+  if (!t0) t0 = performance.now();
+  document.getElementById('runid').textContent = 'run_' + Math.random().toString(36).slice(2, 8);
+  typing(true);
+  try {
+    await packet('user', 'fe', 'blue', 350); await packet('fe', 'orch'); on('orch', 600);
+    const t = text.toLowerCase();
+    if (ordered) await runLocked();
+    else if (basket && /(гарга|хас|нэм)/.test(t)) await runEdit(t);
+    else if (/мянга|\d{4,}/.test(t) || pending) await runPlan(t);
+    else if (/хоол|долоо|өдөр|цэс|хүн|идмээр/.test(t)) await runPartial(t);
+    else await runOther();
+  } finally { typing(false); think(''); busy = false; }
+}
+
+async function understand(detail, kind) {
+  step('intent');
+  await packet('orch', 'und'); on('und', 1400);
+  think('<b>Understand · OyuLLM</b>  мессежийг ангилж, slot гаргаж байна…');
+  await sleep(900);
+  trace('understand', 'intent', `ангилал: ${kind}`, detail);
+  await packet('und', 'db', 'ok', 400);
+  await packet('und', 'orch');
+}
+
+async function runOther() {
+  await understand('kind: other → мэндчилгээ', 'other');
+  typing(false);
+  say('ai', 'Сайн байна уу! Хэдэн хоногийн, хэдэн хүний хоол төлөвлөх вэ?', ['Энэ долоо хоногт 4 хүнд хоол хийе, гэрт будаа бий'], 'understand');
+  setStarters(['Энэ долоо хоногт 4 хүнд хоол хийе, гэрт будаа бий']);
+}
+
+async function runPartial(t) {
+  const people = +(t.match(/(\d+)\s*хүн/)?.[1] ?? 4);
+  pending = { people, rice: /будаа/.test(t) };
+  await understand(`kind: plan · status: partial<br>slots: {days: 7, people: ${people}${pending.rice ? ', pantry: [будаа]' : ''}}<br>missing: [budget] → код 1 асуулт сонгоно`, 'partial');
+  trace('understand', 'question', 'Төсөв тодруулах', 'OyuLLM асуултыг бичив, сонголт бүрийг код шалгав');
+  typing(false);
+  say('ai', `${people} хүнд долоо хоногт ямар төсөвтэй вэ?`, ['100 мянга', '150 мянга', '200 мянга'], 'understand');
+}
+
+async function runPlan(t) {
+  const k = t.match(/(\d+)\s*мянга/), budget = k ? +k[1] * 1000 : +(t.match(/(\d{4,})/)?.[1] ?? 150000);
+  const people = pending?.people ?? +(t.match(/(\d+)\s*хүн/)?.[1] ?? 4);
+  const rice = pending?.rice ?? /будаа/.test(t);
+  pending = null;
+  await understand(`kind: plan · status: clear<br>slots: {days: 7, people: ${people}, budget: ${fmt(budget)}}<br>профайл: Халал · Тэмүүлэн: самрын харшил · загасгүй`, 'clear');
+
+  // Discover
+  step('discover');
+  await packet('orch', 'plan'); on('plan', 4200);
+  if (rice) {
+    await packet('plan', 'mcp', 'violet'); await packet('mcp', 'db', 'ok', 350);
+    trace('planner', 'tool_call', 'update_pantry', '{key: "rice", amount: 1}  «гэрт будаа бий»');
+  }
+  think('<b>Thought:</b> Гэр бүл цуйван, бууз дуртай, загасгүй, халал. Самартай жорыг хасаад vector search хийе.');
+  await sleep(1100);
+  trace('planner', 'tool_call', 'search_recipes', 'vector search: "Цуйван, Бууз, Хорхог" · exclude: [самар, загас] · k: 12');
+  await packet('plan', 'mcp', 'violet');
+  await packet('mcp', 'cache', 'violet', 400); on('cache', 1200);
+  trace('embed', 'cache', 'санах ойд байхгүй → embed_cache hit', 'sha1(query) · bge-m3 vector · oyu API дуудаагүй', 'ok');
+  await packet('cache', 'db', 'ok', 350); await packet('db', 'cache', 'ok', 350); await packet('cache', 'mcp', 'violet', 350);
+  await packet('mcp', 'db', 'ok', 400);
+  trace('mongodb', 'query', '$vectorSearch recipes', 'Atlas Vector Search + tags шүүлт (халал, самаргүй)');
+  await sleep(300); await packet('mcp', 'plan', 'violet');
+  trace('planner', 'tool_result', '12 жор олдлоо', DISHES.slice(0, 5).join(', ') + '… (cost_per_serving бодит үнээр)');
+
+  // Decide
+  step('decide');
+  think('<b>Thought:</b> 7 хоолоор цэс гаргая. Эхний хувилбар төсвөөс 8% илүү байвал үнэтэй жорыг хямдаар солино.');
+  await sleep(1000);
+  const skipped = CATALOG.filter(c => rice && c.id === 'rice');
+  lines = CATALOG.filter(c => !skipped.includes(c)).map(c => ({ c, qty: Math.max(1, Math.round(c.qty * people / 4 * 2) / 2) }));
+  basket = optimize(lines, budget);
+  trace('planner', 'tool_call', 'plan_meals → build_list', `${lines.length} бараа · гэрт байгаа: ${skipped.map(c => c.name).join(', ') || '—'}`);
+  await packet('plan', 'mcp', 'violet'); await packet('mcp', 'plan', 'violet');
+  trace('planner', 'decision', 'Төсөвт багтаав', `2-р давталт: ${fmt(budget * 1.08)} → ${fmt(basket.total)}  (Хонины шөл → Будаатай хуурга)`);
+  await packet('plan', 'orch');
+
+  think('<b>Procurement:</b> 3 дэлгүүрийн agent-аас A2A message/send-ээр зэрэг үнийн санал авч байна…');
+  await packet('orch', 'proc'); on('proc', 3600);
+  for (const s of Object.keys(STORES)) trace('procurement', 'a2a_request', `${STORES[s]} → quote`, `JSON-RPC message/send · skill: quote · ${lines.length} бараа`);
+  await Promise.all(Object.keys(STORES).map(s => packet('proc', s, 'amber', 600)));
+  await Promise.all(Object.keys(STORES).map(s => packet(s, 'db', 'ok', 400)));
+  trace('mongodb', 'query', 'products · prices', 'crawl хийсэн үнэ (time-series) · нөөц · савлагаа');
+  await sleep(250);
+  await Promise.all(Object.keys(STORES).map(s => packet(s, 'proc', 'amber', 600)));
+  trace('store:nomin', 'a2a_response', 'Санал ирлээ', `${lines.length}/${lines.length} нөөцтэй · хүргэлт ₮8,000`);
+  trace('store:emart', 'a2a_response', 'Санал ирлээ', 'Сүү 1л → 0.9л орлуулах санал · ₮150k-аас хүргэлт үнэгүй');
+  trace('store:goodprice', 'a2a_response', 'Санал ирлээ', `${lines.length}/${lines.length} нөөцтэй (simulated) · хүргэлт ₮5,000`);
+  think('<b>Optimizer:</b> хүргэлтийн төлбөрийг оруулан дэлгүүрийн бүх хослолыг харьцуулж байна.');
+  await sleep(900);
+  trace('optimizer', 'decision', 'Хамгийн хямд хуваарилалт', `${basket.tried} хувилбараас: ${basket.stores.map(x => STORES[x.s]).join(' + ')} · нийт ${fmt(basket.total)}`, 'ok');
+  await packet('proc', 'orch'); await packet('orch', 'fe');
+  trace('mongodb', 'change stream', 'run_events → SSE', 'алхам бүр frontend руу шууд');
+  renderBasket();
+  typing(false);
+  say('ai', `${DISHES.length} хоолтой цэс бэлэн:\n${DISHES.join(', ')}.\n\nСагс ${fmt(basket.total)}, хүргэлттэй. ` + (basket.savings ? `Нэг дэлгүүрээс авахаас ${fmt(basket.savings)} хямд.` : `Хамгийн үнэтэй хувилбараас ${fmt(basket.worst - basket.total)} хямд.`), suggestions(), 'planner');
+  step('authorize');
+  on('fe', 0, 'human'); setTimeout(() => document.getElementById('n-fe').classList.remove('human'), 2500);
+}
+
+const suggestions = () => [lines.some(l => l.c.id === 'salt') && 'Давсыг гарга', lines.some(l => l.c.id === 'egg') && 'Өндгийг 5 нэм', lines.some(l => l.c.id === 'mutton') && 'Хонины махыг хас'].filter(Boolean);
+
+async function runEdit(t) {
+  const hit = lines.find(l => t.includes(l.c.name.toLowerCase().slice(0, 3)));
+  if (!hit) { await understand('kind: edit · item тодорхойгүй', 'unclear'); typing(false); say('ai', 'Аль барааг өөрчлөх вэ?', suggestions(), 'understand'); return; }
+  const add = /нэм/.test(t), n = +(t.match(/(\d+)/)?.[1] ?? 1);
+  await understand(`kind: edit · edits: [{op: "${add ? 'add' : 'remove'}", item: "${hit.c.id}"${add ? ', qty: ' + n : ''}}]`, 'edit');
+  if (add) hit.qty += n; else lines = lines.filter(l => l !== hit);
+  step('decide');
+  await packet('orch', 'proc'); on('proc', 1200);
+  basket = optimize(lines, basket.budget);
+  await sleep(500);
+  trace('optimizer', 'decision', 'Дахин хуваарилав', `${basket.tried} хувилбар · нийт ${fmt(basket.total)}`, 'ok');
+  await packet('proc', 'orch'); await packet('orch', 'fe');
+  renderBasket();
+  typing(false);
+  say('ai', add ? `${hit.c.name} ${n}-г нэмлээ. Сагс ${fmt(basket.total)}.` : `${hit.c.name} сагснаас гарлаа. Сагс ${fmt(basket.total)}.`, suggestions(), 'understand');
+  step('authorize');
+}
+
+async function runLocked() {
+  await understand('kind: edit · гэхдээ order_id байна', 'edit');
+  typing(false);
+  say('ai', 'Энэ чатын захиалга төлөгдсөн. Шинэ чат эхлүүлнэ үү.', null, 'orchestrator');
+}
+
+/* ---------- basket + checkout ---------- */
+let stage2 = 'approve';
+function renderBasket() {
+  document.getElementById('basketPanel').style.display = '';
+  const b = basket;
+  document.getElementById('bk').innerHTML = b.stores.map(st => `
+    <div class="st"><div class="sh">${STORES[st.s]}<small>${fmt(st.subtotal)} · хүргэлт ${st.fee ? fmt(st.fee) : 'үнэгүй'}</small></div>
+    <ul>${st.items.map(i => `<li class="${i.sub ? 'sub' : ''}"><span>${i.name}${i.sub ? ' (↔ ' + i.sub + ')' : ''} × ${i.qty}</span><span>${fmt(i.price * i.qty)}</span></li>`).join('')}</ul>
+    ${st.oid ? `<div style="padding:0 12px 8px" class="oid">✓ ${st.oid}</div>` : ''}</div>`).join('') +
+    `<div class="sum"><span>Төсөв</span><span class="v">${fmt(b.budget)}</span>
+      <span class="tot">Нийт</span><span class="v tot">${fmt(b.total)}</span>
+      ${b.savings ? `<span class="save">Нэг дэлгүүрээс хэмнэлт</span><span class="v save">−${fmt(b.savings)}</span>` : ''}</div>
+    <div class="cmp"><div class="ch">Optimizer ${b.tried} хувилбар харьцуулав (хүргэлттэй)</div>${b.combos.map((c, k) => `<div class="cr ${k ? '' : 'best'}"><span>${k ? '' : '✓ '}${c.name}${c.n > 1 ? ` <i>${c.n} хүргэлт</i>` : ''}</span><span>${fmt(c.total)}${k ? ` <i>+${fmt(c.total - b.total)}</i>` : ''}</span></div>`).join('')}</div>`;
+  const acts = document.getElementById('acts');
+  if (ordered) acts.innerHTML = '<button class="btn ok" disabled>✓ Захиалсан</button>';
+  else if (stage2 === 'pay') acts.innerHTML = '<button class="btn" id="back">Буцах</button><button class="btn ok" id="pay">Төлөх ' + fmt(b.total) + '</button>';
+  else acts.innerHTML = '<button class="btn pri" id="approve">Зөвшөөрөх</button>';
+  document.getElementById('approve')?.addEventListener('click', approve);
+  document.getElementById('pay')?.addEventListener('click', pay);
+  document.getElementById('back')?.addEventListener('click', () => { stage2 = 'approve'; renderBasket(); });
+}
+function approve() {
+  if (busy) return;
+  stage2 = 'pay'; step('authorize'); on('fe', 2000, 'human');
+  trace('user', 'approve', '«Зөвшөөрөх» дарав', '2 дахь баталгаажуулалт хүлээж байна');
+  renderBasket();
+}
+async function pay() {
+  if (busy) return; busy = true;
+  try {
+    trace('user', 'pay', '«Төлөх» дарав', 'хүн баталгаажуулсан → мөнгө хөдөлж болно');
+    step('transact');
+    await packet('fe', 'orch'); await packet('orch', 'chk'); on('chk', 4000);
+    think('<b>Checkout:</b> мөнгө хөдлөхөөс өмнө код шалгалт хийж байна.');
+    const checks = [
+      ['Захиалгын горим', '«Захиалга өгөх»'], ['Хэтэвч', `үлдэгдэл ₮200,000 ≥ сагс ${fmt(basket.total)}`],
+      ['Төсөв', `бараа ${fmt(basket.total - basket.stores.reduce((a, s) => a + s.fee, 0))} ≤ ${fmt(basket.budget)}`],
+      ['Харшил', 'харшилтай бараа алга'], ['Нөөц', 'бүгд нөөцтэй'],
+    ];
+    for (const [n, r] of checks) { await sleep(320); trace('checkout', 'check', '✓ ' + n, r, 'ok'); }
+    think('<b>Checkout:</b> нэг MongoDB transaction: дэлгүүр бүрийн захиалга + нөөц + хэтэвч. Нэг нь бүтэлгүйтвэл бүгд буцна.');
+    await packet('chk', 'db', 'ok', 700); on('db', 1500);
+    await sleep(500);
+    basket.stores.forEach(st => st.oid = `${PREFIX[st.s]}-${Math.floor(10000 + Math.random() * 89999)}`);
+    trace('checkout', 'transaction', 'commit ✓', `store_orders: ${basket.stores.map(s => s.oid).join(', ')}<br>wallet_tx: −${fmt(basket.total)} · orders · inventory −${lines.length}`, 'ok');
+    step('verify');
+    await packet('chk', 'orch'); await packet('orch', 'fe');
+    ordered = true; renderBasket();
+    say('sys', `✓ Захиалга баталгаажлаа · ${basket.stores.map(s => s.oid).join(' · ')}`);
+    trace('checkout', 'verify', 'Давтан дарахад ижил захиалга буцна', 'idempotent · нэг л удаа төлнө');
+    document.querySelectorAll('#stepper span').forEach(el => el.classList.add('done'));
+  } finally { think(''); busy = false; }
+}
+
+/* ---------- starters, input, autoplay ---------- */
+const startersEl = document.getElementById('starters');
+function setStarters(list) {
+  startersEl.innerHTML = '';
+  list.forEach(t => { const b = document.createElement('button'); b.className = 'opt'; b.textContent = t; b.onclick = () => send(t); startersEl.appendChild(b); });
+}
+document.getElementById('form').addEventListener('submit', e => { e.preventDefault(); const i = document.getElementById('inp'); const v = i.value; i.value = ''; send(v); });
+
+async function typeInto(text) {
+  const i = document.getElementById('inp'); i.value = ''; i.focus();
+  for (const ch of text) { i.value += ch; await sleep(38); }
+  await sleep(300); i.value = ''; await send(text);
+}
+const until = () => new Promise(r => { const t = setInterval(() => { if (!busy) { clearInterval(t); r(); } }, 100); });
+let autoRunning = false;
+document.getElementById('auto').addEventListener('click', async () => {
+  if (autoRunning) return; autoRunning = true; reset();
+  const btn = document.getElementById('auto'); btn.disabled = true;
+  try {
+    await sleep(500); await typeInto('Энэ долоо хоногт 4 хүнд хоол хийе, гэрт будаа бий'); await until(); await sleep(1200);
+    await send('150 мянга'); await until(); await sleep(2200);
+    await typeInto('Давсыг гарга'); await until(); await sleep(1800);
+    approve(); await sleep(1600); await pay();
+  } finally { btn.disabled = false; autoRunning = false; }
+});
+
+function reset() {
+  if (busy) return;
+  pending = null; lines = []; basket = null; ordered = false; stage2 = 'approve'; t0 = 0;
+  msgsEl.innerHTML = ''; evEl.innerHTML = '<div class="empty">Чатад бичихэд agent бүрийн алхам<br>энд шууд гарч ирнэ.</div>';
+  document.getElementById('basketPanel').style.display = 'none'; step('');
+  say('ai', 'Сайн байна уу, Бат-Эрдэнэ! Юу хоол хийх вэ? Монголоор бичээрэй.', null, 'sagslay');
+  setStarters(['Энэ долоо хоногт 4 хүнд хоол хийе, гэрт будаа бий', 'маргааш цуйван идмээр байна', '6 хүнд 200 мянгад хоол хийе']);
+}
+document.getElementById('reset').addEventListener('click', reset);
+
+/* ---------- fit ---------- */
+const stageEl = document.getElementById('stage');
+function fit() { stageEl.style.transform = `translate(-50%, -50%) scale(${Math.min(innerWidth / 1600, innerHeight / 900)})`; drawGraph(); }
+addEventListener('resize', fit);
+addEventListener('keydown', e => {  // → / space / clicker from the slides: start the autoplay
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' && e.key !== 'ArrowRight' && e.key !== 'PageDown') return;
+  if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); if (!autoRunning && !busy) document.getElementById('auto').click(); }
+  else if (['ArrowLeft', 'PageUp'].includes(e.key) && !autoRunning) location.href = 'index.html#999';
+});
+addEventListener('keydown', e => { if (e.target.tagName !== 'INPUT' && (e.key === 'f' || e.key === 'F')) document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); });
+fit(); reset();
+setInterval(() => { if (!busy) packet('crawl', 'db', 'ok', 1100); }, 7000);  // weekly crawl, shown as a background job
+if (/[?&]auto/.test(location.search)) document.getElementById('auto').click();
+</script>
+</body>
+</html>

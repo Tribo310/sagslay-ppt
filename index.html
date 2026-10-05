@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sagslay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #E9EDF1; --paper: #fff; --paper-2: #F5F7F9; --bubble: #F1F4F7;
+  --ink: #15202B; --mute: #5B6875; --line: #D2D9E0; --line-soft: #E6EAEE;
+  --blue: #0B5CAD; --blue-ink: #084A8C; --blue-soft: #DCE8F5;
+  --red: #B3242B; --red-soft: #F8E5E6; --ok: #1E7A4E; --ok-soft: #E3F1EA;
+  --amber: #B7791F; --amber-soft: #FBF1DE; --amber-ink: #8A5A12;
+  --violet: #5B4BB7; --violet-soft: #E9E6F7;
+  --sans: 'Onest', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --r: 8px; --r-panel: 14px; --r-pill: 999px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); overflow: hidden; -webkit-font-smoothing: antialiased; }
+
+/* 1600×900 stage, scaled to fit */
+.stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: center; }
+.slide {
+  position: absolute; inset: 0; padding: 88px 112px; display: flex; flex-direction: column;
+  background: var(--paper); border-radius: 20px; box-shadow: 0 1px 2px rgba(21,32,43,.06), 0 12px 40px rgba(21,32,43,.08);
+  opacity: 0; visibility: hidden; transform: translateY(12px); transition: opacity .35s, transform .35s, visibility .35s;
+}
+.slide.on { opacity: 1; visibility: visible; transform: none; }
+.slide.on .rise { animation: rise .5s both; }
+.slide.on .rise:nth-child(2) { animation-delay: .06s } .slide.on .rise:nth-child(3) { animation-delay: .12s }
+.slide.on .rise:nth-child(4) { animation-delay: .18s } .slide.on .rise:nth-child(5) { animation-delay: .24s }
+.slide.on .rise:nth-child(6) { animation-delay: .30s }
+@keyframes rise { from { opacity: 0; transform: translateY(10px) } }
+
+.kicker { font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--blue); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 18px; }
+h2 { font-size: 60px; font-weight: 700; letter-spacing: -.025em; line-height: 1.08; text-wrap: balance; }
+h3 { font-size: 26px; font-weight: 600; letter-spacing: -.01em; }
+.lead { font-size: 28px; color: var(--mute); line-height: 1.45; margin-top: 22px; max-width: 1100px; text-wrap: pretty; }
+.body { flex: 1; display: flex; flex-direction: column; justify-content: center; margin-top: 48px; }
+.mono { font-family: var(--mono); }
+.grid { display: grid; gap: 24px; }
+.card { background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--r-panel); padding: 32px; }
+.card p { font-size: 21px; color: var(--mute); line-height: 1.45; margin-top: 10px; }
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: var(--r-pill); font-size: 17px; font-weight: 500; background: var(--blue-soft); color: var(--blue); }
+.pill.ok { background: var(--ok-soft); color: var(--ok); } .pill.amber { background: var(--amber-soft); color: var(--amber-ink); }
+.pill.red { background: var(--red-soft); color: var(--red); } .pill.violet { background: var(--violet-soft); color: var(--violet); }
+.foot { position: absolute; left: 112px; right: 112px; bottom: 40px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 15px; color: var(--mute); }
+
+/* cover */
+.cover { justify-content: center; background: linear-gradient(135deg, #fff 55%, var(--blue-soft)); }
+.cover .logo { font-size: 160px; font-weight: 700; letter-spacing: -.045em; line-height: 1; }
+.cover .logo span { color: var(--blue); }
+.cover .tag { font-size: 38px; font-weight: 500; margin-top: 28px; max-width: 1150px; line-height: 1.3; text-wrap: balance; }
+.cover .meta { margin-top: 56px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* problem */
+.q { display: flex; flex-direction: column; gap: 14px; }
+.q .n { font-family: var(--mono); font-size: 18px; color: var(--blue); font-weight: 600; }
+.q h3 { font-size: 34px; }
+.price { display: grid; grid-template-columns: 1fr auto auto; gap: 12px 40px; align-items: baseline; font-size: 24px; }
+.price .v { font-family: var(--mono); font-weight: 600; text-align: right; }
+.price .best { color: var(--ok); }
+.price hr { grid-column: 1 / -1; border: 0; border-top: 1px solid var(--line); }
+
+/* chat mock */
+.chat { background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--r-panel); padding: 32px; display: flex; flex-direction: column; gap: 18px; }
+.msg { max-width: 80%; padding: 16px 22px; border-radius: 16px; font-size: 23px; line-height: 1.4; }
+.msg.me { align-self: flex-end; background: var(--blue); color: #fff; border-bottom-right-radius: 4px; }
+.msg.ai { align-self: flex-start; background: var(--paper); border: 1px solid var(--line-soft); border-bottom-left-radius: 4px; }
+.chips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.chip { padding: 8px 16px; border: 1px solid var(--line); border-radius: var(--r-pill); font-size: 18px; background: var(--paper); }
+.chip.sel { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.does { display: flex; flex-direction: column; gap: 22px; }
+.does li { list-style: none; display: flex; gap: 18px; font-size: 24px; line-height: 1.4; }
+.does li b { font-weight: 600; }
+.does .ic { flex: none; width: 44px; height: 44px; border-radius: 12px; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; font-family: var(--mono); font-weight: 600; font-size: 18px; }
+
+/* steps */
+.steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; position: relative; }
+.step { background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--r-panel); padding: 26px 22px; display: flex; flex-direction: column; gap: 10px; position: relative; }
+.step .no { font-family: var(--mono); font-size: 15px; color: var(--mute); }
+.step h3 { font-size: 24px; color: var(--blue); }
+.step p { font-size: 18px; color: var(--mute); line-height: 1.45; }
+.step.human { background: var(--amber-soft); border-color: #F0DDB6; } .step.human h3 { color: var(--amber-ink); }
+.step.money h3 { color: var(--ok); }
+
+/* architecture */
+.arch { display: grid; grid-template-columns: 220px 1fr 300px; gap: 28px; align-items: center; }
+.node { border: 1.5px solid var(--line); background: var(--paper); border-radius: 12px; padding: 18px 20px; font-size: 21px; font-weight: 600; text-align: center; }
+.node small { display: block; font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--mute); margin-top: 6px; }
+.node.blue { border-color: var(--blue); background: var(--blue-soft); color: var(--blue-ink); }
+.node.ok { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
+.box { border: 1.5px dashed var(--line); border-radius: var(--r-panel); padding: 22px; position: relative; }
+.box > .lbl { position: absolute; top: -13px; left: 18px; background: var(--paper); padding: 0 8px; font-family: var(--mono); font-size: 14px; color: var(--mute); }
+.agents { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.side { display: flex; flex-direction: column; gap: 14px; }
+.arrow { font-family: var(--mono); font-size: 14px; color: var(--mute); text-align: center; }
+.flowline { display: flex; align-items: center; gap: 10px; font-family: var(--mono); color: var(--line); font-size: 28px; justify-content: center; }
+
+/* architecture detail */
+.ax { flex: 1; display: grid; grid-template-columns: 240px 1fr 270px; gap: 22px; align-items: center; margin-top: 30px; }
+.ax-col { display: flex; flex-direction: column; gap: 10px; }
+.ax-e { text-align: center; font-family: var(--mono); font-size: 14px; color: var(--mute); }
+.ax-mid { position: relative; border: 1.5px dashed var(--line); border-radius: var(--r-panel); padding: 22px 18px 18px; display: flex; flex-direction: column; gap: 12px; }
+.ax-mid > .lbl { position: absolute; top: -12px; left: 18px; background: var(--paper); padding: 0 8px; font-family: var(--mono); font-size: 14px; color: var(--mute); }
+.ax-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.ax-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ac { background: var(--paper); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; }
+.ac b { font-size: 19px; font-weight: 600; }
+.ac b em { font-style: normal; font-size: 14px; font-weight: 500; margin-left: 8px; opacity: .75; }
+.ac .tg { font-family: var(--mono); font-size: 13px; color: var(--blue); }
+.ac code { font-family: var(--mono); font-size: 12px; color: var(--mute); }
+.ac p { font-size: 15px; line-height: 1.38; color: var(--mute); margin-top: 3px; }
+.ac .m, .ac p.m { font-family: var(--mono); font-size: 13px; }
+.ac .via { align-self: flex-start; font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--violet); background: var(--violet-soft); padding: 2px 8px; border-radius: var(--r-pill); margin-bottom: 4px; }
+.ac.dark { background: var(--ink); border-color: var(--ink); }
+.ac.dark b, .ac.dark p { color: #fff; } .ac.dark code { color: #9FB0C0; }
+.ac.ok { border-color: var(--ok); background: var(--ok-soft); }
+.ac.ok b, .ac.ok .tg { color: var(--ok); }
+
+/* orchestrator detail */
+.orch { display: flex; flex-direction: column; gap: 22px; }
+.o-in { display: flex; align-items: stretch; gap: 10px; }
+.o-in .node { flex: 1; padding: 14px 16px; font-size: 20px; }
+.o-ar { align-self: center; color: var(--mute); font-family: var(--mono); font-size: 22px; }
+.node.router { border-color: var(--ink); background: var(--ink); color: #fff; }
+.node.router small { color: #B9C3CD; }
+.node.human { border-color: #E3C88E; background: var(--amber-soft); color: var(--amber-ink); }
+.o-lanes { margin-left: 0; border-left: 0; display: flex; flex-direction: column; gap: 9px; padding: 18px 20px; background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--r-panel); }
+.lane { display: grid; grid-template-columns: 190px 1fr; gap: 16px; align-items: center; }
+.lane .k { font-family: var(--mono); font-size: 16px; font-weight: 600; color: var(--blue); padding: 6px 12px; border-radius: var(--r); background: var(--blue-soft); text-align: center; }
+.lane .k.amber { color: var(--amber-ink); background: var(--amber-soft); }
+.lane .k.red { color: var(--red); background: var(--red-soft); }
+.lane .k.mute { color: var(--mute); background: var(--line-soft); }
+.chain { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
+.chain .n { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: 7px 13px; font-size: 17px; white-space: nowrap; }
+.chain .n i { font-style: normal; font-family: var(--mono); font-size: 13px; color: var(--mute); margin-left: 8px; }
+.chain .n.blue { border-color: var(--blue); background: var(--blue-soft); color: var(--blue-ink); font-weight: 600; }
+.chain .n.ok { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); font-weight: 600; }
+.chain .n.amber { border-color: #E3C88E; background: var(--amber-soft); color: var(--amber-ink); }
+.chain .n.red { border-color: #E8B4B7; background: var(--red-soft); color: var(--red); }
+.chain .a { color: var(--mute); font-family: var(--mono); }
+.chain .st { margin-left: auto; font-family: var(--mono); font-size: 14px; color: var(--mute); }
+.chain .st.ok { color: var(--ok); }
+.lane.main { padding: 8px 0; }
+.o-out { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+.o-out .node { padding: 14px 18px; font-size: 20px; text-align: left; }
+
+/* mongodb */
+.mx { flex: 1; display: grid; grid-template-columns: 1fr 1.08fr .95fr; gap: 20px; margin-top: 34px; align-items: stretch; }
+.mcard { background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--r-panel); padding: 22px; display: flex; flex-direction: column; }
+.mh { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; white-space: nowrap; }
+.mt { font-size: 13px; color: var(--mute); }
+.srch { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: stretch; }
+.plus { align-self: center; font-family: var(--mono); font-size: 22px; color: var(--mute); }
+.si { background: var(--paper); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.si b { font-family: var(--mono); font-size: 16px; display: block; }
+.si .tg { font-family: var(--mono); font-size: 12px; color: var(--violet); }
+.si p { font-size: 14px; color: var(--mute); line-height: 1.45; margin-top: 6px; }
+.fuse { margin-top: 12px; background: var(--violet-soft); color: var(--violet); border-radius: 12px; padding: 12px 14px; font-size: 15px; line-height: 1.45; }
+.fuse b { font-family: var(--mono); } .fuse .mono { font-size: 12px; opacity: .85; }
+.ix { width: 100%; border-collapse: collapse; font-size: 15px; }
+.ix td { padding: 7px 6px; border-bottom: 1px solid var(--line-soft); vertical-align: middle; }
+.ix td:first-child { font-family: var(--mono); font-size: 13px; font-weight: 600; white-space: nowrap; }
+.ix td:nth-child(2) { font-family: var(--mono); font-size: 13px; color: var(--mute); }
+.ix td:last-child { text-align: right; }
+.pill.sm { font-size: 11px; padding: 2px 8px; font-family: var(--mono); white-space: nowrap; }
+.note { font-size: 14px; color: var(--mute); margin-top: auto; padding-top: 12px; line-height: 1.45; }
+.flow { display: flex; flex-direction: column; gap: 4px; }
+.fs { display: flex; gap: 12px; align-items: flex-start; background: var(--paper); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.fs.ok { border-color: var(--ok); background: var(--ok-soft); } .fs.ok b { color: var(--ok); }
+.fs .n { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--line-soft); display: grid; place-items: center; font-family: var(--mono); font-size: 13px; font-weight: 600; }
+.fs b { font-size: 16px; font-family: var(--mono); } .fs p { font-size: 14px; color: var(--mute); line-height: 1.4; margin-top: 2px; }
+.fa { font-family: var(--mono); font-size: 12px; color: var(--mute); padding-left: 22px; }
+
+/* tech */
+.tech .card h3 { display: flex; align-items: center; gap: 12px; }
+.bench { width: 100%; border-collapse: collapse; font-size: 19px; margin-top: 16px; }
+.bench th, .bench td { padding: 9px 10px; text-align: center; border-bottom: 1px solid var(--line-soft); }
+.bench th:first-child, .bench td:first-child { text-align: left; color: var(--mute); }
+.bench th { font-family: var(--mono); font-size: 15px; color: var(--mute); font-weight: 500; }
+.bench td.y { color: var(--ok); font-weight: 600; } .bench td.n { color: var(--red); }
+
+/* modes */
+.mode h3 { font-size: 32px; margin-top: 16px; }
+.mode ol { margin: 22px 0 0 24px; font-size: 22px; line-height: 1.7; color: var(--mute); }
+
+/* safety */
+.safe { grid-template-columns: repeat(3, 1fr); }
+.safe .card h3 { font-size: 25px; }
+.safe .ic { font-family: var(--mono); font-size: 15px; color: var(--ok); font-weight: 600; margin-bottom: 14px; }
+
+/* end */
+.end { justify-content: center; }
+.end .row { display: grid; grid-template-columns: 1fr auto auto; gap: 48px; align-items: center; margin-top: 56px; }
+.qr { text-align: center; }
+.qr img { width: 220px; height: 220px; padding: 14px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-panel); }
+.qr div { font-family: var(--mono); font-size: 17px; margin-top: 12px; color: var(--mute); }
+.team { display: flex; flex-direction: column; gap: 14px; font-size: 24px; }
+.team span { color: var(--mute); font-size: 20px; margin-left: 10px; }
+
+/* chrome */
+.bar { position: fixed; left: 0; bottom: 0; height: 4px; background: var(--blue); transition: width .35s; z-index: 5; }
+.notes { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); width: min(900px, calc(100% - 32px)); background: var(--ink); color: #fff; font-size: 17px; line-height: 1.5; padding: 16px 22px; border-radius: 12px; display: none; z-index: 6; }
+.notes.show { display: block; }
+.help { position: fixed; right: 16px; top: 12px; font-family: var(--mono); font-size: 12px; color: var(--mute); opacity: .7; z-index: 6; }
+@media print {
+  body { overflow: visible; background: #fff; }
+  .stage { position: static; transform: none !important; }
+  .slide { position: relative; opacity: 1; visibility: visible; transform: none; page-break-after: always; box-shadow: none; border-radius: 0; }
+  .bar, .notes, .help { display: none; }
+  @page { size: 1600px 900px; margin: 0; }
+}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <!-- 1 -->
+  <section class="slide cover" data-notes="Сайн байна уу. Бид team-09-gwenchana. Sagslay-г танилцуулъя: нэг өгүүлбэрээс хямд хүнсний сагс гаргадаг agent систем.">
+    <div class="kicker rise">Agentic Commerce Hackathon 2026</div>
+    <div class="logo rise">Sag<span>slay</span></div>
+    <div class="tag rise">Нэг өгүүлбэр бичихэд agent-ууд цэс гаргаж, гурван дэлгүүрийн үнийг харьцуулан хамгийн хямд сагсыг бүрдүүлнэ.</div>
+    <div class="meta rise">
+      <span class="pill">Номин</span><span class="pill">Имарт</span><span class="pill">Гүүд Прайс</span>
+      <span class="pill ok">sagslay.com</span>
+    </div>
+    <div class="foot"><span>team-09-gwenchana</span><span>Applied AI Mongolia × Novelsoft</span></div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide" data-notes="Өрх бүр долоо хоног бүр эдгээр гурван асуултыг гараар шийддэг. Үнэ, савлагаа, хүргэлтийн нөхцөл дэлгүүр бүрт өөр.">
+    <div class="kicker">Асуудал</div>
+    <h2>Долоо хоног бүр гурван асуултыг гараар шийддэг</h2>
+    <div class="body">
+      <div class="grid" style="grid-template-columns: 1fr 1fr 1fr 1.25fr; align-items: stretch;">
+        <div class="card q rise"><span class="n">01</span><h3>Юу хоол хийх вэ?</h3><p>Дуршил, харшил, төсөв, хүний тоо</p></div>
+        <div class="card q rise"><span class="n">02</span><h3>Гэрт юу дутуу байна?</h3><p>Байгаа зүйлээ дахин худалдаж авдаг</p></div>
+        <div class="card q rise"><span class="n">03</span><h3>Хаана хямд вэ?</h3><p>Гурван сайтыг харьцуулах цаг байдаггүй</p></div>
+        <div class="card rise">
+          <h3 style="font-size:22px;color:var(--mute);font-weight:500">Сүү, 1 л</h3>
+          <div class="price" style="margin-top:18px">
+            <span>Номин</span><span></span><span class="v">₮5,398</span>
+            <span>Имарт</span><span></span><span class="v best">₮5,330</span>
+            <hr>
+            <span style="font-size:19px;color:var(--mute);grid-column:1/-1">Савлагаа өөр (0.91 л / 1 л), хүргэлт өөр: Имарт ₮150,000-аас дээш үнэгүй</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide" data-notes="Хэрэглэгч монголоор бичнэ. Дутуу мэдээлэл байвал agent нэг асуултаар тодруулна. Дараа нь цэс, сагс, хуваарилалт гарна.">
+    <div class="kicker">Шийдэл</div>
+    <h2>Монголоор нэг өгүүлбэр бичихэд хангалттай</h2>
+    <div class="body">
+      <div class="grid" style="grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center;">
+        <div class="chat rise">
+          <div class="msg me">маргааш цуйван идмээр байна</div>
+          <div class="msg ai">Маргааш цуйвангаас гадна өөр хоол төлөвлөх үү?
+            <div class="chips"><span class="chip">Зөвхөн оройн хоол</span><span class="chip sel">Өдөр, орой</span><span class="chip">Өглөө, өдөр, орой</span></div>
+          </div>
+          <div class="msg me">давсыг гарга, гэрт бий</div>
+          <div class="msg ai">Сагс шинэчлэгдлээ. 3 дэлгүүрт хуваарилсан, хүргэлт орсон.</div>
+        </div>
+        <ul class="does">
+          <li class="rise"><span class="ic">?</span><span><b>Тодруулна:</b> дутуу мэдээллийг нэг асуултаар асууна</span></li>
+          <li class="rise"><span class="ic">≡</span><span><b>Цэс гаргана:</b> дуршил, харшил, хоолны дэглэм, гэрт байгааг тооцно</span></li>
+          <li class="rise"><span class="ic">₮</span><span><b>Хамгийн хямдыг олно:</b> бодит crawl хийсэн үнэ дээр хүргэлтийн төлбөрийг нэмж тооцно</span></li>
+          <li class="rise"><span class="ic">✎</span><span><b>Засна:</b> чатаар эсвэл товчоор, «2 дахь өдрийн оройн хоолыг бууз болго»</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide" data-notes="Нэг бодит ажиллалт алхам алхмаар. Шар өнгөтэй алхам дээр хүн шийднэ: хэрэглэгч зөвшөөрөхөөс өмнө мөнгө хөдлөхгүй.">
+    <div class="kicker">Agent workflow</div>
+    <h2>«маргааш цуйван идмээр байна» гэж бичихэд юу болдог вэ</h2>
+    <div class="body">
+      <div class="steps">
+        <div class="step rise"><span class="no">01</span><h3>Intent</h3><p>OyuLLM мессежийг ангилж, өдөр, хоол, хүний тоог гаргана. Дутуу бол асуулт асууна</p></div>
+        <div class="step rise"><span class="no">02</span><h3>Discover</h3><p>Planner MCP-ээр жор хайна. Профайлд лууван хасагдсан бол луувангүй цуйван хийнэ</p></div>
+        <div class="step rise"><span class="no">03</span><h3>Decide</h3><p>Гэрт байгааг хасна. 3 дэлгүүрээс A2A-аар үнэ асууж, хүргэлттэй нь хамгийн хямдаар хуваарилна</p></div>
+        <div class="step human rise"><span class="no">04 · хүн</span><h3>Authorize</h3><p>«Зөвшөөрөх» → «Төлөх». Хоёр удаа баталгаажуулна</p></div>
+        <div class="step money rise"><span class="no">05</span><h3>Transact</h3><p>Дэлгүүр бүрт sandbox захиалга, нэг MongoDB transaction</p></div>
+        <div class="step rise"><span class="no">06</span><h3>Verify</h3><p>Захиалгын дугаар, хэтэвчний гүйлгээ live trace-д харагдана</p></div>
+      </div>
+      <p class="lead rise" style="margin-top:40px;font-size:23px">Алхам бүр (бодол, tool, үр дүн, загвар) SSE-ээр дэлгэцэнд шууд харагдана.</p>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide" data-notes="Хэрэглэгч React frontend-ээр бичнэ, trace SSE-ээр шууд ирнэ. Orchestrator нь LLM биш, код: ангилаад зөв agent руу дамжуулж, тооцоо, шалгалтыг өөрөө хийнэ. Planner MCP-ээр жор хайна, procurement A2A-аар 3 дэлгүүрээс үнэ авна. Crawler-ууд долоо хоног бүр бодит үнийг MongoDB руу оруулна.">
+    <div class="kicker">Архитектур</div>
+    <h2 style="font-size:48px">Orchestrator нь код, LLM нь зөвхөн хэрэгтэй газраа</h2>
+    <div class="ax rise">
+      <div class="ax-col">
+        <div class="ac"><b>Хэрэглэгч</b><p>Монголоор бичнэ эсвэл ярина (Anir STT)</p></div>
+        <div class="ax-e">↓</div>
+        <div class="ac"><b>React frontend</b><code>frontend/</code><p>Чат, agent-уудын live trace, сагс, профайл</p></div>
+        <div class="ax-e">REST · SSE →</div>
+      </div>
+
+      <div class="ax-mid"><span class="lbl">Agents · FastAPI backend</span>
+        <div class="ac dark"><b>Orchestrator <em>код, LLM биш</em></b><code>backend/orchestrator.py</code><p>Мессежийг ангилаад зөв agent руу дамжуулна. Тооцоо, шалгалтыг өөрөө хийнэ</p></div>
+        <div class="ax-4">
+          <div class="ac"><b>Understand</b><span class="tg">OyuLLM</span><code>agents/understand.py</code><p>Мессежийн төрөл, slot (өдөр, хүн, төсөв, хоол). Дутуу бол юу асуухыг код шийднэ</p></div>
+          <div class="ac"><b>Meal planner</b><span class="tg">gpt-4o · ReAct</span><code>agents/planner.py</code><p>MCP-ээр жор хайж, төсөвт багтаана. OyuLLM fallback</p></div>
+          <div class="ac"><b>Procurement</b><span class="tg">optimizer</span><code>backend/procurement.py</code><p>Хүргэлтийн төлбөр оруулан хамгийн хямд хуваарилалт</p></div>
+          <div class="ac ok"><b>Checkout</b><span class="tg">sandbox</span><code>backend/checkout.py</code><p>Шалгалтууд, дараа нь нэг MongoDB transaction</p></div>
+        </div>
+        <div class="ax-2">
+          <div class="ac"><span class="via">MCP ↑ planner</span><b>grocery-mcp</b><code>agents/mcp_server.py · :8100/mcp</code><p class="m">search_recipes · search_products · build_list · get_pantry · update_pantry · save_recipe</p></div>
+          <div class="ac"><span class="via">A2A ↑ procurement</span><b>Store agents ×3</b><code>backend/stores.py</code><p>Номин · Имарт · Гүүд Прайс. Agent card, skill <span class="m">quote</span>, JSON-RPC <span class="m">message/send</span></p></div>
+        </div>
+      </div>
+
+      <div class="ax-col">
+        <div class="ac"><b>Crawlers</b><span class="tg">OyuLLM · долоо хоногт</span><code>agents/crawlers/</code><p>Номин, Имартын бодит үнийг 2 agent тааруулна. Гүүд Прайс simulated</p></div>
+        <div class="ac"><b>Embedding cache</b><span class="tg">bge-m3</span><code>agents/core/embed.py</code><p>Санах ой → embed_cache (TTL 30 хоног) → oyu API</p></div>
+        <div class="ax-e">↓</div>
+        <div class="ac ok"><b>MongoDB Atlas</b><p>Vector + Atlas Search · time-series үнэ · transaction · TTL · change stream → live trace</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5b -->
+  <section class="slide" data-notes="Orchestrator дотор юу болдог вэ. LLM зөвхөн ангилж, slot гаргана. Аль замаар явахыг код шийднэ. Төлөвлөх зам дээр planner MCP-ээр жор хайж, procurement A2A-аар 3 дэлгүүрээс үнэ авна. Алхам бүр run_events-д бичигдэж SSE-ээр дэлгэцэнд гарна.">
+    <div class="kicker">Orchestrator дотор</div>
+    <h2>LLM ангилна, замыг код сонгоно</h2>
+    <div class="body" style="margin-top:36px">
+      <div class="orch">
+        <div class="o-in rise">
+          <div class="node">Мессеж<small>POST /chat</small></div>
+          <div class="o-ar">→</div>
+          <div class="node">Профайл<small>дуршил · харшил · төсөв</small></div>
+          <div class="o-ar">→</div>
+          <div class="node blue">Understand<small>OyuLLM → kind · slots · ask</small></div>
+          <div class="o-ar">→</div>
+          <div class="node router">Router<small>код · if / elif</small></div>
+        </div>
+        <div class="o-lanes rise">
+          <div class="lane"><span class="k amber">ask</span><div class="chain"><span class="n amber">Тодруулах асуулт</span><span class="a">→</span><span class="n">хариултыг хүлээнэ</span><span class="st">waiting</span></div></div>
+          <div class="lane main"><span class="k">plan</span><div class="chain">
+            <span class="n">update_pantry<i>MCP</i></span><span class="a">→</span>
+            <span class="n blue">Meal planner<i>gpt-4o · ReAct</i></span><span class="a">→</span>
+            <span class="n">Жагсаалт<i>− гэрт байгаа</i></span><span class="a">→</span>
+            <span class="n blue">Procurement<i>A2A × 3</i></span><span class="a">→</span>
+            <span class="n ok">Сагс</span><span class="st ok">ready</span></div></div>
+          <div class="lane"><span class="k">edit</span><div class="chain"><span class="n">remove · add · set · have</span><span class="a">→</span><span class="n">дахин хуваарилна</span><span class="st ok">ready</span></div></div>
+          <div class="lane"><span class="k">plan_change</span><div class="chain"><span class="n">«2 дахь өдрийг бууз болго»</span><span class="a">→</span><span class="n">цэс, сагсыг шинэчилнэ</span><span class="st ok">ready</span></div></div>
+          <div class="lane"><span class="k mute">question · other</span><div class="chain"><span class="n">сагсны тойм эсвэл мэндчилгээ</span></div></div>
+          <div class="lane"><span class="k red">ordered</span><div class="chain"><span class="n red">Төлсөн чат түгжигдэнэ, засвар хийхгүй</span></div></div>
+        </div>
+        <div class="o-out rise">
+          <div class="node ok">run_events<small>алхам бүр → change stream → SSE live trace</small></div>
+          <div class="node human">«Зөвшөөрөх» → «Төлөх»<small>тусдаа зам · Checkout · нэг transaction</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5c -->
+  <section class="slide" data-notes="MongoDB-г зүгээр хадгалах газар биш, хайлт, cache, түүх, гүйлгээнд ашигласан. Бараа хайлт vector болон fuzzy text хайлтыг $rankFusion-оор нэгтгэнэ. Query бүр индекс дээр явна. Embedding-ийг 30 хоногийн TTL-тэй cache-д хадгалдаг тул долоо хоног бүрийн crawl ижил барааны vector-ыг дахин тооцоолохгүй.">
+    <div class="kicker">MongoDB · index ба cache</div>
+    <h2 style="font-size:48px">Query бүр индекс дээр, vector бүр cache-тэй</h2>
+    <div class="mx rise">
+      <div class="mcard">
+        <div class="mh"><span class="pill violet">Atlas Search</span><span class="mono mt">products</span></div>
+        <div class="srch">
+          <div class="si"><b>products_vec</b><span class="tg">vectorSearch</span><p>bge-m3 · 1024 хэмжээс · cosine<br>filter: store · key · category</p></div>
+          <div class="plus">+</div>
+          <div class="si"><b>products_text</b><span class="tg">search</span><p>name_mn · name_en<br>fuzzy maxEdits 2: «ондог» → өндөг</p></div>
+        </div>
+        <div class="fuse"><b>$rankFusion</b> утгаар болон бичлэгээр ойрыг rank-аар нэгтгэнэ <span class="mono">(RRF k=60, 8.1-ээс доош бол гараар)</span></div>
+        <div class="si" style="margin-top:12px"><b>recipes_vec</b><span class="tg">vectorSearch</span><p>search_recipes · профайлаас дуршил ingest хийх</p></div>
+      </div>
+
+      <div class="mcard">
+        <div class="mh"><span class="pill">Энгийн индекс</span><span class="mono mt">13 collection</span></div>
+        <table class="ix">
+          <tr><td>users</td><td>phone</td><td><span class="pill red sm">unique · partial</span></td></tr>
+          <tr><td>pantry</td><td>user_id, key</td><td><span class="pill red sm">unique</span></td></tr>
+          <tr><td>products</td><td>store, key</td><td><span class="pill red sm">unique</span></td></tr>
+          <tr><td>conversations</td><td>user_id, updated_at ↓</td><td></td></tr>
+          <tr><td>run_events</td><td>run_id, seq</td><td><span class="pill sm">live trace</span></td></tr>
+          <tr><td>orders · wallet_tx</td><td>user_id, at ↓</td><td></td></tr>
+          <tr><td>prices</td><td>meta.store, meta.key, ts</td><td><span class="pill amber sm">time-series</span></td></tr>
+          <tr><td>crawl_matches</td><td>run_id, key</td><td></td></tr>
+        </table>
+        <p class="note">Backend асах үед болон crawl бичихээс өмнө <span class="mono">ensure()</span> ажиллана</p>
+      </div>
+
+      <div class="mcard">
+        <div class="mh"><span class="pill ok">TTL · cache</span><span class="mono mt">agents/core/embed.py</span></div>
+        <div class="flow">
+          <div class="fs"><span class="n">1</span><div><b>Санах ой</b><p>2048 vector · нэг төлөвлөгөөнд давтагддаг</p></div></div>
+          <div class="fa">↓ байхгүй бол</div>
+          <div class="fs ok"><span class="n">2</span><div><b>embed_cache</b><p>sha1(model + text) түлхүүр<br>TTL index: 30 хоног</p></div></div>
+          <div class="fa">↓ байхгүй бол</div>
+          <div class="fs"><span class="n">3</span><div><b>bge-m3 · oyu API</b><p>шинэ vector-ыг cache-д бичнэ</p></div></div>
+        </div>
+        <p class="note">Долоо хоногийн crawl нэг vector-ыг <b>4 удаа</b> дахин ашиглана. <span class="mono">sessions</span> ч мөн 30 хоногийн TTL-тэй</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide tech" data-notes="Нээлттэй стандартууд: MCP, A2A. Загварыг benchmark-аар сонгосон. Planner-т gpt-4o, бусад хэсэгт OyuLLM.">
+    <div class="kicker">Технологи</div>
+    <h2>Нээлттэй стандарт, бодит өгөгдөл</h2>
+    <div class="body">
+      <div class="grid" style="grid-template-columns: 1fr 1fr 1.2fr;">
+        <div class="card rise">
+          <h3><span class="pill violet">MCP</span> grocery-mcp</h3>
+          <p>Нээлттэй MCP сервер: <span class="mono" style="font-size:17px">search_recipes</span>, <span class="mono" style="font-size:17px">search_products</span>, <span class="mono" style="font-size:17px">build_list</span>, <span class="mono" style="font-size:17px">get_pantry</span>. Ямар ч MCP client холбогдож болно.</p>
+          <h3 style="margin-top:28px"><span class="pill">A2A</span> Store agents</h3>
+          <p>Дэлгүүр бүр agent card-тай. Procurement JSON-RPC-ээр гурван дэлгүүрээс зэрэг үнэ асууна.</p>
+        </div>
+        <div class="card rise">
+          <h3><span class="pill ok">MongoDB</span> Atlas</h3>
+          <p><b style="color:var(--ink)">Vector + Atlas Search:</b> «ондог» гэж бичихэд өндөг олдоно</p>
+          <p><b style="color:var(--ink)">Time-series:</b> crawl бүрийн үнэ</p>
+          <p><b style="color:var(--ink)">Change stream:</b> live trace</p>
+          <p><b style="color:var(--ink)">Transaction:</b> бүгд эсвэл юу ч биш</p>
+          <p><b style="color:var(--ink)">TTL:</b> embedding cache, session</p>
+        </div>
+        <div class="card rise">
+          <h3>Загварыг benchmark-аар сонгосон</h3>
+          <table class="bench">
+            <tr><th></th><th>OyuLLM</th><th>4o-mini</th><th>gpt-4o</th></tr>
+            <tr><td>Understand</td><td>9/10</td><td>9/10</td><td class="y">10/10</td></tr>
+            <tr><td>Асуулт бичих</td><td class="y">4/4</td><td class="y">4/4</td><td class="y">4/4</td></tr>
+            <tr><td>Crawler</td><td class="y">3/3</td><td class="n">1/3</td><td class="y">3/3</td></tr>
+            <tr><td>Recipe</td><td>5/6</td><td class="y">6/6</td><td class="y">6/6</td></tr>
+            <tr><td>Planner</td><td class="n">timeout</td><td class="n">✗</td><td class="y">✓</td></tr>
+          </table>
+          <p style="font-size:16px">+ bge-m3 embedding, Anir STT, tsuurAI TTS</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide" data-notes="Хоёр горим. Захиалга өгөх горимд sandbox захиалга үүснэ. Зөвхөн харах горимд дэлгүүрт очиж авах жагсаалт болно, backend approve-г огт гүйцэтгэхгүй.">
+    <div class="kicker">Хоёр горим</div>
+    <h2>Захиалах эсвэл зүгээр жагсаалт авах</h2>
+    <div class="body">
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 32px;">
+        <div class="card mode rise">
+          <span class="pill ok">Захиалга өгөх</span>
+          <h3>Agent худалдан авалтаа дуусгана</h3>
+          <ol>
+            <li>Сагсыг харна, засна</li>
+            <li>«Зөвшөөрөх» → «Төлөх»</li>
+            <li>Дэлгүүр бүрт sandbox захиалга (EM-…, GP-…)</li>
+            <li>Хэтэвчнээс нэг transaction-ээр төлөгдөнө</li>
+          </ol>
+        </div>
+        <div class="card mode rise">
+          <span class="pill">Зөвхөн харах</span>
+          <h3>Дэлгүүрт очиж авах жагсаалт</h3>
+          <ol>
+            <li>Ойрын эсвэл сонгосон нэг дэлгүүрийг сонгоно</li>
+            <li>Сагс нь худалдан авах жагсаалт болно</li>
+            <li>Авсан барааг хөргөгчинд нэмнэ</li>
+            <li>Мөнгө хөдлөх боломжгүй, кодоор хаасан</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide" data-notes="Guardrail-ууд prompt-д биш, кодонд байдаг. Харшилтай орц хэзээ ч сагсанд орохгүй.">
+    <div class="kicker">Аюулгүй байдал</div>
+    <h2>Guardrail нь prompt-д биш, кодонд</h2>
+    <div class="body">
+      <div class="grid safe">
+        <div class="card rise"><div class="ic">01</div><h3>Хүний зөвшөөрөл</h3><p>Мөнгө «Зөвшөөрөх» → «Төлөх» гэсэн хоёр алхмын дараа л хөдөлнө</p></div>
+        <div class="card rise"><div class="ic">02</div><h3>Захиалгын өмнөх шалгалт</h3><p>Хэтэвч, төсөв, харшил, хоолны дэглэм, нөөц, тоо хэмжээ</p></div>
+        <div class="card rise"><div class="ic">03</div><h3>Атомик гүйлгээ</h3><p>Нэг дэлгүүр амжилтгүй бол бүгд буцна. Давтан дарахад нэг л удаа төлнө</p></div>
+        <div class="card rise"><div class="ic">04</div><h3>Sandbox</h3><p>Бодит сайт руу юу ч илгээхгүй, дэлгүүрийн нууц үг хадгалахгүй</p></div>
+        <div class="card rise"><div class="ic">05</div><h3>Crawl-ийн хамгаалалт</h3><p>Сэжигтэй тааруулалтыг хүн шалгана. robots.txt-ийг дагана</p></div>
+        <div class="card rise"><div class="ic">06</div><h3>Audit</h3><p>Agent бүрийн бодол, tool, үр дүн, загвар хадгалагдана</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide end" data-notes="sagslay.com дээр одоо туршиж болно. Код нээлттэй. Баярлалаа.">
+    <div class="kicker">Туршаад үзээрэй</div>
+    <h2 style="font-size:84px">sagslay.com</h2>
+    <div class="row">
+      <div class="team">
+        <div><b>Мөнх-Очир</b><span>agents · backend</span></div>
+        <div><b>Төгөлдөр</b><span>frontend · backend</span></div>
+        <div><b>Золжаргал</b><span>business analyst</span></div>
+        <div style="margin-top:14px;font-size:19px;color:var(--mute)" class="mono">Demo видео: youtu.be/V-l4AVa2Y8M</div>
+      </div>
+      <div class="qr"><img src="assets/qr-site.svg" alt="sagslay.com QR код"><div>sagslay.com</div></div>
+      <div class="qr"><img src="assets/qr-github.svg" alt="GitHub repo QR код"><div>GitHub</div></div>
+    </div>
+    <div class="foot"><span>team-09-gwenchana</span><span>→ Live demo</span></div>
+  </section>
+
+</div>
+
+<div class="bar" id="bar"></div>
+<div class="notes" id="notes"></div>
+<div class="help">← → · F бүтэн дэлгэц · N тэмдэглэл</div>
+
+<script>
+const slides = [...document.querySelectorAll('.slide')];
+const stage = document.getElementById('stage');
+const bar = document.getElementById('bar');
+const notes = document.getElementById('notes');
+let i = 0;
+
+function fit() {
+  const s = Math.min(innerWidth / 1600, innerHeight / 900) * 0.96;
+  stage.style.transform = `translate(-50%, -50%) scale(${s})`;
+}
+
+function go(n) {
+  if (n >= slides.length) { location.href = 'live.html'; return; }  // past the last slide: the live demo
+  i = Math.max(0, Math.min(slides.length - 1, n));
+  slides.forEach((el, k) => el.classList.toggle('on', k === i));
+  bar.style.width = ((i + 1) / slides.length * 100) + '%';
+  notes.textContent = slides[i].dataset.notes || '';
+  history.replaceState(null, '', '#' + (i + 1));
+}
+
+addEventListener('keydown', e => {
+  if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); go(i + 1); }
+  else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); go(i - 1); }
+  else if (e.key === 'Home') go(0);
+  else if (e.key === 'End') go(slides.length - 1);
+  else if (e.key === 'f' || e.key === 'F') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  else if (e.key === 'n' || e.key === 'N') notes.classList.toggle('show');
+});
+
+addEventListener('click', e => { if (!e.target.closest('a')) go(e.clientX > innerWidth / 3 ? i + 1 : i - 1); });
+
+let tx = null;
+addEventListener('touchstart', e => tx = e.touches[0].clientX, { passive: true });
+addEventListener('touchend', e => {
+  if (tx === null) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 40) go(dx < 0 ? i + 1 : i - 1);
+  tx = null;
+});
+
+addEventListener('resize', fit);
+fit();
+go(Math.min(slides.length, parseInt(location.hash.slice(1)) || 1) - 1);  // #999 from the live demo = last slide
+</script>
+</body>
+</html>
