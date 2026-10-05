@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="mn">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -321,42 +321,42 @@ body.anim .slide.on .rise { animation: none; }
 <div class="stage" id="stage">
 
   <!-- 1 -->
-  <section class="slide cover" data-notes="Сайн байна уу. Бид team-09-gwenchana. Sagslay-г танилцуулъя: нэг өгүүлбэрээс хямд хүнсний сагс гаргадаг agent систем.">
+  <section class="slide cover" data-notes="Hi, we are team-09-gwenchana. This is Sagslay: an agent system that turns one sentence into the cheapest grocery basket.">
     <div class="kicker rise">Agentic Commerce Hackathon 2026</div>
     <div class="logo rise">Sag<span>slay</span></div>
-    <div class="tag rise">Нэг өгүүлбэр бичихэд agent-ууд цэс гаргаж, гурван дэлгүүрийн үнийг харьцуулан хамгийн хямд сагсыг бүрдүүлнэ.</div>
+    <div class="tag rise">Write one sentence. Agents plan the meals, compare three stores and build the cheapest basket.</div>
     <div class="meta rise">
-      <span class="pill">Нэг өгүүлбэр → сагс</span><span class="pill">Хүргэлттэй хамгийн хямд</span><span class="pill amber">Мөнгө зөвхөн зөвшөөрлөөр</span>
+      <span class="pill">One sentence → basket</span><span class="pill">Cheapest incl. delivery</span><span class="pill amber">Money moves only on approval</span>
       <span class="pill ok">sagslay.com</span>
     </div>
     <div class="foot"><span>team-09-gwenchana</span><span>Applied AI Mongolia × Novelsoft</span></div>
   </section>
 
   <!-- 2 -->
-  <section class="slide" data-notes="Хэн: Улаанбаатарын өрх, долоо хоногт нэг удаа том хүнс авдаг. Асуудал нь гурван асуулт. Гурав дахь нь хамгийн хэцүү: бид бодит crawl хийсэн өгөгдлөөс харахад ижил 16 барааны 10-т нь Имарт, 5-д нь Номин хямд. Нэг дэлгүүр үргэлж хямд биш, савлагаа ч өөр.">
-    <div class="kicker">Асуудал · Улаанбаатарын өрх, долоо хоногийн хүнс</div>
-    <h2>«Хаана хямд вэ?» гэдэгт нэг хариулт байдаггүй</h2>
+  <section class="slide" data-notes="Who: Ulaanbaatar households doing one big grocery run a week. The problem is three questions. The third is the hardest: in our real crawled data, of 16 matching items Emart is cheaper on 10 and Nomin on 5. No store is always cheapest, and pack sizes differ.">
+    <div class="kicker">Problem · Ulaanbaatar households, weekly groceries</div>
+    <h2>“Where is it cheaper?” has no single answer</h2>
     <div class="body" style="margin-top:36px">
       <div class="grid" style="grid-template-columns: .9fr 1.5fr; gap: 28px; align-items: stretch;">
         <div class="grid" style="gap:14px">
-          <div class="card q rise" style="padding:22px 26px"><span class="n">01</span><h3 style="font-size:28px">Юу хоол хийх вэ?</h3><p style="margin-top:0">Дуршил, харшил, төсөв, хүний тоо</p></div>
-          <div class="card q rise" style="padding:22px 26px"><span class="n">02</span><h3 style="font-size:28px">Гэрт юу дутуу вэ?</h3><p style="margin-top:0">Байгаа зүйлээ дахин худалдаж авдаг</p></div>
-          <div class="card q rise" style="padding:22px 26px;border-color:var(--blue);background:var(--blue-soft)"><span class="n">03</span><h3 style="font-size:28px">Хаана хямд вэ?</h3><p style="margin-top:0">3 сайт, савлагаа өөр, хүргэлт өөр</p></div>
+          <div class="card q rise" style="padding:22px 26px"><span class="n">01</span><h3 style="font-size:28px">What do we cook?</h3><p style="margin-top:0">Tastes, allergies, budget, household size</p></div>
+          <div class="card q rise" style="padding:22px 26px"><span class="n">02</span><h3 style="font-size:28px">What are we out of?</h3><p style="margin-top:0">People rebuy what they already have</p></div>
+          <div class="card q rise" style="padding:22px 26px;border-color:var(--blue);background:var(--blue-soft)"><span class="n">03</span><h3 style="font-size:28px">Where is it cheaper?</h3><p style="margin-top:0">3 sites, different packs, different delivery</p></div>
         </div>
         <div class="card rise" style="display:flex;flex-direction:column">
-          <div style="display:flex;justify-content:space-between;align-items:baseline"><h3>Бодит crawl хийсэн үнэ</h3><span class="mono" style="font-size:15px;color:var(--mute)">2026-10-05 · ижил хэмжээтэй бараа</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline"><h3>Real crawled prices</h3><span class="mono" style="font-size:15px;color:var(--mute)">2026-10-05 · same-size items</span></div>
           <table class="pt">
-            <tr><th></th><th>Номин</th><th>Имарт</th><th></th></tr>
-            <tr><td>Өндөг, 10 ш</td><td>₮6,998</td><td class="b">₮6,300</td><td>−10%</td></tr>
-            <tr><td>Элсэн чихэр, 1 кг</td><td>₮7,868</td><td class="b">₮6,680</td><td>−15%</td></tr>
-            <tr><td>Сүү, 1 л</td><td>₮5,398</td><td class="b">₮5,330</td><td>−1%</td></tr>
-            <tr><td>Гранд салями хиам</td><td class="b">₮12,980</td><td>₮14,300</td><td>−9%</td></tr>
-            <tr><td>Өргөст хэмх, 100 г</td><td>₮799</td><td class="b">₮748</td><td>−6%</td></tr>
+            <tr><th></th><th>Nomin</th><th>Emart</th><th></th></tr>
+            <tr><td>Eggs, 10 pcs</td><td>₮6,998</td><td class="b">₮6,300</td><td>−10%</td></tr>
+            <tr><td>Sugar, 1 kg</td><td>₮7,868</td><td class="b">₮6,680</td><td>−15%</td></tr>
+            <tr><td>Milk, 1 l</td><td>₮5,398</td><td class="b">₮5,330</td><td>−1%</td></tr>
+            <tr><td>Grand salami</td><td class="b">₮12,980</td><td>₮14,300</td><td>−9%</td></tr>
+            <tr><td>Cucumber, 100 g</td><td>₮799</td><td class="b">₮748</td><td>−6%</td></tr>
           </table>
           <div class="stats">
-            <div><b>10 / 5</b><span>16 ижил бараанаас Имарт 10-т, Номин 5-д хямд</span></div>
-            <div><b>6 / 16</b><span>савлагаа өөр: нэгж үнээр л харьцуулна</span></div>
-            <div><b>₮150k</b><span>Имартын үнэгүй хүргэлтийн босго</span></div>
+            <div><b>10 / 5</b><span>of 16 matching items, Emart is cheaper on 10, Nomin on 5</span></div>
+            <div><b>6 / 16</b><span>different pack sizes: only unit prices compare</span></div>
+            <div><b>₮150k</b><span>Emart’s free-delivery threshold</span></div>
           </div>
         </div>
       </div>
@@ -364,26 +364,26 @@ body.anim .slide.on .rise { animation: none; }
   </section>
 
   <!-- 2b -->
-  <section class="slide" data-notes="Бид яг юуг шийдсэн бэ: өрхийн хийдэг 6 гар ажлыг нэг өгүүлбэр, хоёр товч болгосон. Зүүн тал нь өнөөдөр, баруун тал нь Sagslay.">
-    <div class="kicker">Бид юуг шийдсэн</div>
-    <h2>6 гар ажлыг нэг өгүүлбэр, хоёр товч болгосон</h2>
+  <section class="slide" data-notes="What exactly we solved: six manual chores a household does, turned into one sentence and two taps. Left is today, right is Sagslay.">
+    <div class="kicker">What we solved</div>
+    <h2>Six manual chores, now one sentence and two taps</h2>
     <div class="body" style="margin-top:36px">
       <div class="ba rise">
-        <div class="bh"></div><div class="bh">Өнөөдөр</div><div class="bh blue">Sagslay</div>
-        <div class="bk">Цэс</div><div>Өдөр бүр толгой гашилгана</div><div class="y">Профайлаас: харшил, дуршил, хоолны дэглэм, төсөв</div>
-        <div class="bk">Гэрт байгаа</div><div>Санахгүй, давхар авна</div><div class="y">Хөргөгчний нөөцийг сагснаас хасна</div>
-        <div class="bk">Үнэ</div><div>3 сайт нээж, бараа бүрийг хайна</div><div class="y">3 дэлгүүрийн agent-аас зэрэг үнэ авна</div>
-        <div class="bk">Савлагаа</div><div>0.9 л, 1 л-ийг гараар хуваана</div><div class="y">Хэрэгтэй хэмжээг хамгийн хямд савлагаагаар</div>
-        <div class="bk">Хүргэлт</div><div>Тооцдоггүй</div><div class="y">Хүргэлттэй нийт дүнгээр бүх хослолыг харьцуулна</div>
-        <div class="bk">Захиалга</div><div>3 сагс, 3 төлбөр</div><div class="y">«Зөвшөөрөх» → «Төлөх», нэг гүйлгээ</div>
+        <div class="bh"></div><div class="bh">Today</div><div class="bh blue">Sagslay</div>
+        <div class="bk">Menu</div><div>A daily headache</div><div class="y">From the profile: allergies, tastes, diet, budget</div>
+        <div class="bk">At home</div><div>Forgotten, bought twice</div><div class="y">Pantry stock is taken out of the basket</div>
+        <div class="bk">Prices</div><div>Open 3 sites, search every item</div><div class="y">Quotes from 3 store agents at once</div>
+        <div class="bk">Pack sizes</div><div>Divide 0.9 l vs 1 l by hand</div><div class="y">The amount needed, in the cheapest packs</div>
+        <div class="bk">Delivery</div><div>Not counted</div><div class="y">Every store combination compared, delivery included</div>
+        <div class="bk">Ordering</div><div>3 baskets, 3 payments</div><div class="y">“Approve” → “Pay”, one transaction</div>
       </div>
     </div>
   </section>
 
   <!-- 2c -->
-  <section class="slide" data-notes="Одоо бодит ажиллагааг видеогоор харъя.">
+  <section class="slide" data-notes="Let’s see it running.">
     <div class="kicker">Demo</div>
-    <h2 style="font-size:48px">Sagslay ажиллаж байгаа нь</h2>
+    <h2 style="font-size:48px">Sagslay in action</h2>
     <div class="video rise">
       <iframe src="https://www.youtube-nocookie.com/embed/H3fnU91U9XA?rel=0&amp;enablejsapi=1" title="sagslay film" loading="lazy"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -392,173 +392,173 @@ body.anim .slide.on .rise { animation: none; }
   </section>
 
   <!-- 3 -->
-  <section class="slide" data-notes="Хэрэглэгч монголоор бичнэ. Дутуу мэдээлэл байвал agent нэг асуултаар тодруулна. Дараа нь цэс, сагс, хуваарилалт гарна.">
-    <div class="kicker">Шийдэл</div>
-    <h2>Монголоор нэг өгүүлбэр бичихэд хангалттай</h2>
+  <section class="slide" data-notes="Users write in Mongolian. If something is missing, the agent asks one question. Then the menu, basket and store split appear.">
+    <div class="kicker">Solution</div>
+    <h2>One sentence in Mongolian is enough</h2>
     <div class="body">
       <div class="grid" style="grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center;">
         <div class="chat rise">
-          <div class="msg me">маргааш цуйван идмээр байна</div>
-          <div class="msg ai">Маргааш цуйвангаас гадна өөр хоол төлөвлөх үү?
-            <div class="chips"><span class="chip">Зөвхөн оройн хоол</span><span class="chip sel">Өдөр, орой</span><span class="chip">Өглөө, өдөр, орой</span></div>
+          <div class="msg me">I’d like tsuivan tomorrow</div>
+          <div class="msg ai">Besides tsuivan, should I plan other meals for tomorrow?
+            <div class="chips"><span class="chip">Dinner only</span><span class="chip sel">Lunch and dinner</span><span class="chip">All three meals</span></div>
           </div>
-          <div class="msg me">давсыг гарга, гэрт бий</div>
-          <div class="msg ai">Сагс шинэчлэгдлээ. 3 дэлгүүрт хуваарилсан, хүргэлт орсон.</div>
+          <div class="msg me">drop the salt, we have it</div>
+          <div class="msg ai">Basket updated. Split across 3 stores, delivery included.</div>
         </div>
         <ul class="does">
-          <li class="rise"><span class="ic">?</span><span><b>Тодруулна:</b> дутуу мэдээллийг нэг асуултаар асууна</span></li>
-          <li class="rise"><span class="ic">≡</span><span><b>Цэс гаргана:</b> дуршил, харшил, хоолны дэглэм, гэрт байгааг тооцно</span></li>
-          <li class="rise"><span class="ic">₮</span><span><b>Хамгийн хямдыг олно:</b> бодит crawl хийсэн үнэ дээр хүргэлтийн төлбөрийг нэмж тооцно</span></li>
-          <li class="rise"><span class="ic">✎</span><span><b>Засна:</b> чатаар эсвэл товчоор, «2 дахь өдрийн оройн хоолыг бууз болго»</span></li>
+          <li class="rise"><span class="ic">?</span><span><b>Clarifies:</b> asks one question when something is missing</span></li>
+          <li class="rise"><span class="ic">≡</span><span><b>Plans the menu:</b> tastes, allergies, diet and what is at home</span></li>
+          <li class="rise"><span class="ic">₮</span><span><b>Finds the cheapest:</b> real crawled prices plus delivery fees</span></li>
+          <li class="rise"><span class="ic">✎</span><span><b>Edits:</b> by chat or by tap, “make day 2 dinner buuz”</span></li>
         </ul>
       </div>
     </div>
   </section>
 
   <!-- 4 -->
-  <section class="slide" data-notes="Нэг бодит ажиллалт алхам алхмаар. Шар өнгөтэй алхам дээр хүн шийднэ: хэрэглэгч зөвшөөрөхөөс өмнө мөнгө хөдлөхгүй.">
+  <section class="slide" data-notes="One real run, step by step. The amber step is the human’s: no money moves before the user approves.">
     <div class="kicker">Agent workflow</div>
-    <h2>«маргааш цуйван идмээр байна» гэж бичихэд юу болдог вэ</h2>
+    <h2>What happens after “I’d like tsuivan tomorrow”</h2>
     <div class="body">
       <div class="steps">
-        <div class="step rise"><span class="no">01</span><h3>Intent</h3><p>OyuLLM мессежийг ангилж, өдөр, хоол, хүний тоог гаргана. Дутуу бол асуулт асууна</p></div>
-        <div class="step rise"><span class="no">02</span><h3>Discover</h3><p>Planner MCP-ээр жор хайна. Профайлд лууван хасагдсан бол луувангүй цуйван хийнэ</p></div>
-        <div class="step rise"><span class="no">03</span><h3>Decide</h3><p>Гэрт байгааг хасна. 3 дэлгүүрээс A2A-аар үнэ асууж, хүргэлттэй нь хамгийн хямдаар хуваарилна</p></div>
-        <div class="step human rise"><span class="no">04 · хүн</span><h3>Authorize</h3><p>«Зөвшөөрөх» → «Төлөх». Хоёр удаа баталгаажуулна</p></div>
-        <div class="step money rise"><span class="no">05</span><h3>Transact</h3><p>Дэлгүүр бүрт sandbox захиалга, нэг MongoDB transaction</p></div>
-        <div class="step rise"><span class="no">06</span><h3>Verify</h3><p>Захиалгын дугаар, хэтэвчний гүйлгээ live trace-д харагдана</p></div>
+        <div class="step rise"><span class="no">01</span><h3>Intent</h3><p>OyuLLM classifies the message and extracts days, dish and headcount. Asks if something is missing</p></div>
+        <div class="step rise"><span class="no">02</span><h3>Discover</h3><p>The planner searches recipes over MCP. No carrots in the profile means tsuivan without carrots</p></div>
+        <div class="step rise"><span class="no">03</span><h3>Decide</h3><p>Removes what is at home. Asks 3 stores for quotes over A2A and splits for the lowest total with delivery</p></div>
+        <div class="step human rise"><span class="no">04 · human</span><h3>Authorize</h3><p>“Approve” → “Pay”. Confirmed twice</p></div>
+        <div class="step money rise"><span class="no">05</span><h3>Transact</h3><p>A sandbox order per store, one MongoDB transaction</p></div>
+        <div class="step rise"><span class="no">06</span><h3>Verify</h3><p>Order numbers and the wallet transaction show in the live trace</p></div>
       </div>
     </div>
   </section>
 
   <!-- 4b -->
-  <section class="slide" data-notes="Үнэ хаанаас ирдэг вэ. Real-time биш, долоо хоногт нэг удаа шөнийн 3 цагт crawl хийнэ. Сүүлийн удаа 5,533 бараа татаж, 2 agent нь каталогтой тааруулж, код үнэ, савлагааг шалгасан. Real-time болгох нь дэлгүүрийн албан ёсны API, түншлэл.">
-    <div class="kicker">Өгөгдөл · бодит үнэ хаанаас ирдэг вэ</div>
-    <h2>Долоо хоног бүр crawl, agent тааруулж, код шалгана</h2>
+  <section class="slide" data-notes="Where prices come from. Not real time: we crawl once a week at 3 am. The last run pulled 5,533 listings, two agents matched them to the catalog, and code checked price and pack size. Real time means official store APIs and partnerships.">
+    <div class="kicker">Data · where real prices come from</div>
+    <h2>Crawled weekly, matched by agents, checked by code</h2>
     <div class="body" style="margin-top:36px">
       <div class="pipe rise">
-        <div class="pp"><span class="no">01 · Даваа 03:00</span><b>Crawl</b><p>Номин: каталогийн 3 ангилал<br>Имарт: бараа бүрт нэг хайлт</p><em>~5 минут</em></div>
+        <div class="pp"><span class="no">01 · Mon 03:00</span><b>Crawl</b><p>Nomin: 3 catalog categories<br>Emart: one search per item</p><em>~5 minutes</em></div>
         <div class="pa">→</div>
-        <div class="pp"><span class="no">02 · crawl_raw</span><b>5,533 бараа</b><p>Дэлгүүрийн нийтэд нээлттэй каталог</p></div>
+        <div class="pp"><span class="no">02 · crawl_raw</span><b>5,533 listings</b><p>The stores’ public catalogs</p></div>
         <div class="pa">→</div>
-        <div class="pp blue"><span class="no">03 · OyuLLM</span><b>2 agent тааруулна</b><p>«Сүү 3.2%, 1000мл» → milk, 1 л. Шийдвэр шалтгаантай хадгалагдана</p></div>
+        <div class="pp blue"><span class="no">03 · OyuLLM</span><b>2 agents match</b><p>“Milk 3.2%, 1000ml” → milk, 1 l. Every decision is stored with its reason</p></div>
         <div class="pa">→</div>
-        <div class="pp"><span class="no">04 · код</span><b>Шалгалт</b><p>Үнэ, савлагаа бодитой юу?<br><span class="ok">52 батлав</span> · <span class="am">3 хүн шалгана</span> · 25 тохирохгүй</p></div>
+        <div class="pp"><span class="no">04 · code</span><b>Checks</b><p>Is the price and pack size plausible?<br><span class="ok">52 accepted</span> · <span class="am">3 to human review</span> · 25 no match</p></div>
         <div class="pa">→</div>
-        <div class="pp ok"><span class="no">05 · MongoDB</span><b>products · prices</b><p>Одоогийн үнэ + time-series түүх</p></div>
+        <div class="pp ok"><span class="no">05 · MongoDB</span><b>products · prices</b><p>Current price + time-series history</p></div>
       </div>
       <div class="grid rise" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 28px;">
-        <div class="card"><h3>Real-time уу?</h3><p><b style="color:var(--ink)">Үгүй.</b> Долоо хоногт нэг snapshot. Өрх ч долоо хоногоор төлөвлөдөг тул энэ хангалттай. Дэлгүүрийн серверт ачаалал өгөхгүй.</p></div>
-        <div class="card"><h3>Хамрах хүрээ</h3><p>Каталогт <b style="color:var(--ink)">Номин 19, Имарт 33</b> бараа бодит үнэтэй. Гүүд Прайс одоохондоо <b style="color:var(--amber-ink)">simulated</b>, дэлгэц дээр ингэж тэмдэглэгдэнэ.</p></div>
-        <div class="card"><h3>Real-time болгох зам</h3><p>Дэлгүүрийн албан ёсны API эсвэл feed. Store agent-ууд A2A-аар үнэ өгдөг тул эх үүсвэрийг солиход procurement өөрчлөгдөхгүй.</p></div>
+        <div class="card"><h3>Real time?</h3><p><b style="color:var(--ink)">No.</b> One snapshot a week. Households plan weekly, so this is enough, and it puts no load on store servers.</p></div>
+        <div class="card"><h3>Coverage</h3><p><b style="color:var(--ink)">Nomin 19, Emart 33</b> catalog items have real prices. Good Price is <b style="color:var(--amber-ink)">simulated</b> for now and labelled so on screen.</p></div>
+        <div class="card"><h3>Path to real time</h3><p>Official store APIs or feeds. Store agents serve quotes over A2A, so swapping the source leaves procurement unchanged.</p></div>
       </div>
     </div>
   </section>
 
   <!-- 4c -->
-  <section class="slide" data-notes="Crawl хийх эрхтэй юу гэдгийг дэлгүүр бүрээр шалгасан. Номин каталогоо нээлттэй байлгадаг, Имартад robots.txt байхгүй, Гүүд Прайс AI training crawler-уудыг хаадаг тул бид simulated үлдээсэн.">
-    <div class="kicker">Судалгаа · crawl хийж болох уу</div>
-    <h2>Дэлгүүр бүрийн бодлогыг шалгаад, дагасан</h2>
+  <section class="slide" data-notes="We checked, store by store, whether crawling is allowed. Nomin keeps its catalog open, Emart has no robots.txt, and Good Price blocks AI training crawlers, so we kept it simulated.">
+    <div class="kicker">Research · may we crawl?</div>
+    <h2>We checked each store’s policy and followed it</h2>
     <div class="body" style="margin-top:32px">
       <table class="rb rise">
-        <tr><th></th><th>robots.txt</th><th>Бид юу авдаг</th><th>Шийдвэр</th></tr>
-        <tr><td><b>Номин</b><small>nomin.mn</small></td><td>Каталог нээлттэй. Зөвхөн <span class="mono">/checkout /account /cart /sign-in</span> хаалттай</td><td>Ангиллын хуудасны ачаалдаг нийтийн бараа жагсаалт</td><td><span class="pill ok">crawl</span></td></tr>
-        <tr><td><b>Имарт</b><small>emartmall.mn</small></td><td>Файл байхгүй (сайт HTML, API host 404)</td><td>Сайтын өөрийн хайлт, каталогийн бараа бүрт 1 хүсэлт</td><td><span class="pill ok">crawl</span></td></tr>
-        <tr><td><b>Гүүд Прайс</b><small>goodprice.mn</small></td><td>Каталог нээлттэй, <span class="mono">/api/ /search/</span> хаалттай. AI training crawler-уудыг тусад нь хаадаг</td><td>Юу ч авахгүй. Цаг тутам шинэчлэгддэг нийтийн product feed байгааг илрүүлсэн</td><td><span class="pill amber">simulated</span></td></tr>
+        <tr><th></th><th>robots.txt</th><th>What we take</th><th>Decision</th></tr>
+        <tr><td><b>Nomin</b><small>nomin.mn</small></td><td>Catalog open. Only <span class="mono">/checkout /account /cart /sign-in</span> disallowed</td><td>The public product list its category pages load</td><td><span class="pill ok">crawl</span></td></tr>
+        <tr><td><b>Emart</b><small>emartmall.mn</small></td><td>No file (the site returns HTML, API host 404)</td><td>The site’s own search, one request per catalog item</td><td><span class="pill ok">crawl</span></td></tr>
+        <tr><td><b>Good Price</b><small>goodprice.mn</small></td><td>Catalog open, <span class="mono">/api/ /search/</span> disallowed. AI training crawlers blocked by name</td><td>Nothing. We found a public product feed updated hourly</td><td><span class="pill amber">simulated</span></td></tr>
       </table>
-      <p class="mono rise" style="font-size:14px;color:var(--mute);margin-top:14px">Шалгасан: 2026-10-05</p>
+      <p class="mono rise" style="font-size:14px;color:var(--mute);margin-top:14px">Checked: 2026-10-05</p>
     </div>
   </section>
 
   <!-- 5 -->
-  <section class="slide" data-notes="Хэрэглэгч React frontend-ээр бичнэ, trace SSE-ээр шууд ирнэ. Orchestrator нь LLM биш, код: ангилаад зөв agent руу дамжуулж, тооцоо, шалгалтыг өөрөө хийнэ. Planner MCP-ээр жор хайна, procurement A2A-аар 3 дэлгүүрээс үнэ авна. Crawler-ууд долоо хоног бүр бодит үнийг MongoDB руу оруулна.">
-    <div class="kicker">Архитектур</div>
-    <h2 style="font-size:48px">Sagslay хэрхэн ажилладаг вэ</h2>
+  <section class="slide" data-notes="Users write in the React frontend and the trace streams back over SSE. The orchestrator is code, not an LLM: it routes to the right agent and does the math and checks itself. The planner searches recipes over MCP, procurement gets quotes from 3 stores over A2A. Crawlers load real prices into MongoDB every week.">
+    <div class="kicker">Architecture</div>
+    <h2 style="font-size:48px">How Sagslay works</h2>
     <div class="ax rise">
       <div class="ax-col">
-        <div class="ac"><b>Хэрэглэгч</b><p>Монголоор бичнэ эсвэл ярина (Anir STT)</p></div>
+        <div class="ac"><b>User</b><p>Writes or speaks Mongolian (Anir STT)</p></div>
         <div class="ax-e">↓</div>
-        <div class="ac"><b>React frontend</b><p>Чат, agent-уудын live trace, сагс, профайл</p></div>
+        <div class="ac"><b>React frontend</b><p>Chat, live agent trace, basket, profile</p></div>
         <div class="ax-e">REST · SSE →</div>
       </div>
 
       <div class="ax-mid"><span class="lbl">Agents · FastAPI backend</span>
-        <div class="ac dark"><b>Orchestrator <em>код, LLM биш</em></b><p>Мессежийг ангилаад зөв agent руу дамжуулна. Тооцоо, шалгалтыг өөрөө хийнэ</p></div>
+        <div class="ac dark"><b>Orchestrator <em>code, not an LLM</em></b><p>Classifies the message and routes it to the right agent. Does the math and checks itself</p></div>
         <div class="ax-4">
-          <div class="ac"><b>Understand</b><span class="tg">OyuLLM</span><p>Мессежийн төрөл, slot (өдөр, хүн, төсөв, хоол). Дутуу бол юу асуухыг код шийднэ</p></div>
-          <div class="ac"><b>Meal planner</b><span class="tg">gpt-4o · ReAct</span><p>Жор хайж, төсөвт багтаана</p><div class="tools sm"><span>search_recipes</span><span>search_products</span><span>plan_meals</span></div></div>
-          <div class="ac"><b>Procurement</b><span class="tg">optimizer</span><p>3 дэлгүүрээс зэрэг үнэ авч, хүргэлттэй хамгийн хямдыг олно</p><div class="tools sm amber"><span>ask_store ×3</span><span>optimize</span></div></div>
-          <div class="ac ok"><b>Checkout</b><span class="tg">sandbox</span><p>Шалгалтууд, дараа нь нэг MongoDB transaction</p><div class="tools sm green"><span>checks</span><span>ensure_accounts</span><span>place_order</span></div></div>
+          <div class="ac"><b>Understand</b><span class="tg">OyuLLM</span><p>Message type and slots (days, people, budget, dish). Code decides what to ask when something is missing</p></div>
+          <div class="ac"><b>Meal planner</b><span class="tg">gpt-4o · ReAct</span><p>Finds recipes and fits the budget</p><div class="tools sm"><span>search_recipes</span><span>search_products</span><span>plan_meals</span></div></div>
+          <div class="ac"><b>Procurement</b><span class="tg">optimizer</span><p>Quotes 3 stores at once and finds the cheapest split with delivery</p><div class="tools sm amber"><span>ask_store ×3</span><span>optimize</span></div></div>
+          <div class="ac ok"><b>Checkout</b><span class="tg">sandbox</span><p>Checks, then one MongoDB transaction</p><div class="tools sm green"><span>checks</span><span>ensure_accounts</span><span>place_order</span></div></div>
         </div>
         <div class="ax-2">
           <div class="ac"><span class="via">MCP ↑ planner</span><b>grocery-mcp</b><div class="tools"><span>search_recipes</span><span>search_products</span><span>build_list</span><span>get_pantry</span><span>update_pantry</span><span>save_recipe</span></div></div>
-          <div class="ac"><span class="via">A2A ↑ procurement</span><b>Store agents ×3</b><p>Номин · Имарт · Гүүд Прайс. Agent card, skill <span class="m">quote</span>, JSON-RPC <span class="m">message/send</span></p></div>
+          <div class="ac"><span class="via">A2A ↑ procurement</span><b>Store agents ×3</b><p>Nomin · Emart · Good Price. Agent card, skill <span class="m">quote</span>, JSON-RPC <span class="m">message/send</span></p></div>
         </div>
       </div>
 
       <div class="ax-col">
-        <div class="ac"><b>Crawlers</b><span class="tg">OyuLLM · долоо хоногт</span><p>Номин, Имартын бодит үнийг 2 agent тааруулна. Гүүд Прайс simulated</p></div>
-        <div class="ac"><b>Embedding cache</b><span class="tg">bge-m3</span><p>Санах ой → embed_cache (TTL 30 хоног) → oyu API</p></div>
+        <div class="ac"><b>Crawlers</b><span class="tg">OyuLLM · weekly</span><p>2 agents match Nomin and Emart real prices. Good Price simulated</p></div>
+        <div class="ac"><b>Embedding cache</b><span class="tg">bge-m3</span><p>Memory → embed_cache (30-day TTL) → oyu API</p></div>
         <div class="ax-e">↓</div>
-        <div class="ac ok"><b>MongoDB Atlas</b><p>Vector + Atlas Search · time-series үнэ · transaction · TTL · change stream → live trace</p></div>
+        <div class="ac ok"><b>MongoDB Atlas</b><p>Vector + Atlas Search · time-series prices · transactions · TTL · change stream → live trace</p></div>
       </div>
     </div>
   </section>
 
   <!-- 5b -->
-  <section class="slide" data-notes="Orchestrator дотор юу болдог вэ. LLM зөвхөн ангилж, slot гаргана. Аль замаар явахыг код шийднэ. Төлөвлөх зам дээр planner MCP-ээр жор хайж, procurement A2A-аар 3 дэлгүүрээс үнэ авна. Алхам бүр run_events-д бичигдэж SSE-ээр дэлгэцэнд гарна.">
-    <div class="kicker">Orchestrator дотор</div>
-    <h2>LLM ангилна, замыг код сонгоно</h2>
+  <section class="slide" data-notes="Inside the orchestrator. The LLM only classifies and extracts slots; code picks the path. On the plan path, the planner searches recipes over MCP and procurement quotes 3 stores over A2A. Every step is written to run_events and streamed to the screen over SSE.">
+    <div class="kicker">Inside the orchestrator</div>
+    <h2>The LLM classifies, code picks the path</h2>
     <div class="body" style="margin-top:36px">
       <div class="orch">
         <div class="o-in rise">
-          <div class="node">Мессеж<small>POST /chat</small></div>
+          <div class="node">Message<small>POST /chat</small></div>
           <div class="o-ar">→</div>
-          <div class="node">Профайл<small>дуршил · харшил · төсөв</small></div>
+          <div class="node">Profile<small>tastes · allergies · budget</small></div>
           <div class="o-ar">→</div>
           <div class="node blue">Understand<small>OyuLLM → kind · slots · ask</small></div>
           <div class="o-ar">→</div>
-          <div class="node router">Router<small>код · if / elif</small></div>
+          <div class="node router">Router<small>code · if / elif</small></div>
         </div>
         <div class="o-lanes rise">
-          <div class="lane"><span class="k amber">ask</span><div class="chain"><span class="n amber">Тодруулах асуулт</span><span class="a">→</span><span class="n">хариултыг хүлээнэ</span><span class="st">waiting</span></div></div>
+          <div class="lane"><span class="k amber">ask</span><div class="chain"><span class="n amber">Clarifying question</span><span class="a">→</span><span class="n">waits for the answer</span><span class="st">waiting</span></div></div>
           <div class="lane main"><span class="k">plan</span><div class="chain">
             <span class="n">update_pantry<i>MCP</i></span><span class="a">→</span>
             <span class="n blue">Meal planner<i>gpt-4o · ReAct</i></span><span class="a">→</span>
-            <span class="n">Жагсаалт<i>− гэрт байгаа</i></span><span class="a">→</span>
+            <span class="n">List<i>− at home</i></span><span class="a">→</span>
             <span class="n blue">Procurement<i>A2A × 3</i></span><span class="a">→</span>
-            <span class="n ok">Сагс</span><span class="st ok">ready</span></div></div>
-          <div class="lane"><span class="k">edit</span><div class="chain"><span class="n">remove · add · set · have</span><span class="a">→</span><span class="n">дахин хуваарилна</span><span class="st ok">ready</span></div></div>
-          <div class="lane"><span class="k">plan_change</span><div class="chain"><span class="n">«2 дахь өдрийг бууз болго»</span><span class="a">→</span><span class="n">цэс, сагсыг шинэчилнэ</span><span class="st ok">ready</span></div></div>
-          <div class="lane"><span class="k mute">question · other</span><div class="chain"><span class="n">сагсны тойм эсвэл мэндчилгээ</span></div></div>
-          <div class="lane"><span class="k red">ordered</span><div class="chain"><span class="n red">Төлсөн чат түгжигдэнэ, засвар хийхгүй</span></div></div>
+            <span class="n ok">Basket</span><span class="st ok">ready</span></div></div>
+          <div class="lane"><span class="k">edit</span><div class="chain"><span class="n">remove · add · set · have</span><span class="a">→</span><span class="n">re-split</span><span class="st ok">ready</span></div></div>
+          <div class="lane"><span class="k">plan_change</span><div class="chain"><span class="n">“make day 2 buuz”</span><span class="a">→</span><span class="n">menu and basket updated</span><span class="st ok">ready</span></div></div>
+          <div class="lane"><span class="k mute">question · other</span><div class="chain"><span class="n">basket summary or greeting</span></div></div>
+          <div class="lane"><span class="k red">ordered</span><div class="chain"><span class="n red">A paid chat is locked, no more edits</span></div></div>
         </div>
         <div class="o-out rise">
-          <div class="node ok">run_events<small>алхам бүр → change stream → SSE live trace</small></div>
-          <div class="node human">«Зөвшөөрөх» → «Төлөх»<small>тусдаа зам · Checkout · нэг transaction</small></div>
+          <div class="node ok">run_events<small>every step → change stream → SSE live trace</small></div>
+          <div class="node human">“Approve” → “Pay”<small>separate path · Checkout · one transaction</small></div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- 5c -->
-  <section class="slide" data-notes="MongoDB-г зүгээр хадгалах газар биш, хайлт, cache, түүх, гүйлгээнд ашигласан. Бараа хайлт vector болон fuzzy text хайлтыг $rankFusion-оор нэгтгэнэ. Query бүр индекс дээр явна. Embedding-ийг 30 хоногийн TTL-тэй cache-д хадгалдаг тул долоо хоног бүрийн crawl ижил барааны vector-ыг дахин тооцоолохгүй.">
-    <div class="kicker">MongoDB · index ба cache</div>
-    <h2 style="font-size:48px">Query бүр индекс дээр, vector бүр cache-тэй</h2>
+  <section class="slide" data-notes="MongoDB is not just storage here: it does search, caching, history and transactions. Product search fuses vector and fuzzy text search with $rankFusion. Every query runs on an index. Embeddings sit in a cache with a 30-day TTL, so the weekly crawl doesn’t recompute vectors for unchanged products.">
+    <div class="kicker">MongoDB · indexes and cache</div>
+    <h2 style="font-size:48px">Every query on an index, every vector cached</h2>
     <div class="mx rise">
       <div class="mcard">
         <div class="mh"><span class="pill violet">Atlas Search</span><span class="mono mt">products</span></div>
         <div class="srch">
-          <div class="si"><b>products_vec</b><span class="tg">vectorSearch</span><p>bge-m3 · 1024 хэмжээс · cosine<br>filter: store · key · category</p></div>
+          <div class="si"><b>products_vec</b><span class="tg">vectorSearch</span><p>bge-m3 · 1024 dims · cosine<br>filter: store · key · category</p></div>
           <div class="plus">+</div>
-          <div class="si"><b>products_text</b><span class="tg">search</span><p>name_mn · name_en<br>fuzzy maxEdits 2: «ондог» → өндөг</p></div>
+          <div class="si"><b>products_text</b><span class="tg">search</span><p>name_mn · name_en<br>fuzzy maxEdits 2: “ондог” → өндөг (eggs)</p></div>
         </div>
-        <div class="fuse"><b>$rankFusion</b> утгаар болон бичлэгээр ойрыг rank-аар нэгтгэнэ <span class="mono">(RRF k=60, 8.1-ээс доош бол гараар)</span></div>
-        <div class="si" style="margin-top:12px"><b>recipes_vec</b><span class="tg">vectorSearch</span><p>search_recipes · профайлаас дуршил ingest хийх</p></div>
+        <div class="fuse"><b>$rankFusion</b> merges nearest-in-meaning and nearest-in-spelling by rank <span class="mono">(RRF k=60, manual below 8.1)</span></div>
+        <div class="si" style="margin-top:12px"><b>recipes_vec</b><span class="tg">vectorSearch</span><p>search_recipes · ingesting tastes from the profile</p></div>
       </div>
 
       <div class="mcard">
-        <div class="mh"><span class="pill">Энгийн индекс</span><span class="mono mt">13 collection</span></div>
+        <div class="mh"><span class="pill">Plain indexes</span><span class="mono mt">13 collections</span></div>
         <table class="ix">
           <tr><td>users</td><td>phone</td><td><span class="pill red sm">unique · partial</span></td></tr>
           <tr><td>pantry</td><td>user_id, key</td><td><span class="pill red sm">unique</span></td></tr>
@@ -569,83 +569,83 @@ body.anim .slide.on .rise { animation: none; }
           <tr><td>prices</td><td>meta.store, meta.key, ts</td><td><span class="pill amber sm">time-series</span></td></tr>
           <tr><td>crawl_matches</td><td>run_id, key</td><td></td></tr>
         </table>
-        <p class="note">Backend асах үед болон crawl бичихээс өмнө <span class="mono">ensure()</span> ажиллана</p>
+        <p class="note"><span class="mono">ensure()</span> runs at backend startup and before a crawl writes</p>
       </div>
 
       <div class="mcard">
         <div class="mh"><span class="pill ok">TTL · cache</span><span class="mono mt">agents/core/embed.py</span></div>
         <div class="flow">
-          <div class="fs"><span class="n">1</span><div><b>Санах ой</b><p>2048 vector · нэг төлөвлөгөөнд давтагддаг</p></div></div>
-          <div class="fa">↓ байхгүй бол</div>
-          <div class="fs ok"><span class="n">2</span><div><b>embed_cache</b><p>sha1(model + text) түлхүүр<br>TTL index: 30 хоног</p></div></div>
-          <div class="fa">↓ байхгүй бол</div>
-          <div class="fs"><span class="n">3</span><div><b>bge-m3 · oyu API</b><p>шинэ vector-ыг cache-д бичнэ</p></div></div>
+          <div class="fs"><span class="n">1</span><div><b>Memory</b><p>2048 vectors · repeats within a plan</p></div></div>
+          <div class="fa">↓ on miss</div>
+          <div class="fs ok"><span class="n">2</span><div><b>embed_cache</b><p>sha1(model + text) key<br>TTL index: 30 days</p></div></div>
+          <div class="fa">↓ on miss</div>
+          <div class="fs"><span class="n">3</span><div><b>bge-m3 · oyu API</b><p>new vectors are written to the cache</p></div></div>
         </div>
-        <p class="note">Долоо хоногийн crawl нэг vector-ыг <b>4 удаа</b> дахин ашиглана. <span class="mono">sessions</span> ч мөн 30 хоногийн TTL-тэй</p>
+        <p class="note">The weekly crawl reuses a vector <b>4 times</b>. <span class="mono">sessions</span> also have a 30-day TTL</p>
       </div>
     </div>
   </section>
 
   <!-- 6 -->
-  <section class="slide tech" data-notes="Нээлттэй стандартууд: MCP, A2A. Загварыг benchmark-аар сонгосон. Planner-т gpt-4o, бусад хэсэгт OyuLLM.">
-    <div class="kicker">Технологи</div>
-    <h2>Нээлттэй стандарт, бодит өгөгдөл</h2>
+  <section class="slide tech" data-notes="Open standards: MCP and A2A. Models chosen by benchmark: gpt-4o for the planner, OyuLLM elsewhere.">
+    <div class="kicker">Technology</div>
+    <h2>Open standards, real data</h2>
     <div class="body">
       <div class="grid" style="grid-template-columns: 1fr 1fr 1.2fr;">
         <div class="card rise">
           <h3><span class="pill violet">MCP</span> grocery-mcp</h3>
-          <p>Нээлттэй MCP сервер: <span class="mono" style="font-size:17px">search_recipes</span>, <span class="mono" style="font-size:17px">search_products</span>, <span class="mono" style="font-size:17px">build_list</span>, <span class="mono" style="font-size:17px">get_pantry</span>. Ямар ч MCP client холбогдож болно.</p>
+          <p>Open MCP server: <span class="mono" style="font-size:17px">search_recipes</span>, <span class="mono" style="font-size:17px">search_products</span>, <span class="mono" style="font-size:17px">build_list</span>, <span class="mono" style="font-size:17px">get_pantry</span>. Any MCP client can connect.</p>
           <h3 style="margin-top:28px"><span class="pill">A2A</span> Store agents</h3>
-          <p>Дэлгүүр бүр agent card-тай. Procurement JSON-RPC-ээр гурван дэлгүүрээс зэрэг үнэ асууна.</p>
+          <p>Every store has an agent card. Procurement asks all three for quotes at once over JSON-RPC.</p>
         </div>
         <div class="card rise">
           <h3><span class="pill ok">MongoDB</span> Atlas</h3>
-          <p><b style="color:var(--ink)">Vector + Atlas Search:</b> «ондог» гэж бичихэд өндөг олдоно</p>
-          <p><b style="color:var(--ink)">Time-series:</b> crawl бүрийн үнэ</p>
+          <p><b style="color:var(--ink)">Vector + Atlas Search:</b> a typo like “ондог” still finds eggs</p>
+          <p><b style="color:var(--ink)">Time-series:</b> prices from every crawl</p>
           <p><b style="color:var(--ink)">Change stream:</b> live trace</p>
-          <p><b style="color:var(--ink)">Transaction:</b> бүгд эсвэл юу ч биш</p>
-          <p><b style="color:var(--ink)">TTL:</b> embedding cache, session</p>
+          <p><b style="color:var(--ink)">Transactions:</b> all or nothing</p>
+          <p><b style="color:var(--ink)">TTL:</b> embedding cache, sessions</p>
         </div>
         <div class="card rise">
-          <h3>Загварыг benchmark-аар сонгосон</h3>
+          <h3>Models chosen by benchmark</h3>
           <table class="bench">
             <tr><th></th><th>OyuLLM</th><th>4o-mini</th><th>gpt-4o</th></tr>
             <tr><td>Understand</td><td>9/10</td><td>9/10</td><td class="y">10/10</td></tr>
-            <tr><td>Асуулт бичих</td><td class="y">4/4</td><td class="y">4/4</td><td class="y">4/4</td></tr>
+            <tr><td>Questions</td><td class="y">4/4</td><td class="y">4/4</td><td class="y">4/4</td></tr>
             <tr><td>Crawler</td><td class="y">3/3</td><td class="n">1/3</td><td class="y">3/3</td></tr>
             <tr><td>Recipe</td><td>5/6</td><td class="y">6/6</td><td class="y">6/6</td></tr>
             <tr><td>Planner</td><td class="n">timeout</td><td class="n">✗</td><td class="y">✓</td></tr>
           </table>
-          <p style="font-size:16px">+ bge-m3 embedding, Anir STT, tsuurAI TTS</p>
+          <p style="font-size:16px">+ bge-m3 embeddings, Anir STT, tsuurAI TTS</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- 7 -->
-  <section class="slide" data-notes="Хоёр горим. Захиалга өгөх горимд sandbox захиалга үүснэ. Зөвхөн харах горимд дэлгүүрт очиж авах жагсаалт болно, backend approve-г огт гүйцэтгэхгүй.">
-    <div class="kicker">Хоёр горим</div>
-    <h2>Захиалах эсвэл зүгээр жагсаалт авах</h2>
+  <section class="slide" data-notes="Two modes. Order mode creates sandbox orders. View-only mode turns the basket into an in-store shopping list, and the backend refuses to run approve at all.">
+    <div class="kicker">Two modes</div>
+    <h2>Order it, or just take the list</h2>
     <div class="body">
       <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 32px;">
         <div class="card mode rise">
-          <span class="pill ok">Захиалга өгөх</span>
-          <h3>Agent худалдан авалтаа дуусгана</h3>
+          <span class="pill ok">Order</span>
+          <h3>The agent completes the purchase</h3>
           <ol>
-            <li>Сагсыг харна, засна</li>
-            <li>«Зөвшөөрөх» → «Төлөх»</li>
-            <li>Дэлгүүр бүрт sandbox захиалга (EM-…, GP-…)</li>
-            <li>Хэтэвчнээс нэг transaction-ээр төлөгдөнө</li>
+            <li>Review and edit the basket</li>
+            <li>“Approve” → “Pay”</li>
+            <li>A sandbox order per store (EM-…, GP-…)</li>
+            <li>Paid from the wallet in one transaction</li>
           </ol>
         </div>
         <div class="card mode rise">
-          <span class="pill">Зөвхөн харах</span>
-          <h3>Дэлгүүрт очиж авах жагсаалт</h3>
+          <span class="pill">View only</span>
+          <h3>A list for the store visit</h3>
           <ol>
-            <li>Ойрын эсвэл сонгосон нэг дэлгүүрийг сонгоно</li>
-            <li>Сагс нь худалдан авах жагсаалт болно</li>
-            <li>Авсан барааг хөргөгчинд нэмнэ</li>
-            <li>Мөнгө хөдлөх боломжгүй, кодоор хаасан</li>
+            <li>Pick the nearest store or one you choose</li>
+            <li>The basket becomes a shopping list</li>
+            <li>Bought items go into the pantry</li>
+            <li>Money cannot move, blocked in code</li>
           </ol>
         </div>
       </div>
@@ -653,51 +653,51 @@ body.anim .slide.on .rise { animation: none; }
   </section>
 
   <!-- 8 -->
-  <section class="slide" data-notes="Guardrail-ууд prompt-д биш, кодонд байдаг. Харшилтай орц хэзээ ч сагсанд орохгүй.">
-    <div class="kicker">Аюулгүй байдал</div>
-    <h2>Guardrail нь prompt-д биш, кодонд</h2>
+  <section class="slide" data-notes="Guardrails live in code, not in the prompt. An allergen never ends up in the basket.">
+    <div class="kicker">Safety</div>
+    <h2>Guardrails live in code, not the prompt</h2>
     <div class="body">
       <div class="grid safe">
-        <div class="card rise"><div class="ic">01</div><h3>Хүний зөвшөөрөл</h3><p>Мөнгө «Зөвшөөрөх» → «Төлөх» гэсэн хоёр алхмын дараа л хөдөлнө</p></div>
-        <div class="card rise"><div class="ic">02</div><h3>Захиалгын өмнөх шалгалт</h3><p>Хэтэвч, төсөв, харшил, хоолны дэглэм, нөөц, тоо хэмжээ</p></div>
-        <div class="card rise"><div class="ic">03</div><h3>Атомик гүйлгээ</h3><p>Нэг дэлгүүр амжилтгүй бол бүгд буцна. Давтан дарахад нэг л удаа төлнө</p></div>
-        <div class="card rise"><div class="ic">04</div><h3>Sandbox</h3><p>Бодит сайт руу юу ч илгээхгүй, дэлгүүрийн нууц үг хадгалахгүй</p></div>
-        <div class="card rise"><div class="ic">05</div><h3>Crawl-ийн хамгаалалт</h3><p>Сэжигтэй тааруулалтыг хүн шалгана. robots.txt-ийг дагана</p></div>
-        <div class="card rise"><div class="ic">06</div><h3>Audit</h3><p>Agent бүрийн бодол, tool, үр дүн, загвар хадгалагдана</p></div>
+        <div class="card rise"><div class="ic">01</div><h3>Human approval</h3><p>Money moves only after two steps: “Approve” → “Pay”</p></div>
+        <div class="card rise"><div class="ic">02</div><h3>Pre-order checks</h3><p>Wallet, budget, allergies, diet, stock, quantities</p></div>
+        <div class="card rise"><div class="ic">03</div><h3>Atomic transaction</h3><p>If one store fails, everything rolls back. A repeat tap pays once</p></div>
+        <div class="card rise"><div class="ic">04</div><h3>Sandbox</h3><p>Nothing is sent to real sites, no store passwords are stored</p></div>
+        <div class="card rise"><div class="ic">05</div><h3>Crawl safeguards</h3><p>A human reviews doubtful matches. robots.txt is respected</p></div>
+        <div class="card rise"><div class="ic">06</div><h3>Audit</h3><p>Every agent’s thought, tool, result and model is recorded</p></div>
       </div>
     </div>
   </section>
 
   <!-- 8b -->
-  <section class="slide" data-notes="Бизнес модель. Гол орлого нь дэлгүүрээс авах шимтгэл: бид дэлгүүрт төлөвлөсөн, том сагс авчирна. Хоёрт өрхийн premium. Гуравт хувийн мэдээлэлгүй нэгтгэсэн эрэлтийн дохио. Нэг зарчим: эрэмбийг худалдаж авах боломжгүй, хамгийн хямд нь хамгийн хямд хэвээр.">
-    <div class="kicker">Бизнес модель</div>
-    <h2>Дэлгүүрт төлөвлөсөн сагс авчирч, шимтгэл авна</h2>
+  <section class="slide" data-notes="Business model. Main revenue is a store commission: we bring stores planned, full baskets. Second, a household premium tier. Third, aggregated demand signals with no personal data. One principle: ranking is never for sale, the cheapest stays the cheapest.">
+    <div class="kicker">Business model</div>
+    <h2>We bring stores planned baskets and take a commission</h2>
     <div class="body" style="margin-top:36px">
       <div class="grid rise" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="card bm"><span class="pill ok">Гол орлого</span><h3>Захиалгын шимтгэл</h3><p>Sagslay-аар орсон захиалга бүрээс дэлгүүр шимтгэл төлнө. Дэлгүүр онлайнаар долоо хоногийн бүтэн сагс авдаг шинэ худалдан авагчтай болно.</p><div class="who">Төлөгч: дэлгүүр</div></div>
-        <div class="card bm"><span class="pill">Нэмэлт</span><h3>Өрхийн Premium</h3><p>Долоо хоног бүр автомат төлөвлөгөө, хөргөгчний нөөцийн сануулга, үнэ буурахад мэдэгдэл, гэр бүлийн олон профайл.</p><div class="who">Төлөгч: өрх · сар бүр</div></div>
-        <div class="card bm"><span class="pill violet">Ирээдүйд</span><h3>Эрэлтийн дохио</h3><p>Хувийн мэдээлэлгүй, нэгтгэсэн өгөгдөл: юу хайгаад олдоогүй, ямар үнээс өрх өөр дэлгүүр рүү шилждэг.</p><div class="who">Төлөгч: дэлгүүр, нийлүүлэгч</div></div>
+        <div class="card bm"><span class="pill ok">Core revenue</span><h3>Order commission</h3><p>Stores pay a commission on every order placed through Sagslay. They gain new online customers who buy a full weekly basket.</p><div class="who">Paid by: stores</div></div>
+        <div class="card bm"><span class="pill">Add-on</span><h3>Household Premium</h3><p>Automatic weekly plans, pantry reminders, price-drop alerts, multiple family profiles.</p><div class="who">Paid by: households · monthly</div></div>
+        <div class="card bm"><span class="pill violet">Later</span><h3>Demand signals</h3><p>Aggregated, no personal data: what people searched for and didn’t find, at what price households switch stores.</p><div class="who">Paid by: stores, suppliers</div></div>
       </div>
       <div class="grid rise" style="grid-template-columns: 1.2fr 1fr; margin-top: 24px;">
-        <div class="card" style="background:var(--ink);border-color:var(--ink)"><h3 style="color:#fff">Зарчим: эрэмбэ худалдаалахгүй</h3><p style="color:#C9D3DC">Optimizer шимтгэлээс үл хамааран хамгийн хямд хуваарилалтыг санал болгоно. Итгэл бол бүтээгдэхүүн өөрөө.</p></div>
-        <div class="card"><h3>Дараагийн алхам</h3><p>Нэг дэлгүүртэй pilot: албан ёсны API, бодит захиалга, шимтгэлийн хувийг тохирох.</p></div>
+        <div class="card" style="background:var(--ink);border-color:var(--ink)"><h3 style="color:#fff">Principle: ranking is never for sale</h3><p style="color:#C9D3DC">The optimizer recommends the cheapest split regardless of commission. Trust is the product.</p></div>
+        <div class="card"><h3>Next step</h3><p>A pilot with one store: official API, real orders, agreeing the commission rate.</p></div>
       </div>
     </div>
   </section>
 
   <!-- 9 -->
-  <section class="slide end" data-notes="sagslay.com дээр одоо туршиж болно. Код нээлттэй. Баярлалаа.">
-    <div class="kicker">Туршаад үзээрэй</div>
+  <section class="slide end" data-notes="You can try it now at sagslay.com. The code is open. Thank you.">
+    <div class="kicker">Try it</div>
     <h2 style="font-size:84px">sagslay.com</h2>
     <div class="row">
       <div class="team">
-        <div><b>Мөнх-Очир</b><span>agents · backend</span></div>
-        <div><b>Төгөлдөр</b><span>frontend · backend</span></div>
-        <div><b>Золжаргал</b><span>business analyst</span></div>
-        <div style="margin-top:14px;font-size:19px;color:var(--mute)" class="mono">Demo видео: youtu.be/V-l4AVa2Y8M</div>
+        <div><b>Munkh-Ochir</b><span>agents · backend</span></div>
+        <div><b>Tuguldur</b><span>frontend · backend</span></div>
+        <div><b>Zoljargal</b><span>business analyst</span></div>
+        <div style="margin-top:14px;font-size:19px;color:var(--mute)" class="mono">Demo video: youtu.be/H3fnU91U9XA</div>
       </div>
-      <div class="qr"><img src="assets/qr-site.svg" alt="sagslay.com QR код"><div>sagslay.com</div></div>
-      <div class="qr"><img src="assets/qr-github.svg" alt="GitHub repo QR код"><div>GitHub</div></div>
+      <div class="qr"><img src="assets/qr-site.svg" alt="sagslay.com QR code"><div>sagslay.com</div></div>
+      <div class="qr"><img src="assets/qr-github.svg" alt="GitHub repo QR code"><div>GitHub</div></div>
     </div>
     <div class="foot"><span>team-09-gwenchana</span><a href="live.html" style="color:inherit;text-decoration:none">→ Live demo</a></div>
   </section>
@@ -706,7 +706,7 @@ body.anim .slide.on .rise { animation: none; }
 
 <div class="bar" id="bar"></div>
 <div class="notes" id="notes"></div>
-<div class="help">← → · F бүтэн дэлгэц · N тэмдэглэл</div>
+<div class="help">← → · F fullscreen · N notes</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
 <script>
