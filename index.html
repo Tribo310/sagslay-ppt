@@ -177,6 +177,47 @@ h3 { font-size: 26px; font-weight: 600; letter-spacing: -.01em; }
 .fs b { font-size: 16px; font-family: var(--mono); } .fs p { font-size: 14px; color: var(--mute); line-height: 1.4; margin-top: 2px; }
 .fa { font-family: var(--mono); font-size: 12px; color: var(--mute); padding-left: 22px; }
 
+/* problem data */
+.pt { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 21px; }
+.pt th { font-family: var(--mono); font-size: 14px; color: var(--mute); font-weight: 500; text-align: right; padding: 6px 10px; }
+.pt td { padding: 9px 10px; border-bottom: 1px solid var(--line-soft); text-align: right; font-family: var(--mono); }
+.pt td:first-child, .pt th:first-child { text-align: left; font-family: var(--sans); }
+.pt td.b { color: var(--ok); font-weight: 600; }
+.pt td:last-child { color: var(--mute); font-size: 15px; width: 70px; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: auto; padding-top: 18px; }
+.stats div { display: flex; flex-direction: column; gap: 4px; }
+.stats b { font-size: 34px; font-weight: 700; color: var(--blue); letter-spacing: -.02em; }
+.stats span { font-size: 16px; color: var(--mute); line-height: 1.35; }
+/* before / after */
+.ba { display: grid; grid-template-columns: 200px 1fr 1.25fr; border: 1px solid var(--line-soft); border-radius: var(--r-panel); overflow: hidden; }
+.ba > div { padding: 15px 22px; font-size: 21px; border-bottom: 1px solid var(--line-soft); color: var(--mute); }
+.ba > div:nth-last-child(-n+3) { border-bottom: 0; }
+.ba .bh { font-family: var(--mono); font-size: 15px; text-transform: uppercase; letter-spacing: .04em; background: var(--paper-2); padding: 12px 22px; }
+.ba .bh.blue { color: var(--blue); background: var(--blue-soft); }
+.ba .bk { font-weight: 600; color: var(--ink); background: var(--paper-2); }
+.ba .y { color: var(--ink); background: #F7FAFD; font-weight: 500; }
+/* data pipeline */
+.pipe { display: flex; align-items: stretch; gap: 10px; }
+.pp { flex: 1; background: var(--paper-2); border: 1.5px solid var(--line-soft); border-radius: var(--r-panel); padding: 18px; display: flex; flex-direction: column; gap: 6px; }
+.pp .no { font-family: var(--mono); font-size: 13px; color: var(--mute); }
+.pp b { font-size: 22px; } .pp p { font-size: 16px; color: var(--mute); line-height: 1.4; }
+.pp em { font-style: normal; font-family: var(--mono); font-size: 13px; color: var(--blue); margin-top: auto; }
+.pp.blue { border-color: var(--blue); background: var(--blue-soft); } .pp.blue b { color: var(--blue-ink); }
+.pp.ok { border-color: var(--ok); background: var(--ok-soft); } .pp.ok b { color: var(--ok); }
+.pp .ok { color: var(--ok); font-weight: 600; } .pp .am { color: var(--amber-ink); font-weight: 600; }
+.pa { align-self: center; font-family: var(--mono); color: var(--mute); font-size: 20px; }
+/* robots research */
+.rb { width: 100%; border-collapse: collapse; font-size: 19px; }
+.rb th { font-family: var(--mono); font-size: 14px; color: var(--mute); font-weight: 500; text-align: left; padding: 8px 16px; border-bottom: 1.5px solid var(--line); }
+.rb td { padding: 16px; border-bottom: 1px solid var(--line-soft); vertical-align: top; line-height: 1.4; color: var(--mute); }
+.rb td:first-child { width: 200px; color: var(--ink); } .rb td:first-child small { display: block; font-family: var(--mono); font-size: 13px; color: var(--mute); }
+.rb td:last-child { width: 140px; }
+.rb .mono { font-size: 15px; color: var(--ink); }
+/* business */
+.bm { display: flex; flex-direction: column; gap: 10px; } .bm .pill { align-self: flex-start; }
+.bm h3 { font-size: 28px; margin-top: 4px; } .bm p { margin-top: 0; }
+.bm .who { margin-top: auto; padding-top: 10px; font-family: var(--mono); font-size: 14px; color: var(--blue); }
+
 /* tech */
 .tech .card h3 { display: flex; align-items: center; gap: 12px; }
 .bench { width: 100%; border-collapse: collapse; font-size: 19px; margin-top: 16px; }
@@ -226,30 +267,56 @@ h3 { font-size: 26px; font-weight: 600; letter-spacing: -.01em; }
     <div class="logo rise">Sag<span>slay</span></div>
     <div class="tag rise">Нэг өгүүлбэр бичихэд agent-ууд цэс гаргаж, гурван дэлгүүрийн үнийг харьцуулан хамгийн хямд сагсыг бүрдүүлнэ.</div>
     <div class="meta rise">
-      <span class="pill">Номин</span><span class="pill">Имарт</span><span class="pill">Гүүд Прайс</span>
+      <span class="pill">Нэг өгүүлбэр → сагс</span><span class="pill">Хүргэлттэй хамгийн хямд</span><span class="pill amber">Мөнгө зөвхөн зөвшөөрлөөр</span>
       <span class="pill ok">sagslay.com</span>
     </div>
     <div class="foot"><span>team-09-gwenchana</span><span>Applied AI Mongolia × Novelsoft</span></div>
   </section>
 
   <!-- 2 -->
-  <section class="slide" data-notes="Өрх бүр долоо хоног бүр эдгээр гурван асуултыг гараар шийддэг. Үнэ, савлагаа, хүргэлтийн нөхцөл дэлгүүр бүрт өөр.">
-    <div class="kicker">Асуудал</div>
-    <h2>Долоо хоног бүр гурван асуултыг гараар шийддэг</h2>
-    <div class="body">
-      <div class="grid" style="grid-template-columns: 1fr 1fr 1fr 1.25fr; align-items: stretch;">
-        <div class="card q rise"><span class="n">01</span><h3>Юу хоол хийх вэ?</h3><p>Дуршил, харшил, төсөв, хүний тоо</p></div>
-        <div class="card q rise"><span class="n">02</span><h3>Гэрт юу дутуу байна?</h3><p>Байгаа зүйлээ дахин худалдаж авдаг</p></div>
-        <div class="card q rise"><span class="n">03</span><h3>Хаана хямд вэ?</h3><p>Гурван сайтыг харьцуулах цаг байдаггүй</p></div>
-        <div class="card rise">
-          <h3 style="font-size:22px;color:var(--mute);font-weight:500">Сүү, 1 л</h3>
-          <div class="price" style="margin-top:18px">
-            <span>Номин</span><span></span><span class="v">₮5,398</span>
-            <span>Имарт</span><span></span><span class="v best">₮5,330</span>
-            <hr>
-            <span style="font-size:19px;color:var(--mute);grid-column:1/-1">Савлагаа өөр (0.91 л / 1 л), хүргэлт өөр: Имарт ₮150,000-аас дээш үнэгүй</span>
+  <section class="slide" data-notes="Хэн: Улаанбаатарын өрх, долоо хоногт нэг удаа том хүнс авдаг. Асуудал нь гурван асуулт. Гурав дахь нь хамгийн хэцүү: бид бодит crawl хийсэн өгөгдлөөс харахад ижил 16 барааны 10-т нь Имарт, 5-д нь Номин хямд. Нэг дэлгүүр үргэлж хямд биш, савлагаа ч өөр.">
+    <div class="kicker">Асуудал · Улаанбаатарын өрх, долоо хоногийн хүнс</div>
+    <h2>«Хаана хямд вэ?» гэдэгт нэг хариулт байдаггүй</h2>
+    <div class="body" style="margin-top:36px">
+      <div class="grid" style="grid-template-columns: .9fr 1.5fr; gap: 28px; align-items: stretch;">
+        <div class="grid" style="gap:14px">
+          <div class="card q rise" style="padding:22px 26px"><span class="n">01</span><h3 style="font-size:28px">Юу хоол хийх вэ?</h3><p style="margin-top:0">Дуршил, харшил, төсөв, хүний тоо</p></div>
+          <div class="card q rise" style="padding:22px 26px"><span class="n">02</span><h3 style="font-size:28px">Гэрт юу дутуу вэ?</h3><p style="margin-top:0">Байгаа зүйлээ дахин худалдаж авдаг</p></div>
+          <div class="card q rise" style="padding:22px 26px;border-color:var(--blue);background:var(--blue-soft)"><span class="n">03</span><h3 style="font-size:28px">Хаана хямд вэ?</h3><p style="margin-top:0">3 сайт, савлагаа өөр, хүргэлт өөр</p></div>
+        </div>
+        <div class="card rise" style="display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:baseline"><h3>Бодит crawl хийсэн үнэ</h3><span class="mono" style="font-size:15px;color:var(--mute)">2026-10-05 · ижил хэмжээтэй бараа</span></div>
+          <table class="pt">
+            <tr><th></th><th>Номин</th><th>Имарт</th><th></th></tr>
+            <tr><td>Өндөг, 10 ш</td><td>₮6,998</td><td class="b">₮6,300</td><td>−10%</td></tr>
+            <tr><td>Элсэн чихэр, 1 кг</td><td>₮7,868</td><td class="b">₮6,680</td><td>−15%</td></tr>
+            <tr><td>Сүү, 1 л</td><td>₮5,398</td><td class="b">₮5,330</td><td>−1%</td></tr>
+            <tr><td>Гранд салями хиам</td><td class="b">₮12,980</td><td>₮14,300</td><td>−9%</td></tr>
+            <tr><td>Өргөст хэмх, 100 г</td><td>₮799</td><td class="b">₮748</td><td>−6%</td></tr>
+          </table>
+          <div class="stats">
+            <div><b>10 / 5</b><span>16 ижил бараанаас Имарт 10-т, Номин 5-д хямд</span></div>
+            <div><b>6 / 16</b><span>савлагаа өөр: нэгж үнээр л харьцуулна</span></div>
+            <div><b>₮150k</b><span>Имартын үнэгүй хүргэлтийн босго</span></div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2b -->
+  <section class="slide" data-notes="Бид яг юуг шийдсэн бэ: өрхийн хийдэг 6 гар ажлыг нэг өгүүлбэр, хоёр товч болгосон. Зүүн тал нь өнөөдөр, баруун тал нь Sagslay.">
+    <div class="kicker">Бид юуг шийдсэн</div>
+    <h2>6 гар ажлыг нэг өгүүлбэр, хоёр товч болгосон</h2>
+    <div class="body" style="margin-top:36px">
+      <div class="ba rise">
+        <div class="bh"></div><div class="bh">Өнөөдөр</div><div class="bh blue">Sagslay</div>
+        <div class="bk">Цэс</div><div>Өдөр бүр толгой гашилгана</div><div class="y">Профайлаас: харшил, дуршил, хоолны дэглэм, төсөв</div>
+        <div class="bk">Гэрт байгаа</div><div>Санахгүй, давхар авна</div><div class="y">Хөргөгчний нөөцийг сагснаас хасна</div>
+        <div class="bk">Үнэ</div><div>3 сайт нээж, бараа бүрийг хайна</div><div class="y">3 дэлгүүрийн agent-аас зэрэг үнэ авна</div>
+        <div class="bk">Савлагаа</div><div>0.9 л, 1 л-ийг гараар хуваана</div><div class="y">Хэрэгтэй хэмжээг хамгийн хямд савлагаагаар</div>
+        <div class="bk">Хүргэлт</div><div>Тооцдоггүй</div><div class="y">Хүргэлттэй нийт дүнгээр бүх хослолыг харьцуулна</div>
+        <div class="bk">Захиалга</div><div>3 сагс, 3 төлбөр</div><div class="y">«Зөвшөөрөх» → «Төлөх», нэг гүйлгээ</div>
       </div>
     </div>
   </section>
@@ -292,6 +359,49 @@ h3 { font-size: 26px; font-weight: 600; letter-spacing: -.01em; }
         <div class="step rise"><span class="no">06</span><h3>Verify</h3><p>Захиалгын дугаар, хэтэвчний гүйлгээ live trace-д харагдана</p></div>
       </div>
       <p class="lead rise" style="margin-top:40px;font-size:23px">Алхам бүр (бодол, tool, үр дүн, загвар) SSE-ээр дэлгэцэнд шууд харагдана.</p>
+    </div>
+  </section>
+
+  <!-- 4b -->
+  <section class="slide" data-notes="Үнэ хаанаас ирдэг вэ. Real-time биш, долоо хоногт нэг удаа шөнийн 3 цагт crawl хийнэ. Сүүлийн удаа 5,533 бараа татаж, 2 agent нь каталогтой тааруулж, код үнэ, савлагааг шалгасан. Real-time болгох нь дэлгүүрийн албан ёсны API, түншлэл.">
+    <div class="kicker">Өгөгдөл · бодит үнэ хаанаас ирдэг вэ</div>
+    <h2>Долоо хоног бүр crawl, agent тааруулж, код шалгана</h2>
+    <div class="body" style="margin-top:36px">
+      <div class="pipe rise">
+        <div class="pp"><span class="no">01 · Даваа 03:00</span><b>Crawl</b><p>Номин: каталогийн 3 ангилал<br>Имарт: бараа бүрт нэг хайлт</p><em>~5 минут</em></div>
+        <div class="pa">→</div>
+        <div class="pp"><span class="no">02 · crawl_raw</span><b>5,533 бараа</b><p>Дэлгүүрийн нийтэд нээлттэй каталог</p></div>
+        <div class="pa">→</div>
+        <div class="pp blue"><span class="no">03 · OyuLLM</span><b>2 agent тааруулна</b><p>«Сүү 3.2%, 1000мл» → milk, 1 л. Шийдвэр шалтгаантай хадгалагдана</p></div>
+        <div class="pa">→</div>
+        <div class="pp"><span class="no">04 · код</span><b>Шалгалт</b><p>Үнэ, савлагаа бодитой юу?<br><span class="ok">52 батлав</span> · <span class="am">3 хүн шалгана</span> · 25 тохирохгүй</p></div>
+        <div class="pa">→</div>
+        <div class="pp ok"><span class="no">05 · MongoDB</span><b>products · prices</b><p>Одоогийн үнэ + time-series түүх</p></div>
+      </div>
+      <div class="grid rise" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 28px;">
+        <div class="card"><h3>Real-time уу?</h3><p><b style="color:var(--ink)">Үгүй.</b> Долоо хоногт нэг snapshot. Өрх ч долоо хоногоор төлөвлөдөг тул энэ хангалттай. Дэлгүүрийн серверт ачаалал өгөхгүй.</p></div>
+        <div class="card"><h3>Хамрах хүрээ</h3><p>Каталогт <b style="color:var(--ink)">Номин 19, Имарт 33</b> бараа бодит үнэтэй. Гүүд Прайс одоохондоо <b style="color:var(--amber-ink)">simulated</b>, дэлгэц дээр ингэж тэмдэглэгдэнэ.</p></div>
+        <div class="card"><h3>Real-time болгох зам</h3><p>Дэлгүүрийн албан ёсны API эсвэл feed. Store agent-ууд A2A-аар үнэ өгдөг тул эх үүсвэрийг солиход procurement өөрчлөгдөхгүй.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4c -->
+  <section class="slide" data-notes="Crawl хийх эрхтэй юу гэдгийг дэлгүүр бүрээр шалгасан. Номин каталогоо нээлттэй байлгадаг, Имартад robots.txt байхгүй, Гүүд Прайс AI training crawler-уудыг хаадаг тул бид simulated үлдээсэн. robots.txt хуулийн зөвшөөрөл биш, тиймээс дараагийн алхам нь дэлгүүртэй өгөгдлийн гэрээ.">
+    <div class="kicker">Судалгаа · crawl хийж болох уу</div>
+    <h2>Дэлгүүр бүрийн бодлогыг шалгаад, дагасан</h2>
+    <div class="body" style="margin-top:32px">
+      <table class="rb rise">
+        <tr><th></th><th>robots.txt</th><th>Бид юу авдаг</th><th>Шийдвэр</th></tr>
+        <tr><td><b>Номин</b><small>nomin.mn</small></td><td>Каталог нээлттэй. Зөвхөн <span class="mono">/checkout /account /cart /sign-in</span> хаалттай</td><td>Ангиллын хуудасны ачаалдаг нийтийн бараа жагсаалт</td><td><span class="pill ok">crawl</span></td></tr>
+        <tr><td><b>Имарт</b><small>emartmall.mn</small></td><td>Файл байхгүй (сайт HTML, API host 404)</td><td>Сайтын өөрийн хайлт, каталогийн бараа бүрт 1 хүсэлт</td><td><span class="pill ok">crawl</span></td></tr>
+        <tr><td><b>Гүүд Прайс</b><small>goodprice.mn</small></td><td>Каталог нээлттэй, <span class="mono">/api/ /search/</span> хаалттай. AI training crawler-уудыг тусад нь хаадаг</td><td>Юу ч авахгүй. Цаг тутам шинэчлэгддэг нийтийн product feed байгааг илрүүлсэн</td><td><span class="pill amber">simulated</span></td></tr>
+      </table>
+      <div class="grid rise" style="grid-template-columns: 1.3fr 1fr; margin-top: 24px;">
+        <div class="card"><h3>Бидний дүрэм</h3><p>Өөрийгөө таниулсан User-Agent (GitHub холбоостой) · хүсэлт хооронд 2 сек · нэг удаад 1 хүсэлт · нэвтрэлт, нууц үг хэрэглэхгүй · зөвхөн каталогт хэрэгтэй бараа · долоо хоногт 1 удаа, шөнө</p></div>
+        <div class="card" style="background:var(--amber-soft);border-color:#F0DDB6"><h3 style="color:var(--amber-ink)">Анхаарах</h3><p>robots.txt нь хуулийн зөвшөөрөл биш. Үйлчилгээний нөхцөлийг хянаж, дэлгүүртэй өгөгдлийн гэрээ байгуулах нь дараагийн алхам.</p></div>
+      </div>
+      <p class="mono rise" style="font-size:14px;color:var(--mute);margin-top:14px">Шалгасан: 2026-10-05</p>
     </div>
   </section>
 
@@ -489,6 +599,23 @@ h3 { font-size: 26px; font-weight: 600; letter-spacing: -.01em; }
         <div class="card rise"><div class="ic">04</div><h3>Sandbox</h3><p>Бодит сайт руу юу ч илгээхгүй, дэлгүүрийн нууц үг хадгалахгүй</p></div>
         <div class="card rise"><div class="ic">05</div><h3>Crawl-ийн хамгаалалт</h3><p>Сэжигтэй тааруулалтыг хүн шалгана. robots.txt-ийг дагана</p></div>
         <div class="card rise"><div class="ic">06</div><h3>Audit</h3><p>Agent бүрийн бодол, tool, үр дүн, загвар хадгалагдана</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8b -->
+  <section class="slide" data-notes="Бизнес модель. Гол орлого нь дэлгүүрээс авах шимтгэл: бид дэлгүүрт төлөвлөсөн, том сагс авчирна. Хоёрт өрхийн premium. Гуравт хувийн мэдээлэлгүй нэгтгэсэн эрэлтийн дохио. Нэг зарчим: эрэмбийг худалдаж авах боломжгүй, хамгийн хямд нь хамгийн хямд хэвээр.">
+    <div class="kicker">Бизнес модель</div>
+    <h2>Дэлгүүрт төлөвлөсөн сагс авчирч, шимтгэл авна</h2>
+    <div class="body" style="margin-top:36px">
+      <div class="grid rise" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="card bm"><span class="pill ok">Гол орлого</span><h3>Захиалгын шимтгэл</h3><p>Sagslay-аар орсон захиалга бүрээс дэлгүүр шимтгэл төлнө. Дэлгүүр онлайнаар долоо хоногийн бүтэн сагс авдаг шинэ худалдан авагчтай болно.</p><div class="who">Төлөгч: дэлгүүр</div></div>
+        <div class="card bm"><span class="pill">Нэмэлт</span><h3>Өрхийн Premium</h3><p>Долоо хоног бүр автомат төлөвлөгөө, хөргөгчний нөөцийн сануулга, үнэ буурахад мэдэгдэл, гэр бүлийн олон профайл.</p><div class="who">Төлөгч: өрх · сар бүр</div></div>
+        <div class="card bm"><span class="pill violet">Ирээдүйд</span><h3>Эрэлтийн дохио</h3><p>Хувийн мэдээлэлгүй, нэгтгэсэн өгөгдөл: юу хайгаад олдоогүй, ямар үнээс өрх өөр дэлгүүр рүү шилждэг.</p><div class="who">Төлөгч: дэлгүүр, нийлүүлэгч</div></div>
+      </div>
+      <div class="grid rise" style="grid-template-columns: 1.2fr 1fr; margin-top: 24px;">
+        <div class="card" style="background:var(--ink);border-color:var(--ink)"><h3 style="color:#fff">Зарчим: эрэмбэ худалдаалахгүй</h3><p style="color:#C9D3DC">Optimizer шимтгэлээс үл хамааран хамгийн хямд хуваарилалтыг санал болгоно. Итгэл бол бүтээгдэхүүн өөрөө.</p></div>
+        <div class="card"><h3>Дараагийн алхам</h3><p>Нэг дэлгүүртэй pilot: албан ёсны API, бодит захиалга, шимтгэлийн хувийг тохирох.</p></div>
       </div>
     </div>
   </section>
