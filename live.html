@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="mn">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -162,33 +162,33 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
       <span data-s="authorize">4 Authorize</span><span data-s="transact">5 Transact</span><span data-s="verify">6 Verify</span>
     </div>
     <div class="ctrl">
-      <button class="btn pri" id="auto">▶ Автоматаар үзүүлэх</button>
-      <button class="btn" id="reset">↺ Дахин</button>
-      <a class="btn" href="index.html#999" style="text-decoration:none;color:inherit">← Слайд</a>
+      <button class="btn pri" id="auto">▶ Auto demo</button>
+      <button class="btn" id="reset">↺ Reset</button>
+      <a class="btn" href="index.html#999" style="text-decoration:none;color:inherit">← Slides</a>
     </div>
   </header>
 
   <div class="main">
     <!-- chat -->
     <section class="panel">
-      <div class="ph">Чат <small>Бат-Эрдэнэ · 4 хүн · Халал</small></div>
+      <div class="ph">Chat <small>Bat-Erdene · 4 people · Halal</small></div>
       <div class="msgs" id="msgs"></div>
       <div class="starters" id="starters"></div>
       <form class="composer" id="form">
-        <input id="inp" placeholder="Монголоор бичээрэй…" autocomplete="off">
-        <button class="btn pri" type="submit">Илгээх</button>
+        <input id="inp" placeholder="Type a request…" autocomplete="off">
+        <button class="btn pri" type="submit">Send</button>
       </form>
     </section>
 
     <!-- graph -->
     <section class="panel">
-      <div class="ph">Agent-ууд <small>orchestrator · MCP · A2A · MongoDB</small></div>
+      <div class="ph">Agents <small>orchestrator · MCP · A2A · MongoDB</small></div>
       <div class="graph" id="graph">
         <svg id="svg"></svg>
         <div class="thought" id="thought"></div>
       </div>
       <div class="legend">
-        <span><i style="background:var(--blue)"></i>REST · SSE · дотоод дуудлага</span>
+        <span><i style="background:var(--blue)"></i>REST · SSE · internal calls</span>
         <span><i style="background:var(--violet)"></i>MCP</span>
         <span><i style="background:var(--amber)"></i>A2A</span>
         <span><i style="background:var(--ok)"></i>MongoDB</span>
@@ -199,10 +199,10 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
     <div class="right">
       <section class="panel trace">
         <div class="ph">Live trace <small id="runid">run_events → SSE</small></div>
-        <div class="events" id="events"><div class="empty">Чатад бичихэд agent бүрийн алхам<br>энд шууд гарч ирнэ.</div></div>
+        <div class="events" id="events"><div class="empty">Write in the chat and every agent step<br>shows up here live.</div></div>
       </section>
       <section class="panel basket" id="basketPanel" style="display:none">
-        <div class="ph">Сагс <span class="demo-pill">демо үнэ</span></div>
+        <div class="ph">Basket <span class="demo-pill">demo prices</span></div>
         <div class="bk" id="bk"></div>
         <div class="acts" id="acts"></div>
       </section>
@@ -212,24 +212,24 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
 
 <script>
 /* ---------- data (from demo/web.ts) ---------- */
-const STORES = { nomin: 'Номин', emart: 'Имарт', goodprice: 'Гүүд Прайс' };
+const STORES = { nomin: 'Nomin', emart: 'Emart', goodprice: 'Good Price' };
 const PREFIX = { nomin: 'NM', emart: 'EM', goodprice: 'GP' };
 const CATALOG = [
-  { id: 'beef', name: 'Үхрийн мах', unit: 'кг', qty: 2, price: { nomin: 17200, emart: 19800, goodprice: 20500 } },
-  { id: 'mutton', name: 'Хонины мах', unit: 'кг', qty: 1.5, price: { nomin: 15400, emart: 16900, goodprice: 17200 } },
-  { id: 'flour', name: 'Гурил 5кг', unit: 'ш', qty: 1, price: { nomin: 11500, emart: 13200, goodprice: 12900 } },
-  { id: 'potato', name: 'Төмс', unit: 'кг', qty: 3, price: { nomin: 1800, emart: 1950, goodprice: 1700 } },
-  { id: 'carrot', name: 'Лууван', unit: 'кг', qty: 1, price: { nomin: 2200, emart: 2100, goodprice: 2400 } },
-  { id: 'onion', name: 'Сонгино', unit: 'кг', qty: 1, price: { nomin: 2000, emart: 1900, goodprice: 2100 } },
-  { id: 'cabbage', name: 'Байцаа', unit: 'ш', qty: 1, price: { nomin: 3500, emart: 3200, goodprice: 3400 } },
-  { id: 'egg', name: 'Өндөг', unit: 'ш', qty: 10, price: { nomin: 720, emart: 650, goodprice: 700 } },
-  { id: 'milk', name: 'Сүү 1л', unit: 'ш', qty: 3, price: { nomin: 3600, emart: 3500, goodprice: 3700 } },
-  { id: 'oil', name: 'Ургамлын тос 1л', unit: 'ш', qty: 1, price: { nomin: 7800, emart: 7400, goodprice: 7900 } },
-  { id: 'salt', name: 'Давс', unit: 'ш', qty: 1, price: { nomin: 900, emart: 850, goodprice: 950 } },
-  { id: 'rice', name: 'Будаа 1кг', unit: 'ш', qty: 2, price: { nomin: 4200, emart: 3900, goodprice: 4100 } },
+  { id: 'beef', name: 'Beef', unit: 'kg', qty: 2, price: { nomin: 17200, emart: 19800, goodprice: 20500 } },
+  { id: 'mutton', name: 'Mutton', unit: 'kg', qty: 1.5, price: { nomin: 15400, emart: 16900, goodprice: 17200 } },
+  { id: 'flour', name: 'Flour 5kg', unit: 'pc', qty: 1, price: { nomin: 11500, emart: 13200, goodprice: 12900 } },
+  { id: 'potato', name: 'Potatoes', unit: 'kg', qty: 3, price: { nomin: 1800, emart: 1950, goodprice: 1700 } },
+  { id: 'carrot', name: 'Carrots', unit: 'kg', qty: 1, price: { nomin: 2200, emart: 2100, goodprice: 2400 } },
+  { id: 'onion', name: 'Onions', unit: 'kg', qty: 1, price: { nomin: 2000, emart: 1900, goodprice: 2100 } },
+  { id: 'cabbage', name: 'Cabbage', unit: 'pc', qty: 1, price: { nomin: 3500, emart: 3200, goodprice: 3400 } },
+  { id: 'egg', name: 'Eggs', unit: 'pc', qty: 10, price: { nomin: 720, emart: 650, goodprice: 700 } },
+  { id: 'milk', name: 'Milk 1l', unit: 'pc', qty: 3, price: { nomin: 3600, emart: 3500, goodprice: 3700 } },
+  { id: 'oil', name: 'Vegetable oil 1l', unit: 'pc', qty: 1, price: { nomin: 7800, emart: 7400, goodprice: 7900 } },
+  { id: 'salt', name: 'Salt', unit: 'pc', qty: 1, price: { nomin: 900, emart: 850, goodprice: 950 } },
+  { id: 'rice', name: 'Rice 1kg', unit: 'pc', qty: 2, price: { nomin: 4200, emart: 3900, goodprice: 4100 } },
 ];
 const FEE = { nomin: [8000, Infinity], emart: [7000, 150000], goodprice: [5000, Infinity] };
-const DISHES = ['Цуйван', 'Хуушуур', 'Бууз', 'Хонины шөл', 'Будаатай хуурга', 'Ногоотой шөл', 'Банштай цай'];
+const DISHES = ['Tsuivan', 'Khuushuur', 'Buuz', 'Mutton soup', 'Fried rice', 'Vegetable soup', 'Bansh tea'];
 const fmt = n => '₮' + Math.round(n).toLocaleString('en-US');
 const sumOf = items => items.reduce((a, i) => a + i.price * i.qty, 0);
 const feeOf = (s, sub) => sub >= FEE[s][1] ? 0 : FEE[s][0];
@@ -241,12 +241,12 @@ function optimize(lines, budget) {
     const sub = ids.filter((_, i) => mask & (1 << i)); const by = {}; let total = 0;
     for (const { c, qty } of lines) {
       const s = sub.reduce((a, b) => c.price[b] < c.price[a] ? b : a);
-      (by[s] ??= []).push({ id: c.id, qty, unit: c.unit, price: c.price[s], ...(s === 'emart' && c.id === 'milk' ? { name: 'Сүү 0.9л', sub: 'Сүү 1л' } : { name: c.name }) });
+      (by[s] ??= []).push({ id: c.id, qty, unit: c.unit, price: c.price[s], ...(s === 'emart' && c.id === 'milk' ? { name: 'Milk 0.9l', sub: 'Milk 1l' } : { name: c.name }) });
       total += c.price[s] * qty;
     }
     const used = Object.keys(by);
     total += used.reduce((a, s) => a + feeOf(s, sumOf(by[s])), 0);
-    combos.push({ name: sub.length === 3 ? 'Бараа бүр хамгийн хямдаас' : used.map(x => STORES[x]).join(' + '), n: used.length, total });
+    combos.push({ name: sub.length === 3 ? 'Each item from its cheapest store' : used.map(x => STORES[x]).join(' + '), n: used.length, total });
     if (sub.length === 1) bestSingle = Math.min(bestSingle, total);
     if (!best || total < best.total) best = { budget, total, stores: used.map(s => ({ s, subtotal: sumOf(by[s]), fee: feeOf(s, sumOf(by[s])), items: by[s] })) };
   }
@@ -257,19 +257,19 @@ function optimize(lines, budget) {
 
 /* ---------- graph ---------- */
 const N = {
-  user: { x: 20, y: 6,  t: 'Хэрэглэгч', s: 'чат · дуу (Anir STT)', cls: 'sm' },
+  user: { x: 20, y: 6,  t: 'User', s: 'chat · voice (Anir STT)', cls: 'sm' },
   fe:   { x: 50, y: 6,  t: 'React frontend', s: 'React 19 · Vite · SSE' },
-  orch: { x: 50, y: 20, t: 'Orchestrator', s: 'FastAPI · код, LLM биш', cls: 'dark' },
+  orch: { x: 50, y: 20, t: 'Orchestrator', s: 'FastAPI · code, not an LLM', cls: 'dark' },
   und:  { x: 14, y: 36, t: 'Understand', s: 'OyuLLM' },
   plan: { x: 38, y: 36, t: 'Meal planner', s: 'gpt-4o · ReAct' },
   proc: { x: 62, y: 36, t: 'Procurement', s: 'optimizer' },
   chk:  { x: 86, y: 36, t: 'Checkout', s: 'sandbox' },
   mcp:  { x: 26, y: 53, t: 'grocery-mcp', s: ':8100/mcp', badge: 'MCP' },
-  nomin:{ x: 52, y: 53, t: 'Номин', s: 'agent', cls: 'sm', badge: 'A2A' },
-  emart:{ x: 69, y: 53, t: 'Имарт', s: 'agent', cls: 'sm', badge: 'A2A' },
-  goodprice: { x: 86, y: 53, t: 'Гүүд Прайс', s: 'agent', cls: 'sm', badge: 'A2A' },
-  cache:{ x: 22, y: 70, t: 'Embedding cache', s: 'bge-m3 · санах ой → embed_cache', badge: 'TTL 30' },
-  crawl:{ x: 78, y: 70, t: 'Crawlers', s: 'OyuLLM · 7 хоног тутам', badge: 'cron' },
+  nomin:{ x: 52, y: 53, t: 'Nomin', s: 'agent', cls: 'sm', badge: 'A2A' },
+  emart:{ x: 69, y: 53, t: 'Emart', s: 'agent', cls: 'sm', badge: 'A2A' },
+  goodprice: { x: 86, y: 53, t: 'Good Price', s: 'agent', cls: 'sm', badge: 'A2A' },
+  cache:{ x: 22, y: 70, t: 'Embedding cache', s: 'bge-m3 · memory → embed_cache', badge: 'TTL 30' },
+  crawl:{ x: 78, y: 70, t: 'Crawlers', s: 'OyuLLM · weekly', badge: 'cron' },
   db:   { x: 50, y: 86, t: 'MongoDB Atlas', s: 'vector · time-series · transaction · change stream · TTL', cls: 'db' },
 };
 const E = [
@@ -378,9 +378,9 @@ async function send(text) {
     await packet('user', 'fe', 'blue', 350); await packet('fe', 'orch'); on('orch', 600);
     const t = text.toLowerCase();
     if (ordered) await runLocked();
-    else if (basket && /(гарга|хас|нэм)/.test(t)) await runEdit(t);
-    else if (/мянга|\d{4,}/.test(t) || pending) await runPlan(t);
-    else if (/хоол|долоо|өдөр|цэс|хүн|идмээр/.test(t)) await runPartial(t);
+    else if (basket && /(гарга|хас|нэм|remove|drop|add)/.test(t)) await runEdit(t);
+    else if (/мянга|\d+\s*k\b|\d{4,}/.test(t) || pending) await runPlan(t);
+    else if (/хоол|долоо|өдөр|цэс|хүн|идмээр|meal|week|day|menu|people|cook|dinner|tomorrow|like/.test(t)) await runPartial(t);
     else await runOther();
   } finally { typing(false); think(''); busy = false; }
 }
@@ -388,114 +388,114 @@ async function send(text) {
 async function understand(detail, kind) {
   step('intent');
   await packet('orch', 'und'); on('und', 1400);
-  think('<b>Understand · OyuLLM</b>  мессежийг ангилж, slot гаргаж байна…');
+  think('<b>Understand · OyuLLM</b>  classifying the message and extracting slots…');
   await sleep(900);
-  trace('understand', 'intent', `ангилал: ${kind}`, detail);
+  trace('understand', 'intent', `class: ${kind}`, detail);
   await packet('und', 'db', 'ok', 400);
   await packet('und', 'orch');
 }
 
 async function runOther() {
-  await understand('kind: other → мэндчилгээ', 'other');
+  await understand('kind: other → greeting', 'other');
   typing(false);
-  say('ai', 'Сайн байна уу! Хэдэн хоногийн, хэдэн хүний хоол төлөвлөх вэ?', ['Энэ долоо хоногт 4 хүнд хоол хийе, гэрт будаа бий'], 'understand');
-  setStarters(['Энэ долоо хоногт 4 хүнд хоол хийе, гэрт будаа бий']);
+  say('ai', 'Hi! How many days and how many people should I plan for?', ['Cook for 4 people this week, we have rice at home'], 'understand');
+  setStarters(['Cook for 4 people this week, we have rice at home']);
 }
 
 async function runPartial(t) {
-  const people = +(t.match(/(\d+)\s*хүн/)?.[1] ?? 4);
-  pending = { people, rice: /будаа/.test(t) };
-  await understand(`kind: plan · status: partial<br>slots: {days: 7, people: ${people}${pending.rice ? ', pantry: [будаа]' : ''}}<br>missing: [budget] → код 1 асуулт сонгоно`, 'partial');
-  trace('understand', 'question', 'Төсөв тодруулах', 'OyuLLM асуултыг бичив, сонголт бүрийг код шалгав');
+  const people = +(t.match(/(\d+)\s*(?:хүн|people|person)/)?.[1] ?? 4);
+  pending = { people, rice: /будаа|rice/.test(t) };
+  await understand(`kind: plan · status: partial<br>slots: {days: 7, people: ${people}${pending.rice ? ', pantry: [rice]' : ''}}<br>missing: [budget] → code picks 1 question`, 'partial');
+  trace('understand', 'question', 'Ask for the budget', 'OyuLLM wrote the question, code checked every option');
   typing(false);
-  say('ai', `${people} хүнд долоо хоногт ямар төсөвтэй вэ?`, ['100 мянга', '150 мянга', '200 мянга'], 'understand');
+  say('ai', `What is the weekly budget for ${people} people?`, ['₮100k', '₮150k', '₮200k'], 'understand');
 }
 
 async function runPlan(t) {
-  const k = t.match(/(\d+)\s*мянга/), budget = k ? +k[1] * 1000 : +(t.match(/(\d{4,})/)?.[1] ?? 150000);
-  const people = pending?.people ?? +(t.match(/(\d+)\s*хүн/)?.[1] ?? 4);
-  const rice = pending?.rice ?? /будаа/.test(t);
+  const k = t.match(/(\d+)\s*(?:мянга|k\b)/), budget = k ? +k[1] * 1000 : +(t.match(/(\d{4,})/)?.[1] ?? 150000);
+  const people = pending?.people ?? +(t.match(/(\d+)\s*(?:хүн|people|person)/)?.[1] ?? 4);
+  const rice = pending?.rice ?? /будаа|rice/.test(t);
   pending = null;
-  await understand(`kind: plan · status: clear<br>slots: {days: 7, people: ${people}, budget: ${fmt(budget)}}<br>профайл: Халал · Тэмүүлэн: самрын харшил · загасгүй`, 'clear');
+  await understand(`kind: plan · status: clear<br>slots: {days: 7, people: ${people}, budget: ${fmt(budget)}}<br>profile: halal · Temuulen: nut allergy · no fish`, 'clear');
 
   // Discover
   step('discover');
   await packet('orch', 'plan'); on('plan', 4200);
   if (rice) {
     await packet('plan', 'mcp', 'violet'); await packet('mcp', 'db', 'ok', 350);
-    trace('planner', 'tool_call', 'update_pantry', '{key: "rice", amount: 1}  «гэрт будаа бий»');
+    trace('planner', 'tool_call', 'update_pantry', '{key: "rice", amount: 1}  “we have rice at home”');
   }
-  think('<b>Thought:</b> Гэр бүл цуйван, бууз дуртай, загасгүй, халал. Самартай жорыг хасаад vector search хийе.');
+  think('<b>Thought:</b> The family likes tsuivan and buuz, no fish, halal. Drop recipes with nuts, then vector search.');
   await sleep(1100);
-  trace('planner', 'tool_call', 'search_recipes', 'vector search: "Цуйван, Бууз, Хорхог" · exclude: [самар, загас] · k: 12');
+  trace('planner', 'tool_call', 'search_recipes', 'vector search: "Tsuivan, Buuz, Khorkhog" · exclude: [nuts, fish] · k: 12');
   await packet('plan', 'mcp', 'violet');
   await packet('mcp', 'cache', 'violet', 400); on('cache', 1200);
-  trace('embed', 'cache', 'санах ойд байхгүй → embed_cache hit', 'sha1(query) · bge-m3 vector · oyu API дуудаагүй', 'ok');
+  trace('embed', 'cache', 'memory miss → embed_cache hit', 'sha1(query) · bge-m3 vector · no oyu API call', 'ok');
   await packet('cache', 'db', 'ok', 350); await packet('db', 'cache', 'ok', 350); await packet('cache', 'mcp', 'violet', 350);
   await packet('mcp', 'db', 'ok', 400);
-  trace('mongodb', 'query', '$vectorSearch recipes', 'Atlas Vector Search + tags шүүлт (халал, самаргүй)');
+  trace('mongodb', 'query', '$vectorSearch recipes', 'Atlas Vector Search + tag filter (halal, nut-free)');
   await sleep(300); await packet('mcp', 'plan', 'violet');
-  trace('planner', 'tool_result', '12 жор олдлоо', DISHES.slice(0, 5).join(', ') + '… (cost_per_serving бодит үнээр)');
+  trace('planner', 'tool_result', '12 recipes found', DISHES.slice(0, 5).join(', ') + '… (cost_per_serving at real prices)');
 
   // Decide
   step('decide');
-  think('<b>Thought:</b> 7 хоолоор цэс гаргая. Эхний хувилбар төсвөөс 8% илүү байвал үнэтэй жорыг хямдаар солино.');
+  think('<b>Thought:</b> Build a 7-dish menu. If the first draft is 8% over budget, swap the priciest recipe for a cheaper one.');
   await sleep(1000);
   const skipped = CATALOG.filter(c => rice && c.id === 'rice');
   lines = CATALOG.filter(c => !skipped.includes(c)).map(c => ({ c, qty: Math.max(1, Math.round(c.qty * people / 4 * 2) / 2) }));
   basket = optimize(lines, budget);
-  trace('planner', 'tool_call', 'plan_meals → build_list', `${lines.length} бараа · гэрт байгаа: ${skipped.map(c => c.name).join(', ') || '—'}`);
+  trace('planner', 'tool_call', 'plan_meals → build_list', `${lines.length} items · at home: ${skipped.map(c => c.name).join(', ') || '—'}`);
   await packet('plan', 'mcp', 'violet'); await packet('mcp', 'plan', 'violet');
-  trace('planner', 'decision', 'Төсөвт багтаав', `2-р давталт: ${fmt(budget * 1.08)} → ${fmt(basket.total)}  (Хонины шөл → Будаатай хуурга)`);
+  trace('planner', 'decision', 'Fits the budget', `2nd pass: ${fmt(budget * 1.08)} → ${fmt(basket.total)}  (Mutton soup → Fried rice)`);
   await packet('plan', 'orch');
 
-  think('<b>Procurement:</b> 3 дэлгүүрийн agent-аас A2A message/send-ээр зэрэг үнийн санал авч байна…');
+  think('<b>Procurement:</b> asking 3 store agents for quotes at once over A2A message/send…');
   await packet('orch', 'proc'); on('proc', 3600);
-  for (const s of Object.keys(STORES)) trace('procurement', 'a2a_request', `${STORES[s]} → quote`, `JSON-RPC message/send · skill: quote · ${lines.length} бараа`);
+  for (const s of Object.keys(STORES)) trace('procurement', 'a2a_request', `${STORES[s]} → quote`, `JSON-RPC message/send · skill: quote · ${lines.length} items`);
   await Promise.all(Object.keys(STORES).map(s => packet('proc', s, 'amber', 600)));
   await Promise.all(Object.keys(STORES).map(s => packet(s, 'db', 'ok', 400)));
-  trace('mongodb', 'query', 'products · prices', 'crawl хийсэн үнэ (time-series) · нөөц · савлагаа');
+  trace('mongodb', 'query', 'products · prices', 'crawled prices (time-series) · stock · pack sizes');
   await sleep(250);
   await Promise.all(Object.keys(STORES).map(s => packet(s, 'proc', 'amber', 600)));
-  trace('store:nomin', 'a2a_response', 'Санал ирлээ', `${lines.length}/${lines.length} нөөцтэй · хүргэлт ₮8,000`);
-  trace('store:emart', 'a2a_response', 'Санал ирлээ', 'Сүү 1л → 0.9л орлуулах санал · ₮150k-аас хүргэлт үнэгүй');
-  trace('store:goodprice', 'a2a_response', 'Санал ирлээ', `${lines.length}/${lines.length} нөөцтэй (simulated) · хүргэлт ₮5,000`);
-  think('<b>Optimizer:</b> хүргэлтийн төлбөрийг оруулан дэлгүүрийн бүх хослолыг харьцуулж байна.');
+  trace('store:nomin', 'a2a_response', 'Quote received', `${lines.length}/${lines.length} in stock · delivery ₮8,000`);
+  trace('store:emart', 'a2a_response', 'Quote received', 'Milk 1l → 0.9l substitute offered · free delivery from ₮150k');
+  trace('store:goodprice', 'a2a_response', 'Quote received', `${lines.length}/${lines.length} in stock (simulated) · delivery ₮5,000`);
+  think('<b>Optimizer:</b> comparing every store combination, delivery fees included.');
   await sleep(900);
-  trace('optimizer', 'decision', 'Хамгийн хямд хуваарилалт', `${basket.tried} хувилбараас: ${basket.stores.map(x => STORES[x.s]).join(' + ')} · нийт ${fmt(basket.total)}`, 'ok');
+  trace('optimizer', 'decision', 'Cheapest split', `of ${basket.tried} options: ${basket.stores.map(x => STORES[x.s]).join(' + ')} · total ${fmt(basket.total)}`, 'ok');
   await packet('proc', 'orch'); await packet('orch', 'fe');
-  trace('mongodb', 'change stream', 'run_events → SSE', 'алхам бүр frontend руу шууд');
+  trace('mongodb', 'change stream', 'run_events → SSE', 'every step streams to the frontend');
   renderBasket();
   typing(false);
-  say('ai', `${DISHES.length} хоолтой цэс бэлэн:\n${DISHES.join(', ')}.\n\nСагс ${fmt(basket.total)}, хүргэлттэй. ` + (basket.savings ? `Нэг дэлгүүрээс авахаас ${fmt(basket.savings)} хямд.` : `Хамгийн үнэтэй хувилбараас ${fmt(basket.worst - basket.total)} хямд.`), suggestions(), 'planner');
+  say('ai', `Your ${DISHES.length}-dish menu is ready:\n${DISHES.join(', ')}.\n\nBasket ${fmt(basket.total)}, delivery included. ` + (basket.savings ? `${fmt(basket.savings)} cheaper than a single store.` : `${fmt(basket.worst - basket.total)} cheaper than the priciest option.`), suggestions(), 'planner');
   step('authorize');
   on('fe', 0, 'human'); setTimeout(() => document.getElementById('n-fe').classList.remove('human'), 2500);
 }
 
-const suggestions = () => [lines.some(l => l.c.id === 'salt') && 'Давсыг гарга', lines.some(l => l.c.id === 'egg') && 'Өндгийг 5 нэм', lines.some(l => l.c.id === 'mutton') && 'Хонины махыг хас'].filter(Boolean);
+const suggestions = () => [lines.some(l => l.c.id === 'salt') && 'Remove the salt', lines.some(l => l.c.id === 'egg') && 'Add 5 eggs', lines.some(l => l.c.id === 'mutton') && 'Remove the mutton'].filter(Boolean);
 
 async function runEdit(t) {
   const hit = lines.find(l => t.includes(l.c.name.toLowerCase().slice(0, 3)));
-  if (!hit) { await understand('kind: edit · item тодорхойгүй', 'unclear'); typing(false); say('ai', 'Аль барааг өөрчлөх вэ?', suggestions(), 'understand'); return; }
-  const add = /нэм/.test(t), n = +(t.match(/(\d+)/)?.[1] ?? 1);
+  if (!hit) { await understand('kind: edit · item unclear', 'unclear'); typing(false); say('ai', 'Which item should I change?', suggestions(), 'understand'); return; }
+  const add = /нэм|add/.test(t), n = +(t.match(/(\d+)/)?.[1] ?? 1);
   await understand(`kind: edit · edits: [{op: "${add ? 'add' : 'remove'}", item: "${hit.c.id}"${add ? ', qty: ' + n : ''}}]`, 'edit');
   if (add) hit.qty += n; else lines = lines.filter(l => l !== hit);
   step('decide');
   await packet('orch', 'proc'); on('proc', 1200);
   basket = optimize(lines, basket.budget);
   await sleep(500);
-  trace('optimizer', 'decision', 'Дахин хуваарилав', `${basket.tried} хувилбар · нийт ${fmt(basket.total)}`, 'ok');
+  trace('optimizer', 'decision', 'Re-split', `${basket.tried} options · total ${fmt(basket.total)}`, 'ok');
   await packet('proc', 'orch'); await packet('orch', 'fe');
   renderBasket();
   typing(false);
-  say('ai', add ? `${hit.c.name} ${n}-г нэмлээ. Сагс ${fmt(basket.total)}.` : `${hit.c.name} сагснаас гарлаа. Сагс ${fmt(basket.total)}.`, suggestions(), 'understand');
+  say('ai', add ? `Added ${n} × ${hit.c.name}. Basket ${fmt(basket.total)}.` : `${hit.c.name} removed. Basket ${fmt(basket.total)}.`, suggestions(), 'understand');
   step('authorize');
 }
 
 async function runLocked() {
-  await understand('kind: edit · гэхдээ order_id байна', 'edit');
+  await understand('kind: edit · but order_id is set', 'edit');
   typing(false);
-  say('ai', 'Энэ чатын захиалга төлөгдсөн. Шинэ чат эхлүүлнэ үү.', null, 'orchestrator');
+  say('ai', 'This chat’s order is already paid. Please start a new chat.', null, 'orchestrator');
 }
 
 /* ---------- basket + checkout ---------- */
@@ -504,17 +504,17 @@ function renderBasket() {
   document.getElementById('basketPanel').style.display = '';
   const b = basket;
   document.getElementById('bk').innerHTML = b.stores.map(st => `
-    <div class="st"><div class="sh">${STORES[st.s]}<small>${fmt(st.subtotal)} · хүргэлт ${st.fee ? fmt(st.fee) : 'үнэгүй'}</small></div>
+    <div class="st"><div class="sh">${STORES[st.s]}<small>${fmt(st.subtotal)} · delivery ${st.fee ? fmt(st.fee) : 'free'}</small></div>
     <ul>${st.items.map(i => `<li class="${i.sub ? 'sub' : ''}"><span>${i.name}${i.sub ? ' (↔ ' + i.sub + ')' : ''} × ${i.qty}</span><span>${fmt(i.price * i.qty)}</span></li>`).join('')}</ul>
     ${st.oid ? `<div style="padding:0 12px 8px" class="oid">✓ ${st.oid}</div>` : ''}</div>`).join('') +
-    `<div class="sum"><span>Төсөв</span><span class="v">${fmt(b.budget)}</span>
-      <span class="tot">Нийт</span><span class="v tot">${fmt(b.total)}</span>
-      ${b.savings ? `<span class="save">Нэг дэлгүүрээс хэмнэлт</span><span class="v save">−${fmt(b.savings)}</span>` : ''}</div>
-    <div class="cmp"><div class="ch">Optimizer ${b.tried} хувилбар харьцуулав (хүргэлттэй)</div>${b.combos.map((c, k) => `<div class="cr ${k ? '' : 'best'}"><span>${k ? '' : '✓ '}${c.name}${c.n > 1 ? ` <i>${c.n} хүргэлт</i>` : ''}</span><span>${fmt(c.total)}${k ? ` <i>+${fmt(c.total - b.total)}</i>` : ''}</span></div>`).join('')}</div>`;
+    `<div class="sum"><span>Budget</span><span class="v">${fmt(b.budget)}</span>
+      <span class="tot">Total</span><span class="v tot">${fmt(b.total)}</span>
+      ${b.savings ? `<span class="save">Saved vs one store</span><span class="v save">−${fmt(b.savings)}</span>` : ''}</div>
+    <div class="cmp"><div class="ch">Optimizer compared ${b.tried} options (with delivery)</div>${b.combos.map((c, k) => `<div class="cr ${k ? '' : 'best'}"><span>${k ? '' : '✓ '}${c.name}${c.n > 1 ? ` <i>${c.n} deliveries</i>` : ''}</span><span>${fmt(c.total)}${k ? ` <i>+${fmt(c.total - b.total)}</i>` : ''}</span></div>`).join('')}</div>`;
   const acts = document.getElementById('acts');
-  if (ordered) acts.innerHTML = '<button class="btn ok" disabled>✓ Захиалсан</button>';
-  else if (stage2 === 'pay') acts.innerHTML = '<button class="btn" id="back">Буцах</button><button class="btn ok" id="pay">Төлөх ' + fmt(b.total) + '</button>';
-  else acts.innerHTML = '<button class="btn pri" id="approve">Зөвшөөрөх</button>';
+  if (ordered) acts.innerHTML = '<button class="btn ok" disabled>✓ Ordered</button>';
+  else if (stage2 === 'pay') acts.innerHTML = '<button class="btn" id="back">Back</button><button class="btn ok" id="pay">Pay ' + fmt(b.total) + '</button>';
+  else acts.innerHTML = '<button class="btn pri" id="approve">Approve</button>';
   document.getElementById('approve')?.addEventListener('click', approve);
   document.getElementById('pay')?.addEventListener('click', pay);
   document.getElementById('back')?.addEventListener('click', () => { stage2 = 'approve'; renderBasket(); });
@@ -522,23 +522,23 @@ function renderBasket() {
 function approve() {
   if (busy) return;
   stage2 = 'pay'; step('authorize'); on('fe', 2000, 'human');
-  trace('user', 'approve', '«Зөвшөөрөх» дарав', '2 дахь баталгаажуулалт хүлээж байна');
+  trace('user', 'approve', 'Tapped “Approve”', 'waiting for the second confirmation');
   renderBasket();
 }
 async function pay() {
   if (busy) return; busy = true;
   try {
-    trace('user', 'pay', '«Төлөх» дарав', 'хүн баталгаажуулсан → мөнгө хөдөлж болно');
+    trace('user', 'pay', 'Tapped “Pay”', 'human confirmed → money may move');
     step('transact');
     await packet('fe', 'orch'); await packet('orch', 'chk'); on('chk', 4000);
-    think('<b>Checkout:</b> мөнгө хөдлөхөөс өмнө код шалгалт хийж байна.');
+    think('<b>Checkout:</b> code runs its checks before any money moves.');
     const checks = [
-      ['Захиалгын горим', '«Захиалга өгөх»'], ['Хэтэвч', `үлдэгдэл ₮200,000 ≥ сагс ${fmt(basket.total)}`],
-      ['Төсөв', `бараа ${fmt(basket.total - basket.stores.reduce((a, s) => a + s.fee, 0))} ≤ ${fmt(basket.budget)}`],
-      ['Харшил', 'харшилтай бараа алга'], ['Нөөц', 'бүгд нөөцтэй'],
+      ['Order mode', '“Order”'], ['Wallet', `balance ₮200,000 ≥ basket ${fmt(basket.total)}`],
+      ['Budget', `goods ${fmt(basket.total - basket.stores.reduce((a, s) => a + s.fee, 0))} ≤ ${fmt(basket.budget)}`],
+      ['Allergies', 'no allergens'], ['Stock', 'all in stock'],
     ];
     for (const [n, r] of checks) { await sleep(320); trace('checkout', 'check', '✓ ' + n, r, 'ok'); }
-    think('<b>Checkout:</b> нэг MongoDB transaction: дэлгүүр бүрийн захиалга + нөөц + хэтэвч. Нэг нь бүтэлгүйтвэл бүгд буцна.');
+    think('<b>Checkout:</b> one MongoDB transaction: every store order + stock + wallet. If one fails, all roll back.');
     await packet('chk', 'db', 'ok', 700); on('db', 1500);
     await sleep(500);
     basket.stores.forEach(st => st.oid = `${PREFIX[st.s]}-${Math.floor(10000 + Math.random() * 89999)}`);
@@ -546,8 +546,8 @@ async function pay() {
     step('verify');
     await packet('chk', 'orch'); await packet('orch', 'fe');
     ordered = true; renderBasket();
-    say('sys', `✓ Захиалга баталгаажлаа · ${basket.stores.map(s => s.oid).join(' · ')}`);
-    trace('checkout', 'verify', 'Давтан дарахад ижил захиалга буцна', 'idempotent · нэг л удаа төлнө');
+    say('sys', `✓ Order confirmed · ${basket.stores.map(s => s.oid).join(' · ')}`);
+    trace('checkout', 'verify', 'A repeat tap returns the same order', 'idempotent · pays once');
     document.querySelectorAll('#stepper span').forEach(el => el.classList.add('done'));
   } finally { think(''); busy = false; }
 }
@@ -571,9 +571,9 @@ document.getElementById('auto').addEventListener('click', async () => {
   if (autoRunning) return; autoRunning = true; reset();
   const btn = document.getElementById('auto'); btn.disabled = true;
   try {
-    await sleep(500); await typeInto('Энэ долоо хоногт 4 хүнд хоол хийе, гэрт будаа бий'); await until(); await sleep(1200);
-    await send('150 мянга'); await until(); await sleep(2200);
-    await typeInto('Давсыг гарга'); await until(); await sleep(1800);
+    await sleep(500); await typeInto('Cook for 4 people this week, we have rice at home'); await until(); await sleep(1200);
+    await send('₮150k'); await until(); await sleep(2200);
+    await typeInto('Remove the salt'); await until(); await sleep(1800);
     approve(); await sleep(1600); await pay();
   } finally { btn.disabled = false; autoRunning = false; }
 });
@@ -581,10 +581,10 @@ document.getElementById('auto').addEventListener('click', async () => {
 function reset() {
   if (busy) return;
   pending = null; lines = []; basket = null; ordered = false; stage2 = 'approve'; t0 = 0;
-  msgsEl.innerHTML = ''; evEl.innerHTML = '<div class="empty">Чатад бичихэд agent бүрийн алхам<br>энд шууд гарч ирнэ.</div>';
+  msgsEl.innerHTML = ''; evEl.innerHTML = '<div class="empty">Write in the chat and every agent step<br>shows up here live.</div>';
   document.getElementById('basketPanel').style.display = 'none'; step('');
-  say('ai', 'Сайн байна уу, Бат-Эрдэнэ! Юу хоол хийх вэ? Монголоор бичээрэй.', null, 'sagslay');
-  setStarters(['Энэ долоо хоногт 4 хүнд хоол хийе, гэрт будаа бий', 'маргааш цуйван идмээр байна', '6 хүнд 200 мянгад хоол хийе']);
+  say('ai', 'Hi Bat-Erdene! What shall we cook?', null, 'sagslay');
+  setStarters(['Cook for 4 people this week, we have rice at home', 'I’d like tsuivan tomorrow', 'Cook for 6 people on ₮200k']);
 }
 document.getElementById('reset').addEventListener('click', reset);
 
