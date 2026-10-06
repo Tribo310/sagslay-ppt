@@ -595,7 +595,7 @@ body.anim .slide.on .rise { animation: none; }
   </section>
 
   <!-- 6 -->
-  <section class="slide tech" data-notes="Open standards: MCP and A2A. We benchmarked the models. OyuLLM is strong on Mongolian: understanding messages, writing questions and matching store listings, where 4o-mini scored only 1 of 3. So OyuLLM runs those parts. Its gap is long multi-step tool use: the planner timed out twice, so the planner runs on gpt-4o with OyuLLM as fallback.">
+  <section class="slide tech" data-notes="Open standards: MCP and A2A. We benchmarked the models. OyuLLM is strong on Mongolian: understanding messages, writing questions and matching store listings, where 4o-mini scored only 1 of 3. So OyuLLM runs those parts. Its gap is long multi-step tool use: the planner timed out, so the planner runs on gpt-4o with OyuLLM as fallback.">
     <div class="kicker">Technology</div>
     <h2>Open standards, real data</h2>
     <div class="body">
@@ -622,7 +622,7 @@ body.anim .slide.on .rise { animation: none; }
             <tr><td>Questions</td><td class="y">4/4</td><td>4/4</td><td>4/4</td><td><span class="use oyu">OyuLLM</span></td></tr>
             <tr><td>Crawler</td><td class="y">3/3</td><td class="n">1/3</td><td>3/3</td><td><span class="use oyu">OyuLLM</span></td></tr>
             <tr><td>Recipe</td><td class="y">5/6</td><td>6/6</td><td>6/6</td><td><span class="use oyu">OyuLLM</span></td></tr>
-            <tr class="gap"><td>Planner</td><td class="n">timeout ×2</td><td class="n">✗</td><td class="y">✓</td><td><span class="use gpt">gpt-4o</span></td></tr>
+            <tr class="gap"><td>Planner</td><td class="n">timeout</td><td class="n">✗</td><td class="y">✓</td><td><span class="use gpt">gpt-4o</span></td></tr>
           </table>
           <div class="sw">
             <p><b class="ok">Strong:</b> Mongolian messages, writing questions, matching Mongolian store listings, where 4o-mini got 1/3</p>
