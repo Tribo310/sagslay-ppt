@@ -238,6 +238,14 @@ h3 { font-size: 26px; font-weight: 600; letter-spacing: -.01em; }
 .bench th { font-family: var(--mono); font-size: 15px; color: var(--mute); font-weight: 500; }
 .bench td.y { color: var(--ok); font-weight: 600; } .bench td.n { color: var(--red); }
 
+.bench .use { font-family: var(--mono); font-size: 13px; font-weight: 600; padding: 2px 8px; border-radius: var(--r-pill); }
+.bench .use.oyu { color: var(--blue); background: var(--blue-soft); } .bench .use.gpt { color: var(--amber-ink); background: var(--amber-soft); }
+.bench tr.gap td { background: var(--amber-soft); }
+.sw { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.sw p { font-size: 16px !important; margin-top: 0 !important; line-height: 1.4; }
+.sw .ok { color: var(--ok); } .sw .bad { color: var(--amber-ink); }
+.fine { font-size: 13px !important; margin-top: 10px !important; opacity: .8; }
+
 /* modes */
 .mode h3 { font-size: 32px; margin-top: 16px; }
 .mode ol { margin: 22px 0 0 24px; font-size: 22px; line-height: 1.7; color: var(--mute); }
@@ -587,11 +595,11 @@ body.anim .slide.on .rise { animation: none; }
   </section>
 
   <!-- 6 -->
-  <section class="slide tech" data-notes="Open standards: MCP and A2A. Models chosen by benchmark: gpt-4o for the planner, OyuLLM elsewhere.">
+  <section class="slide tech" data-notes="Open standards: MCP and A2A. We benchmarked the models. OyuLLM is strong on Mongolian: understanding messages, writing questions and matching store listings, where 4o-mini scored only 1 of 3. So OyuLLM runs those parts. Its gap is long multi-step tool use: the planner timed out twice, so the planner runs on gpt-4o with OyuLLM as fallback.">
     <div class="kicker">Technology</div>
     <h2>Open standards, real data</h2>
     <div class="body">
-      <div class="grid" style="grid-template-columns: 1fr 1fr 1.2fr;">
+      <div class="grid" style="grid-template-columns: .85fr .85fr 1.5fr;">
         <div class="card rise">
           <h3><span class="pill violet">MCP</span> grocery-mcp</h3>
           <p>Open MCP server: <span class="mono" style="font-size:17px">search_recipes</span>, <span class="mono" style="font-size:17px">search_products</span>, <span class="mono" style="font-size:17px">build_list</span>, <span class="mono" style="font-size:17px">get_pantry</span>. Any MCP client can connect.</p>
@@ -607,16 +615,20 @@ body.anim .slide.on .rise { animation: none; }
           <p><b style="color:var(--ink)">TTL:</b> embedding cache, sessions</p>
         </div>
         <div class="card rise">
-          <h3>Models chosen by benchmark</h3>
+          <h3>OyuLLM where it’s strong, gpt-4o where it isn’t</h3>
           <table class="bench">
-            <tr><th></th><th>OyuLLM</th><th>4o-mini</th><th>gpt-4o</th></tr>
-            <tr><td>Understand</td><td>9/10</td><td>9/10</td><td class="y">10/10</td></tr>
-            <tr><td>Questions</td><td class="y">4/4</td><td class="y">4/4</td><td class="y">4/4</td></tr>
-            <tr><td>Crawler</td><td class="y">3/3</td><td class="n">1/3</td><td class="y">3/3</td></tr>
-            <tr><td>Recipe</td><td>5/6</td><td class="y">6/6</td><td class="y">6/6</td></tr>
-            <tr><td>Planner</td><td class="n">timeout</td><td class="n">✗</td><td class="y">✓</td></tr>
+            <tr><th></th><th>OyuLLM</th><th>4o-mini</th><th>gpt-4o</th><th>We use</th></tr>
+            <tr><td>Understand</td><td class="y">9/10</td><td>9/10</td><td>10/10</td><td><span class="use oyu">OyuLLM</span></td></tr>
+            <tr><td>Questions</td><td class="y">4/4</td><td>4/4</td><td>4/4</td><td><span class="use oyu">OyuLLM</span></td></tr>
+            <tr><td>Crawler</td><td class="y">3/3</td><td class="n">1/3</td><td>3/3</td><td><span class="use oyu">OyuLLM</span></td></tr>
+            <tr><td>Recipe</td><td class="y">5/6</td><td>6/6</td><td>6/6</td><td><span class="use oyu">OyuLLM</span></td></tr>
+            <tr class="gap"><td>Planner</td><td class="n">timeout ×2</td><td class="n">✗</td><td class="y">✓</td><td><span class="use gpt">gpt-4o</span></td></tr>
           </table>
-          <p style="font-size:16px">+ bge-m3 embeddings, Anir STT, tsuurAI TTS</p>
+          <div class="sw">
+            <p><b class="ok">Strong:</b> Mongolian messages, writing questions, matching Mongolian store listings, where 4o-mini got 1/3</p>
+            <p><b class="bad">Gap:</b> long multi-step tool use. The planner timed out, so it runs on gpt-4o with OyuLLM as fallback</p>
+          </div>
+          <p class="fine">Few cases, one run per model: a trend, not a verdict · + bge-m3, Anir STT, tsuurAI TTS</p>
         </div>
       </div>
     </div>
